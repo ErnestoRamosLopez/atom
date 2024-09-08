@@ -1,7 +1,7 @@
 import { ReactComponent as Logo} from './logo.svg';
 import './App.css';
 import React from 'react';
-import Home from './components/Home/Home';
+import Home from './components/home/home.component';
 
 const App: React.FC<any> = () => {
   return (

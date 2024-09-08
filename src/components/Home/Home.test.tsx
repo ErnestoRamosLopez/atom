@@ -1,14 +1,14 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Home from './Home';
+import Home from './home.component';
 
-describe('<Home />', () => {
+describe('Home component tests', () => {
   test('it should mount', () => {
-    //render(<Home />);
+    render(<Home />);
 
-    const Home = screen.getByTestId('Home');
+    const homeElement = screen.getByTestId('Home');
 
-    expect(Home).toBeInTheDocument();
+    expect(homeElement).toBeInTheDocument();
   });
 });

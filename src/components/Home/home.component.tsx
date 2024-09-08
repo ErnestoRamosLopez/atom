@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import './Home.css';
+import './home.styles.css';
 
 interface HomeProps {}
 
