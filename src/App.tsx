@@ -1,11 +1,13 @@
-import logo from './logo.svg';
+import { ReactComponent as Logo} from './logo.svg';
 import './App.css';
+import React from 'react';
+import Home from './components/Home/Home';
 
-function App() {
+const App: React.FC<any> = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <Logo className="App-logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -18,6 +20,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <Home />
     </div>
   );
 }
