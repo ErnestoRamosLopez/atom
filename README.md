@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# Reto 1 digital nao
+## Nombre de proyecto  
+Atom
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Nombre completo de aprendedor
+Ernesto Ramos Lopez
 
-## Available Scripts
 
-In the project directory, you can run:
+## Entregables
+### 1) **Backlog**
 
-### `npm start`
+Enlace: [Miro](https://miro.com/app/board/uXjVKixWjLc=/?share_link_id=379606508623)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Imagenes: 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Historias de usuario**
 
-### `npm test`
+[Historias de usuario](./entregables/sprint%201/backlog/historias_usuario.png "Historias de usuario")
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Lista requerimientos**
 
-### `npm run build`
+[Lista requerimientos 1](./entregables/sprint%201/backlog/Lista_requerimientos_1.png "Lista requerimientos 1")
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+[Lista requerimientos 2](./entregables/sprint%201/backlog/Lista_requerimientos_2.png "Lista requerimientos 2")
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Lista priorizada**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+[Lista priorizada](./entregables/sprint%201/backlog/Lista_priorizada.png "Lista priorizada")
 
-### `npm run eject`
+### 2) **Roadmap**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Enlace: [Miro](https://miro.com/app/board/uXjVKhrL8No=/?share_link_id=137188585675)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Imagenes: 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+[Roadmap](./entregables/sprint%201/roadmap/roadmap.png "Roadmap")
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 3) **Diseños figma**
 
-## Learn More
+Enlace: [Figma](https://www.figma.com/design/9aN5DCrNvGEfDQl1XXw9es/Atom-design?node-id=0-1&t=2XSpIsQClJDBt8MW-1 "Figma de proyecto")
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Imagenes: 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[Pantalla home](./entregables/sprint%201/figma/diseno_entregado.png "Pantalla home")
