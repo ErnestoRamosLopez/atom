@@ -15,17 +15,17 @@ Imagenes:
 
 **Historias de usuario**
 
-[Historias de usuario](./entregables/sprint%201/backlog/historias_usuario.png "Historias de usuario")
+[Historias de usuario](/entregables/sprint%201/backlog/historias_usuario.png "Historias de usuario")
 
 **Lista requerimientos**
 
-[Lista requerimientos 1](./entregables/sprint%201/backlog/Lista_requerimientos_1.png "Lista requerimientos 1")
+[Lista requerimientos 1](/entregables/sprint%201/backlog/Lista_requerimientos_1.png "Lista requerimientos 1")
 
-[Lista requerimientos 2](./entregables/sprint%201/backlog/Lista_requerimientos_2.png "Lista requerimientos 2")
+[Lista requerimientos 2](/entregables/sprint%201/backlog/Lista_requerimientos_2.png "Lista requerimientos 2")
 
 **Lista priorizada**
 
-[Lista priorizada](./entregables/sprint%201/backlog/Lista_priorizada.png "Lista priorizada")
+[Lista priorizada](/entregables/sprint%201/backlog/Lista_priorizada.png "Lista priorizada")
 
 ### 2) **Roadmap**
 
@@ -33,7 +33,7 @@ Enlace: [Miro](https://miro.com/app/board/uXjVKhrL8No=/?share_link_id=1371885856
 
 Imagenes: 
 
-[Roadmap](./entregables/sprint%201/roadmap/roadmap.png "Roadmap")
+[Roadmap](/entregables/sprint%201/roadmap/roadmap.png "Roadmap")
 
 ### 3) **Diseños figma**
 
@@ -41,4 +41,4 @@ Enlace: [Figma](https://www.figma.com/design/9aN5DCrNvGEfDQl1XXw9es/Atom-design?
 
 Imagenes: 
 
-[Pantalla home](./entregables/sprint%201/figma/diseno_entregado.png "Pantalla home")
+[Pantalla home](/entregables/sprint%201/figma/diseno_entregado.png "Pantalla home")
