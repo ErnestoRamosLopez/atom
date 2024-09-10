@@ -1,9 +1,15 @@
-# Reto 1 digital nao
+# Reto 1 digital nao "Front End React. Interfaces de usuario para crear bloques de código"
 ## Nombre de proyecto  
 Atom
 
 ## Nombre completo de aprendedor
 Ernesto Ramos Lopez
+
+## Fecha entrega
+9 de septiembre de 2024
+
+## Nombre de la trayectoria 
+Front End Developer CORE
 
 
 ## Entregables
