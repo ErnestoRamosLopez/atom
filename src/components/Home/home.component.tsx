@@ -2,9 +2,10 @@ import React, { FC, Fragment, useState } from 'react';
 import './home.styles.css';
 import Destacados from '../destacados/destacados.component';
 import moment from 'moment';
-import {ReactComponent as CheckIcon} from '../../assets/icons/check.svg';
-import {ReactComponent as LineIcon} from '../../assets/icons/horizontal_rule.svg';
+import {ReactComponent as CheckIcon} from '@material-design-icons/svg/outlined/check.svg';
+import {ReactComponent as LineIcon} from '@material-design-icons/svg/outlined/horizontal_rule.svg';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import ShoppingCart from '../shopping-cart/shopping-cart.component';
 
 interface HomeProps {}
 
@@ -117,11 +118,11 @@ const Home: FC<HomeProps> = () => {
   }
 
   return (
-  <div className="Home h-full mx-16">
+  <div className="Home h-min-full mx-16">
     <Destacados />
     <div className='grid grid-cols-2 mt-5 gap-5'>
       <div className='grid auto-rows-min gap-5'>
-        <div className='row-span-1 border p-3'>
+        <div className='row-span-1 border rounded-md p-3'>
           <div className='flex justify-between w-full mb-10'>
             <span className='font-bold text-xl'>Inbox</span>
             <button className='btn btn-link'>Ver detalles</button>
@@ -138,7 +139,7 @@ const Home: FC<HomeProps> = () => {
             )}
           </div>
         </div>
-        <div className='row-span-1 border p-3'>
+        <div className='row-span-1 border rounded-md p-3'>
           <div className='flex justify-between w-full mb-10'>
             <span className='font-bold text-xl'>Actividad reciente</span>
             <button className='btn btn-link'>Ver todo</button>
@@ -166,7 +167,7 @@ const Home: FC<HomeProps> = () => {
         </div>
       </div>
       
-      <div className='border p-2'>
+      <div className='border rounded-md p-2'>
         <div className='grid grid-cols-2 mb-3'>
           <div className='grid grid-cols-1 text-left'>
             <span className='font-bold text-xl'>Gastos del mes</span>
@@ -184,30 +185,31 @@ const Home: FC<HomeProps> = () => {
           </div>
         </div>
         <div className='h-4/6 w-full'>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            width={500}
-            height={300}
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" hide={ocultarMesActual} dataKey="mesActual" stroke="oklch(var(--p))" activeDot={{ r: 1 }} />
-            <Line type="monotone" hide={ocultarMesAnterior} dataKey="mesAnterior" stroke="oklch(var(--nc))" />
-          </LineChart>
-        </ResponsiveContainer>
-        </div>
-        
-        
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              width={500}
+              height={300}
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" hide={ocultarMesActual} dataKey="mesActual" stroke="oklch(var(--p))" activeDot={{ r: 1 }} />
+              <Line type="monotone" hide={ocultarMesAnterior} dataKey="mesAnterior" stroke="oklch(var(--nc))" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>        
+      </div>
+      <div className='col-span-2'>
+        <ShoppingCart isDropdown={false}/>
       </div>
     </div>
   </div>

@@ -4,3 +4,12 @@ declare module '*.svg' {
     const src: string;
     export default src;
 }
+
+declare module 'react-inlinesvg' {
+    //TESTED ONLY ON VERSION 4.1.3
+    import React from 'react';
+    import { Props } from 'react-inlinesvg';
+    
+    const InlineSVG: React.FC<Props>;
+    export default InlineSVG;
+}

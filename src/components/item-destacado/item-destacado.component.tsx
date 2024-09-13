@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { InformacionDestacada } from "../../store/informacion-destacada/informacion-destacada.types";
 import './item-destacado.styles.css';
+import SVG from 'react-inlinesvg';
 
 type ItemDestacadoProps = {
     item: InformacionDestacada
@@ -33,7 +34,7 @@ const InformacionDestacadaItem: React.FC<ItemDestacadoProps> = ({
             <div className={"grid rounded-lg grid-cols-4 card-body neutral-content info-content "+ backgroundColor}>
                 <h2 className={"col-span-full card-title ms-3 "+ textColor}>{item.nombre}</h2>
                 <p className={'col-start-3 col-span-2 text-6xl font-bold ' + textColor}>{item.numeroPendiente}</p>
-                <img src={require("../../assets/icons/"+item.icono)} className="icono ms-10 mb-5 text-white" alt="Icono"/>
+                <SVG src={require("@material-design-icons/svg/filled/"+item.icono)} className="icono ms-10 mb-5 text-white"/>
             </div>
             </div>
             
