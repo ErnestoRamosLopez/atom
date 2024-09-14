@@ -19,10 +19,3 @@ code {
 .App svg:not([fill]) {
   fill: currentColor;
 }
-
-.zoom:hover{
-  transform: scale(1.3);
-}
-.zoom{
-  transition: transform .2s;
-}

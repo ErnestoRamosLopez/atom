@@ -6,79 +6,16 @@ import {ReactComponent as CheckIcon} from '@material-design-icons/svg/outlined/c
 import {ReactComponent as LineIcon} from '@material-design-icons/svg/outlined/horizontal_rule.svg';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ShoppingCart from '../shopping-cart/shopping-cart.component';
+import OrderList from '../order-list/order-list.component';
+import { actividadList, gastosList, inboxList, orderDetail } from '../../utils/constantes-test.utils';
+import OrderDetails from '../order-details/order-details.component';
+import Tienda from '../tienda/tienda.component';
 
 interface HomeProps {}
 
-const listaInboxH = [
-  {
-    id: 123456,
-    mensaje: 'Esperando orden #12345',
-    hora: '2024-01-01 04:39'
-  },
-  {
-    id: 1234567,
-    mensaje: 'Soporte id #22334',
-    hora: '2024-01-01 11:07'
-  }
-]
-
-const listaActividadH = [
-  {
-    id: 1,
-    mensaje: 'Confirma actualizacion de pedido',
-    hora: '2024-01-01 04:39',
-    estatus: 1,
-    prioridad: 0
-  },
-  {
-    id: 2,
-    mensaje: 'Confirma tus datos de envio',
-    hora: '2024-01-01 11:07',
-    estatus: 2,
-    prioridad: 0
-  },
-  {
-    id: 3,
-    mensaje: 'Crea una nueva orden',
-    hora: '2024-01-01 11:07',
-    estatus: 3,
-    prioridad: 4
-  },
-  {
-    id: 4,
-    mensaje: 'Actualiza tu metodo de pago',
-    hora: '2024-01-01 11:07',
-    estatus: 1,
-    prioridad: 5
-  }
-]
-
-const data = [
-  {
-    name: 'Semana 1',
-    mesActual: 2000,
-    mesAnterior: 2400
-  },
-  {
-    name: 'Semana 2',
-    mesActual: 500,
-    mesAnterior: 1600
-  },
-  {
-    name: 'Semana 3',
-    mesActual: 5000,
-    mesAnterior: 1400
-  },
-  {
-    name: 'Semana 4',
-    mesActual: 500,
-    mesAnterior: 600
-  },
-];
-
 const Home: FC<HomeProps> = () => {
-  const [listaInbox] = useState(listaInboxH);
-  const [listaActividad] = useState(listaActividadH);
+  const [listaInbox] = useState(inboxList);
+  const [listaActividad] = useState(actividadList);
   const [ocultarMesActual, setOcultarMesActual] = useState(false);
   const [ocultarMesAnterior, setOcultarMesAnterior] = useState(false);
 
@@ -189,7 +126,7 @@ const Home: FC<HomeProps> = () => {
             <LineChart
               width={500}
               height={300}
-              data={data}
+              data={gastosList}
               margin={{
                 top: 5,
                 right: 30,
@@ -210,6 +147,15 @@ const Home: FC<HomeProps> = () => {
       </div>
       <div className='col-span-2'>
         <ShoppingCart isDropdown={false}/>
+      </div>
+      <div className='col-span-2'>
+        <OrderList />
+      </div>
+      <div className='col-span-2'>
+        <OrderDetails {...orderDetail}/>
+      </div>
+      <div className='col-span-2'>
+        <Tienda/>
       </div>
     </div>
   </div>

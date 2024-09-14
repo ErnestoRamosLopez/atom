@@ -4,50 +4,16 @@ import { ReactComponent as RemoveIcon } from '@material-design-icons/svg/outline
 import { ReactComponent as DeleteIcon } from '@material-design-icons/svg/outlined/delete.svg';
 import { ReactComponent as ClearIcon } from '@material-design-icons/svg/outlined/clear_all.svg';
 import { ReactComponent as ArrowIcon } from '@material-design-icons/svg/outlined/arrow_forward.svg';
+import { shoppingItemsList } from "../../utils/constantes-test.utils";
+import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
 
 interface ShoppingCartProps {
     isDropdown: boolean
 }
 
-const items = [
-    {
-        productId: 1,
-        iconUrl: 'https://fastly.picsum.photos/id/845/200/200.jpg?hmac=KMGSD70gM0xozvpzPM3kHIwwA2TRlVQ6d2dLW_b1vDQ',
-        name: 'Tele',
-        price: 299.11,
-        quantity: 15,
-    },
-    {
-        productId: 2,
-        iconUrl: 'https://fastly.picsum.photos/id/514/200/200.jpg?hmac=ywW8zoc6PM1wbLeZvKJPGczujmQgEM7QOTaWiOTjhjM',
-        name: 'Nintendo switch',
-        price: 25.11,
-        quantity: 6,
-    },
-    {
-        productId: 3,
-        iconUrl: 'https://fastly.picsum.photos/id/841/200/200.jpg?hmac=jAPzaXgN_B37gVuIQvmtuRCmYEC0lJP86OZexH1yam4',
-        name: 'Agua',
-        price: 20,
-        quantity: 2,
-    },
-    {
-        productId: 4,
-        iconUrl: 'https://fastly.picsum.photos/id/63/200/200.jpg?hmac=qWHuiJWhQdWUspXyFKWgfsomzV1IvMNFZQ0hlDl8RZc',
-        name: 'Taza',
-        price: 42,
-        quantity: 2,
-    },
-    {
-        productId: 5,
-        iconUrl: 'https://fastly.picsum.photos/id/585/200/200.jpg?hmac=xPWUtHiddZixyCUwkNykuZcN4myA3sY2ewf9zFRc7oM',
-        name: 'Memoria usb',
-        price: 80,
-        quantity: 1,
-    },
-];
+
 const ShoppingCart: FC<ShoppingCartProps> = ({isDropdown}) => {
-    const [shoppingItems, setShoppingItems] = useState(items);
+    const [shoppingItems, setShoppingItems] = useState(shoppingItemsList);
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
@@ -74,7 +40,7 @@ const ShoppingCart: FC<ShoppingCartProps> = ({isDropdown}) => {
         <Fragment>
         {
             isDropdown && (
-                <div className="card card-compact bg-base-100 shadow w-72 h-72">
+                <div className="card card-compact bg-base-100 shadow w-72 h-72 border border-2">
                     <div className="card-body">
                         <div className="max-h-44 overflow-y-scroll overflow-x-hidden">
                             {
@@ -90,10 +56,16 @@ const ShoppingCart: FC<ShoppingCartProps> = ({isDropdown}) => {
                                         <div className="grid grid-cols-3 w-20 justify-items-center gap-x-4">
                                             <span className="m-auto w-5 truncate">{item.quantity}</span>
                                             <div className="grid grid-cols-1">
-                                                <AddIcon className="h-7 w-7 zoom" fill="oklch(var(--su))"/>
-                                                <RemoveIcon className="h-7 w-7 zoom" fill="oklch(var(--wa))"/>
+                                                <ScalableDiv>
+                                                    <AddIcon className="h-7 w-7" fill="oklch(var(--su))"/>
+                                                </ScalableDiv>
+                                                <ScalableDiv>
+                                                    <RemoveIcon className="h-7 w-7" fill="oklch(var(--wa))"/>
+                                                </ScalableDiv>
                                             </div>
-                                            <DeleteIcon className="h-10 w-10 zoom my-auto" fill="oklch(var(--er))"/>
+                                            <ScalableDiv>
+                                                <DeleteIcon className="h-10 w-10 my-auto" fill="oklch(var(--er))"/>
+                                            </ScalableDiv>
                                         </div>
                                     </div>
                                 ))
@@ -133,10 +105,16 @@ const ShoppingCart: FC<ShoppingCartProps> = ({isDropdown}) => {
                                         <div className="grid grid-cols-3 w-fit">
                                             <span className="m-auto truncate">{item.quantity}</span>
                                             <div className="grid grid-cols-1">
-                                                <AddIcon className="h-10 w-10 zoom" fill="oklch(var(--su))"/>
-                                                <RemoveIcon className="h-10 w-10 zoom" fill="oklch(var(--wa))"/>
+                                                <ScalableDiv>
+                                                    <AddIcon className="h-10 w-10" fill="oklch(var(--su))"/>
+                                                </ScalableDiv>
+                                                <ScalableDiv>
+                                                    <RemoveIcon className="h-10 w-10" fill="oklch(var(--wa))"/>
+                                                </ScalableDiv>
                                             </div>
-                                            <DeleteIcon className="h-14 w-14 zoom my-auto" fill="oklch(var(--er))"/>
+                                            <ScalableDiv scale={1.03}>
+                                                <DeleteIcon className="h-14 w-14 zoom my-auto" fill="oklch(var(--er))"/>
+                                            </ScalableDiv>
                                         </div>
                                         
                                     </div>

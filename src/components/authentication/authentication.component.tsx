@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { CustomModalEnum } from "../../enums/custom-modal.enum";
+import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
 
 interface AuthenticationProps{
     modalFunction?: (event: number) => void,
@@ -75,13 +76,19 @@ const Authentication : FC<AuthenticationProps> = ({
                         <span>Inicia sesion con tus redes sociales</span>
                         <div className="grid grid-cols-3 place-content-around justify-items-center">
                             <button className="">
-                                <img className="h-10 w-10 zoom" src={require("../../assets/images/google-logo.png")} alt=""/>
+                                <ScalableDiv>
+                                    <img className="h-10 w-10" src={require("../../assets/images/google-logo.png")} alt=""/>
+                                </ScalableDiv>
                             </button>
                             <button className="">
-                                <img className="h-10 w-10 zoom" src={require("../../assets/images/facebook-logo.png")} alt=""/>
+                                <ScalableDiv>
+                                    <img className="h-10 w-10" src={require("../../assets/images/facebook-logo.png")} alt=""/>
+                                </ScalableDiv>
                             </button>
                             <button>
-                                <img className="h-10 w-10 zoom" src={require("../../assets/images/twitter-logo.png")} alt=""/> 
+                                <ScalableDiv>
+                                    <img className="h-10 w-10" src={require("../../assets/images/twitter-logo.png")} alt=""/> 
+                                </ScalableDiv>
                             </button>
                         </div>
                     </div>
@@ -171,13 +178,19 @@ const Authentication : FC<AuthenticationProps> = ({
                         <span>Registrate con tus redes sociales</span>
                         <div className="grid grid-cols-3 place-content-around justify-items-center">
                             <button className="">
-                                <img className="h-10 w-10 zoom" src={require("../../assets/images/google-logo.png")} alt=""/>
+                                <ScalableDiv>
+                                    <img className="h-10 w-10" src={require("../../assets/images/google-logo.png")} alt=""/>
+                                </ScalableDiv>
                             </button>
                             <button className="">
-                                <img className="h-10 w-10 zoom" src={require("../../assets/images/facebook-logo.png")} alt=""/>
+                                <ScalableDiv>
+                                    <img className="h-10 w-10" src={require("../../assets/images/facebook-logo.png")} alt=""/>
+                                </ScalableDiv>
                             </button>
                             <button>
-                                <img className="h-10 w-10 zoom" src={require("../../assets/images/twitter-logo.png")} alt=""/> 
+                                <ScalableDiv>
+                                    <img className="h-10 w-10" src={require("../../assets/images/twitter-logo.png")} alt=""/>
+                                </ScalableDiv>
                             </button>
                         </div>
                     </div>
