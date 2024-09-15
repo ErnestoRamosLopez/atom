@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import {ReactComponent as SearchIcon} from '@material-design-icons/svg/outlined/search.svg';
 import {ReactComponent as FilterIcon} from '@material-design-icons/svg/outlined/tune.svg';
 import { productList } from "../../utils/constantes-test.utils";
-import ProductItem from "../product-item/product-item.component";
+import ProductItem from "../../components/product-item/product-item.component";
 
 
 const Tienda : FC = () => {

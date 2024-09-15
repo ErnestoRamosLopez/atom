@@ -1,5 +1,5 @@
 import moment from "moment";
-import { OrderDetailsProps } from "../components/order-details/order-details.component";
+import { OrderDetailsProps } from "../routes/orden-detalle/orden-detalle.component";
 import { Product } from "../store/product/product.types";
 
 export const ordenesAnosList = [
@@ -458,4 +458,32 @@ export const productList : Product[] = [
         name: "Samsung Galaxy Ace II X S7560M",
         imageUrl: 'https://fastly.picsum.photos/id/588/200/200.jpg?hmac=amAMbyBq8ZvuCFGI8jPIt928PLIRtxNQ33bISsbDAys'
     }
-]
+];
+
+export const sidebarOptions = [
+    {
+      icono: 'dashboard',
+      nombre: 'Dashboard',
+      link: 'home'
+    },
+    {
+      icono: 'shopping_cart',
+      nombre: 'Mis compras',
+      link: 'ordenes'
+    },
+    {
+      icono: 'shopping_bag',
+      nombre: 'Tienda',
+      link: 'tienda'
+    },
+    {
+      icono: 'work',
+      nombre: 'Contacto',
+      link: 'contacto'
+    },
+    {
+      icono: 'settings',
+      nombre: 'Configuracion',
+      link: 'perfil/configuracion'
+    }
+];

@@ -1,15 +1,11 @@
 import React, { FC, Fragment, useState } from 'react';
 import './home.styles.css';
-import Destacados from '../destacados/destacados.component';
+import Destacados from '../../components/destacados/destacados.component';
 import moment from 'moment';
 import {ReactComponent as CheckIcon} from '@material-design-icons/svg/outlined/check.svg';
 import {ReactComponent as LineIcon} from '@material-design-icons/svg/outlined/horizontal_rule.svg';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import ShoppingCart from '../shopping-cart/shopping-cart.component';
-import OrderList from '../order-list/order-list.component';
-import { actividadList, gastosList, inboxList, orderDetail } from '../../utils/constantes-test.utils';
-import OrderDetails from '../order-details/order-details.component';
-import Tienda from '../tienda/tienda.component';
+import { actividadList, gastosList, inboxList } from '../../utils/constantes-test.utils';
 
 interface HomeProps {}
 
@@ -55,7 +51,7 @@ const Home: FC<HomeProps> = () => {
   }
 
   return (
-  <div className="Home h-min-full mx-16">
+  <div className="Home">
     <Destacados />
     <div className='grid grid-cols-2 mt-5 gap-5'>
       <div className='grid auto-rows-min gap-5'>
@@ -144,18 +140,6 @@ const Home: FC<HomeProps> = () => {
             </LineChart>
           </ResponsiveContainer>
         </div>        
-      </div>
-      <div className='col-span-2'>
-        <ShoppingCart isDropdown={false}/>
-      </div>
-      <div className='col-span-2'>
-        <OrderList />
-      </div>
-      <div className='col-span-2'>
-        <OrderDetails {...orderDetail}/>
-      </div>
-      <div className='col-span-2'>
-        <Tienda/>
       </div>
     </div>
   </div>

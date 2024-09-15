@@ -73,7 +73,7 @@ const ShoppingCart: FC<ShoppingCartProps> = ({isDropdown}) => {
                         </div>
                         <span className="text-info">Total: ${total}</span>
                         <div className="card-actions">
-                            <button className="btn btn-outline btn-primary btn-block">Ver carrito</button>
+                            <a href="carrito" className="btn btn-outline btn-primary btn-block">Ver carrito</a>
                         </div>
                     </div>
                 </div>

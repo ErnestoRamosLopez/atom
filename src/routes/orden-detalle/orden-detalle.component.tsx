@@ -1,9 +1,11 @@
-import { FC } from "react"
+import { FC, useEffect, useState } from "react"
 import { CartItem } from "../../store/cart/cart.types"
 import moment from "moment"
 import 'moment/locale/es'
 import {ReactComponent as EyeIcon} from '@material-design-icons/svg/outlined/visibility.svg';
 import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
+import { useParams } from "react-router-dom";
+import {  orderDetail } from "../../utils/constantes-test.utils";
 
 export interface OrderDetailsProps{
     id: number,
@@ -13,7 +15,14 @@ export interface OrderDetailsProps{
     products: CartItem[]
 }
 
-const OrderDetails : FC<OrderDetailsProps> = (props) => {
+const OrdenDetalle : FC = () => {
+    const { id } = useParams();
+    const [order, setOrder] = useState<OrderDetailsProps | null>(null);
+
+    useEffect(() => {
+        setOrder( orderDetail );
+    }, []);
+
     return (
         <div className="grid grid-cols-8 gap-y-4 gap-x-3">
             <span className="col-span-6 font-bold text-xl text-left">Detalles de la orden</span>
@@ -23,11 +32,11 @@ const OrderDetails : FC<OrderDetailsProps> = (props) => {
                 </button>
             </div>
             <div className="grid col-span-full text-left">
-                <span><strong>Orden</strong> #{props.id}</span>
-                <span><strong>Fecha</strong>: {moment(props.date).locale('es').format('DD-MMMM.YYYY').replace('-', ' de ').replace('.', ' del ')}</span>
-                <span><strong>Total</strong>: {props.total}</span>
+                <span><strong>Orden</strong> #{order?.id}</span>
+                <span><strong>Fecha</strong>: {moment(order?.date).locale('es').format('DD-MMMM.YYYY').replace('-', ' de ').replace('.', ' del ')}</span>
+                <span><strong>Total</strong>: {order?.total}</span>
                 <div className="flex space-x-3">
-                    <span><strong>Estatus</strong>: {props.status}</span>
+                    <span><strong>Estatus</strong>: {order?.status}</span>
                     <button className="btn btn-sm btn-circle">
                         <EyeIcon />
                     </button>
@@ -42,7 +51,7 @@ const OrderDetails : FC<OrderDetailsProps> = (props) => {
                 <span className="col-span-1">Total</span>
             </div>
             {
-                props.products.map((product) => {
+                order?.products.map((product) => {
                     const total = Math.round(product.price * product.quantity * 100)/100;
                     return (
                         <ScalableDiv className="col-span-full card border border-2 hover:bg-base-300" scale={1.02}>
@@ -77,4 +86,4 @@ const OrderDetails : FC<OrderDetailsProps> = (props) => {
     )
 }
 
-export default OrderDetails
+export default OrdenDetalle;
