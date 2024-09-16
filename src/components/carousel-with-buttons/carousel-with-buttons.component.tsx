@@ -22,8 +22,6 @@ const CarouselWithButtons : FC<CarouselWithButtonsProps> = (props) => {
     const checkScrollPosition = () => {
         if (carouselRef.current) {
             const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-            console.log(scrollLeft, scrollWidth, clientWidth);
-            
         
             // Check if we're at the start
             setIsAtStart(scrollLeft === 0);

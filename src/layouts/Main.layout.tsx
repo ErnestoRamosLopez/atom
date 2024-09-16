@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/header/header.component";
-import { useState } from "react";
 import { openModalFn } from "../utils/modal.utils";
 import { ReactComponent as LogoutIcon } from '@material-design-icons/svg/outlined/power_settings_new.svg';
 import { ReactComponent as LoginIcon } from '@material-design-icons/svg/outlined/login.svg';
@@ -8,20 +7,24 @@ import SVG from 'react-inlinesvg';
 import { sidebarOptions } from "../utils/constantes-test.utils";
 import CustomModal from "../components/custom-modal/custom-modal.component";
 import Authentication from "../components/authentication/authentication.component";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsUserLoggedIn } from "../store/user/user.selector";
+import { setCurrentUser } from "../store/user/user.action";
 
 const MainLayout = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const isLoggedIn = useSelector(selectIsUserLoggedIn);
+    const dispatch = useDispatch();
 
     function handleLoginButton(){
         if(!isLoggedIn){
           openModal()
         }else{
-          setIsLoggedIn(false);
+            dispatch(setCurrentUser(null));
         }
     }
     
     function handleLoginSuccess(){
-        setIsLoggedIn(true);
+        //setIsLoggedIn(true);
     }
 
      // Function to open the modal

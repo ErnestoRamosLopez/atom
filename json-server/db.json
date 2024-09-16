@@ -1,0 +1,44 @@
+{
+  "fruits": [
+    {
+      "id": 1,
+      "name": "Apple",
+      "color": "Red",
+      "quantity": 10
+    },
+    {
+      "id": 2,
+      "name": "Banana",
+      "color": "Yellow",
+      "quantity": 15
+    },
+    {
+      "id": 3,
+      "name": "Grapes",
+      "color": "Purple",
+      "quantity": 25
+    },
+    {
+      "name": "Mango",
+      "color": "Orange",
+      "quantity": 20,
+      "id": 4
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Ernesto",
+      "lastname": "Ramos",
+      "email": "ernesto.ramos@neoris.com",
+      "password": "Test12345"
+    },
+    {
+      "name": "test",
+      "lastname": "test",
+      "email": "test@test.com",
+      "password": "test123A",
+      "id": 2
+    }
+  ]
+}
