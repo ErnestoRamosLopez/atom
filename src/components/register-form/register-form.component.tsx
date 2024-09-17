@@ -1,11 +1,13 @@
 import { RegisterOptions, SubmitHandler, useForm } from "react-hook-form";
 import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SwapState from "../swap-state/swap-state.component";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { User } from "../../store/user/user.types";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../store/user/user.action";
+import { ReactComponent as WarningIcon } from '@material-design-icons/svg/outlined/warning.svg';
+import { ReactComponent as CloseIcon } from '@material-design-icons/svg/outlined/close.svg';
 
 type Inputs = User & {
     passwordConfirm: string
@@ -57,6 +59,9 @@ const RegisterForm = () => {
     const [hasOneUppercase, setHasOneUppercase] = useState(false);
     const [hasOneNumber, setHasOneNumber] = useState(false);
     const [isConfirmPasswordValid, setIsConfirmPassowrdValid] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [errorCount, setErrorCount] = useState(0);
+    const alertRef = useRef<HTMLDivElement>(null);
 
     const dispatch = useDispatch();
 
@@ -87,27 +92,50 @@ const RegisterForm = () => {
         return () => subscription.unsubscribe()
     }, [watch])
 
+    useEffect(() => {
+        const ref = alertRef.current;
+
+        if(errorMessage !== '' && ref){
+            ref.scrollIntoView({ behavior: 'smooth'});
+        }
+    }, [errorMessage, errorCount]);
+
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
         const { passwordConfirm, ...newUser } = data;
         const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
 
-        const validacionEmail = await axios.get(`${apiUrl}/users?email=${data.email}`);
-        if(validacionEmail.data.length){
-            alert('ya existe un usuario con ese email');
-            return;
-        }
-        
-        const registroResponse = await axios.post(`${apiUrl}/users`, newUser);
-        if(registroResponse.status === 201){
-           const {password, ...user} = registroResponse.data;
-           dispatch(setCurrentUser(user));
-           reset();
+        try{
+            const registroResponse = await axios.post(`${apiUrl}/auth/register`, newUser);
+            if(registroResponse.status === 200){
+                const user = registroResponse.data;
+                dispatch(setCurrentUser(user));
+                reset();
+            }
+        }catch(ex: any){
+            if( ex instanceof AxiosError){
+                const data = ex.response?.data;
+                const message = data.message ?? '';
+                setErrorMessage(message);
+                setErrorCount(prev => prev + 1);
+            }
         }
     }
+
+    const dismissErrorMessage = () => setErrorMessage('');
 
     return (
         <div className="grid justify-center overflow-y-auto">
             <form className="grid text-left gap-y-4 border-2 rounded-md p-4 my-4" onSubmit={handleSubmit(onSubmit)}>
+                {
+                    errorMessage !== '' &&
+                    <div ref={alertRef} role="alert" className="alert alert-warning w-80">
+                        <WarningIcon />
+                        <span>{errorMessage}</span>
+                        <button type="button" className="btn btn-ghost btn-sm" onClick={() => dismissErrorMessage()}>
+                            <CloseIcon />
+                        </button>
+                    </div>
+                }
                 <div className="w-80">
                     <label htmlFor="name" className="block text-sm font-medium leading-6">
                         Nombre

@@ -10,7 +10,9 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^22.5.4",
     "axios": "^1.7.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "express": "^4.21.0",
     "moment": "^2.30.1",
     "react": "^18.3.1",
     "react-canvas-confetti": "^2.0.7",
@@ -33,7 +35,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-api": "json-server --watch json-server/db.json --port 3001"
+    "start-api-express": "nodemon express/index.js",
+    "start-db": "json-server --watch json-server/db.json --port 3002",
+    "start-dev-all": "concurrently --kill-others \"npm start\" \"npm run start-db\" \"npm run start-api-express\""
   },
   "eslintConfig": {
     "extends": [
@@ -58,8 +62,10 @@
     "@testing-library/react": "^16.0.1",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
+    "concurrently": "^9.0.1",
     "daisyui": "^4.12.10",
     "json-server": "^0.17.4",
+    "nodemon": "^3.1.4",
     "tailwindcss": "^3.4.10"
   }
 }

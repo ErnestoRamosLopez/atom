@@ -16,7 +16,7 @@ const Authentication : FC<AuthenticationProps> = ({
 }) => {
     const tabs = ['Iniciar sesion', 'Registrarse'];
     const [activeTab, setActiveTab] = useState(0);
-    const currentUser = useSelector(selectCurrentUser);
+    //const currentUser = useSelector(selectCurrentUser);
 
     useEffect(() => {
         if(initialScreen){
@@ -24,12 +24,12 @@ const Authentication : FC<AuthenticationProps> = ({
         }
     }, [initialScreen]);
 
-    useEffect(() => {
-        if(currentUser){
-            modalFunction?.(CustomModalEnum.NO_ACTION);
-            setActiveTab(1);
-        }
-    }, [currentUser, modalFunction]);
+    // TODO, pasar funcion a formularios para ejecutar funcion
+    // useEffect(() => {
+    //     if(currentUser){
+    //         modalFunction?.(CustomModalEnum.NO_ACTION);
+    //     }
+    // }, [currentUser, modalFunction]);
     
     return (
         <div>

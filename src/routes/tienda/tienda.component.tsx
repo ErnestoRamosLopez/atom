@@ -1,12 +1,35 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {ReactComponent as SearchIcon} from '@material-design-icons/svg/outlined/search.svg';
 import {ReactComponent as FilterIcon} from '@material-design-icons/svg/outlined/tune.svg';
-import { productList } from "../../utils/constantes-test.utils";
 import ProductItem from "../../components/product-item/product-item.component";
+import axios from "axios";
+import { Product } from "../../store/product/product.types";
 
 
 const Tienda : FC = () => {
-    const [products] = useState(productList);
+    const [_page, setPage] = useState(1);
+    const [_perPage, setPerPage] = useState(10);
+    const [totalPages, setTotalPages] = useState(0);
+    const [products, setProducts] = useState<Product[]>([]);
+
+    useEffect(() => {
+        getProducts();
+    }, [_page]);
+
+    const searchPage = (page: number) => setPage(page);
+
+    const getProducts = async () => {
+        const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
+        try{
+            const productList = await axios.get(`${apiUrl}/products?_page=${_page}&_perPage=${_perPage}`);
+            setProducts(productList.data);
+
+            const totalCount = productList.headers['x-total-count'] ?? 0;
+            setTotalPages(Math.round(totalCount / _perPage));
+        }catch(ex){
+
+        }
+    };
 
     return (
         <div className="grid grid-cols-4">
@@ -32,6 +55,17 @@ const Tienda : FC = () => {
                     ))
                 }
             </div>
+            
+            {
+                totalPages >= 1 && 
+                <div className="join col-span-full justify-center my-4">
+                    {
+                        Array.from({ length: totalPages }).map((item, index) => (
+                            <button className={"join-item btn "+(index + 1 === _page ? 'btn-active' : '')} key={index} onClick={() => searchPage(index + 1)}>{index + 1 }</button>
+                        ))
+                    }
+                </div>
+            }
         </div>
     )
 }

@@ -3,20 +3,26 @@ import { Product } from "../../store/product/product.types";
 import {ReactComponent as StarIconActive} from '@material-design-icons/svg/outlined/star.svg';
 import {ReactComponent as StarIconInactive} from '@material-design-icons/svg/outlined/star_border.svg';
 import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemToCart } from "../../store/cart/cart.action";
+import { selectCartItems } from "../../store/cart/cart.selector";
 
 interface ProductItemProps{
     product: Product
 }
 
 const ProductItem : FC<ProductItemProps> = ({product}) => {
-    //shopping cart store select for id
+    const shoppingItems = useSelector(selectCartItems);
+    const dispatch = useDispatch();
     
     const [isFavorite, setIsFavorite] = useState(false);
 
     //temp func
     const toggleIsFavorite = () =>{
         setIsFavorite(!isFavorite);
-    } 
+    }
+
+    const addToCart = () => dispatch(addItemToCart(shoppingItems, product));
 
     useEffect(() => {
 
@@ -49,7 +55,7 @@ const ProductItem : FC<ProductItemProps> = ({product}) => {
                         </div>
                     </div>
                     <div className="col-span-2">
-                        <button className="btn btn-primary btn-outline">
+                        <button className="btn btn-primary btn-outline" onClick={addToCart}>
                             Agregar
                         </button>
                     </div>

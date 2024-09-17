@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Header from "../components/header/header.component";
 import { openModalFn } from "../utils/modal.utils";
 import { ReactComponent as LogoutIcon } from '@material-design-icons/svg/outlined/power_settings_new.svg';
@@ -10,6 +10,7 @@ import Authentication from "../components/authentication/authentication.componen
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsUserLoggedIn } from "../store/user/user.selector";
 import { setCurrentUser } from "../store/user/user.action";
+import { Fragment } from "react/jsx-runtime";
 
 const MainLayout = () => {
     const isLoggedIn = useSelector(selectIsUserLoggedIn);
@@ -22,13 +23,11 @@ const MainLayout = () => {
             dispatch(setCurrentUser(null));
         }
     }
-    
-    function handleLoginSuccess(){
-        //setIsLoggedIn(true);
-    }
 
      // Function to open the modal
     const openModal = () => openModalFn('my_modal_1');
+
+    const closeDrawer = () => document.getElementById("my-drawer")?.click();
 
     return (
         <div className="App">
@@ -47,7 +46,7 @@ const MainLayout = () => {
                     <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-5">
                     {/* Sidebar content here */}
                     <li>
-                        <button className='btn grid grid-cols-1 h-20 pb-5' onClick={handleLoginButton}>
+                        <button className='btn grid grid-cols-1 h-20 pb-5' onClick={() => {handleLoginButton();closeDrawer();}}>
                         <label className="swap swap-rotate">
                             {/* this hidden checkbox controls the state */}
                             <input type="checkbox" checked={ isLoggedIn } disabled/>
@@ -62,19 +61,24 @@ const MainLayout = () => {
                         </button>
                     </li>
                     {sidebarOptions.map((item, index) => (
-                        <li key={index}>
-                            <a href={item.link}>
-                                <SVG src={require(`@material-design-icons/svg/outlined/${item.icono}.svg`)}/>
-                                <span>{item.nombre}</span>
-                            </a>
-                        </li>
+                        <Fragment key={index}>
+                            {
+                                ((item.needsUser && isLoggedIn ) || !item.needsUser) &&
+                                <li>
+                                    <Link to={item.link} onClick={closeDrawer}>
+                                        <SVG src={require(`@material-design-icons/svg/outlined/${item.icono}.svg`)}/>
+                                        <span>{item.nombre}</span>
+                                    </Link>
+                                </li>
+                            }
+                        </Fragment>
                     ))}
                     </ul>
                 </div>
             </div>
             {
                 !isLoggedIn && 
-                <CustomModal modalActionClass="justify-center" closeEvent={handleLoginSuccess} hasCloseButton={true} id="my_modal_1">
+                <CustomModal modalActionClass="justify-center" hasCloseButton={true} id="my_modal_1">
                     <Authentication />
                 </CustomModal>
             }

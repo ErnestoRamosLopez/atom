@@ -54,7 +54,7 @@ const OrdenDetalle : FC = () => {
                 order?.products.map((product) => {
                     const total = Math.round(product.price * product.quantity * 100)/100;
                     return (
-                        <ScalableDiv className="col-span-full card border border-2 hover:bg-base-300" scale={1.02}>
+                        <ScalableDiv key={product.id} className="col-span-full card border border-2 hover:bg-base-300" scale={1.02}>
                             <div className="card-body grid grid-cols-9">
                                 <div className="col-span-2 flex ">
                                     <img src={product.imageUrl} alt="" className="h-20" />

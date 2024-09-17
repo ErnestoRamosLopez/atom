@@ -1,8 +1,11 @@
 import { RegisterOptions, SubmitHandler, useForm } from "react-hook-form";
 import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../store/user/user.action";
+import { useState } from "react";
+import { ReactComponent as WarningIcon } from '@material-design-icons/svg/outlined/warning.svg';
+import { ReactComponent as CloseIcon } from '@material-design-icons/svg/outlined/close.svg';
 
 type Inputs = {
     email: string,
@@ -24,6 +27,7 @@ const VALIDATIONS : {[key: string]: RegisterOptions<Inputs, any> | undefined} = 
 }
 
 const LoginForm = () => {
+    const [errorMessage, setErrorMessage] = useState('');
     const dispatch = useDispatch();
     const {
         register,
@@ -34,20 +38,42 @@ const LoginForm = () => {
     } = useForm<Inputs>({
         defaultValues: DEFAULT_VALUES
     });
+
+    const dismissErrorMessage = () => setErrorMessage('');
+
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
 
-        const loginUser = await axios.get(`${apiUrl}/users?email=${data.email}&password=${data.password}`);
-        if(loginUser.status === 200 && loginUser.data.length){
-           const {password, ...user} = loginUser.data[0];
-           dispatch(setCurrentUser(user));
-           reset();
+        try{
+            const loginUser = await axios.post(`${apiUrl}/auth/login`, data);
+            if(loginUser.status === 200){
+                const user = loginUser.data;
+                dispatch(setCurrentUser(user));
+                reset();
+            }
+        }catch(ex: any){
+            if( ex instanceof AxiosError){
+                const data = ex.response?.data;
+                const message = data.message ?? '';
+                setErrorMessage(message);
+            }
         }
+        
     }
 
     return (
         <div className="grid justify-center">
             <form className="grid text-left gap-y-4 border-2 rounded-md p-4 my-4" onSubmit={handleSubmit(onSubmit)}>
+                {
+                    errorMessage !== '' &&
+                    <div role="alert" className="alert alert-warning w-80">
+                        <WarningIcon />
+                        <span>{errorMessage}</span>
+                        <button type="button" className="btn btn-ghost btn-sm" onClick={() => dismissErrorMessage()}>
+                            <CloseIcon />
+                        </button>
+                    </div>
+                }
                 <div className="w-80">
                     <label htmlFor="email" className="block text-sm font-medium leading-6">
                         Email

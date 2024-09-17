@@ -5,8 +5,11 @@ import { ReactComponent as MenuIcon } from '@material-design-icons/svg/outlined/
 import { ReactComponent as NotificationIcon } from '@material-design-icons/svg/outlined/notifications_none.svg';
 import { ReactComponent as ShoppingCartIcon } from '@material-design-icons/svg/outlined/shopping_cart.svg';
 import ShoppingCart from "../shopping-cart/shopping-cart.component";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectIsUserLoggedIn } from "../../store/user/user.selector";
+import { selectCartCount, selectIsCartOpen } from "../../store/cart/cart.selector";
+import { setIsCartOpen } from "../../store/cart/cart.action";
+import { Link } from "react-router-dom";
 
 interface HeaderProps{
     handleLogin: () => void
@@ -14,6 +17,12 @@ interface HeaderProps{
 
 const Header: FC<HeaderProps> = (props) => {
     const isLoggedIn = useSelector(selectIsUserLoggedIn);
+    const cartCount = useSelector(selectCartCount);
+    const isCartOpen = useSelector(selectIsCartOpen);
+
+    const dispatch = useDispatch();
+
+    const openCart = () => dispatch(setIsCartOpen(true));
 
     return (
         <div className="navbar bg-base-100 sticky top-0 left-0 right-0 z-50">
@@ -21,7 +30,7 @@ const Header: FC<HeaderProps> = (props) => {
                 <label htmlFor="my-drawer" className="btn drawer-button">
                     <MenuIcon />
                 </label>
-                <a className="btn btn-ghost text-xl" href="#">Atom</a>
+                <Link className="btn btn-ghost text-xl" to={"#"}>Atom</Link>
             </div>
             <div className="flex-none">
                 <ThemeSwitch />
@@ -33,19 +42,22 @@ const Header: FC<HeaderProps> = (props) => {
                         </div>
                     </div>
                     <div tabIndex={0} className="dropdown-content z-[1] mt-3 w-52">
-                        <ShoppingCart isDropdown />
+                        {/* <ShoppingCart isDropdown /> */}
                     </div>
                 </div>
-                <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+                <div className="dropdown dropdown-end dropdown-open">
+                    <button tabIndex={0} className="btn btn-ghost btn-circle" onClick={openCart}>
                         <div className="indicator">
                             <ShoppingCartIcon className="h-5 w-5"/>
-                            <span className="badge badge-sm indicator-item red-text">8</span>
+                            <span className="badge badge-sm indicator-item red-text">{cartCount}</span>
                         </div>
-                    </div>
-                    <div tabIndex={0} className="dropdown-content z-[1] mt-3">
-                        <ShoppingCart isDropdown />
-                    </div>
+                    </button>
+                    {
+                        isCartOpen && 
+                        <div tabIndex={0} className="dropdown-content z-[1] mt-3">
+                            <ShoppingCart isDropdown />
+                        </div>
+                    }
                 </div>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">

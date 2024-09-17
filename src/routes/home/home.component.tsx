@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 import './home.styles.css';
 import Destacados from '../../components/destacados/destacados.component';
 import moment from 'moment';
@@ -6,14 +6,49 @@ import {ReactComponent as CheckIcon} from '@material-design-icons/svg/outlined/c
 import {ReactComponent as LineIcon} from '@material-design-icons/svg/outlined/horizontal_rule.svg';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { actividadList, gastosList, inboxList } from '../../utils/constantes-test.utils';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../store/user/user.selector';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface HomeProps {}
 
 const Home: FC<HomeProps> = () => {
+  const navigate = useNavigate();
   const [listaInbox] = useState(inboxList);
   const [listaActividad] = useState(actividadList);
   const [ocultarMesActual, setOcultarMesActual] = useState(false);
   const [ocultarMesAnterior, setOcultarMesAnterior] = useState(false);
+  const [gastosList, setGastosList] = useState<{name: string, mesActual: number, mesAnterior:number}[]>([]);
+  const currentUser = useSelector(selectCurrentUser);
+
+  useEffect(() => {
+    if( currentUser === null ){
+      navigate('/tienda');
+      return;
+    }
+    getTotalSpent();
+  }, [currentUser]);
+
+  const getTotalSpent = async () => {
+    const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
+    try{
+      const totalSpent = await axios.get(`${apiUrl}/profile/totalSpent?userId=${currentUser?.id}`);
+      const newGastosList = [];
+      if( totalSpent.data ){
+        for(let i = 0; i < 4; i++){
+          newGastosList[i] = {
+            name: 'Semana ' + (i+1),
+            mesActual: totalSpent.data.mesActual[i],
+            mesAnterior: totalSpent.data.mesAnterior[i]
+          }
+        }
+        setGastosList(newGastosList);
+      }
+    }catch(ex){
+
+    }
+  }
 
   function getBackground(estatus: number): string{
     switch(estatus){

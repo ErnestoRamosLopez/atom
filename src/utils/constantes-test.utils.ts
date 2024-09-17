@@ -1,4 +1,5 @@
 import moment from "moment";
+import 'moment/locale/es';
 import { OrderDetailsProps } from "../routes/orden-detalle/orden-detalle.component";
 import { Product } from "../store/product/product.types";
 
@@ -464,26 +465,37 @@ export const sidebarOptions = [
     {
       icono: 'dashboard',
       nombre: 'Dashboard',
-      link: 'home'
+      link: 'home',
+      needsUser: true
     },
     {
       icono: 'shopping_cart',
       nombre: 'Mis compras',
-      link: 'ordenes'
+      link: 'ordenes',
+      needsUser: true
     },
     {
       icono: 'shopping_bag',
       nombre: 'Tienda',
-      link: 'tienda'
+      link: 'tienda',
+      needsUser: false
     },
     {
       icono: 'work',
       nombre: 'Contacto',
-      link: 'contacto'
+      link: 'contacto',
+      needsUser: false
     },
     {
       icono: 'settings',
       nombre: 'Configuracion',
-      link: 'perfil/configuracion'
+      link: 'perfil/configuracion',
+      needsUser: true
+    },
+    {
+      icono: 'work',
+      nombre: 'Administracion',
+      link: 'administracion',
+      needsUser: true
     }
 ];
