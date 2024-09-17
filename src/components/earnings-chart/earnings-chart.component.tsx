@@ -21,8 +21,6 @@ const EarningsChart = () => {
 
         const fetchEarnings = async () => {
             try {
-                console.log(selectedMonth, selectedYear);
-                
                 const response = await axios.get(`${apiUrl}/management/earnings`, {
                     params: {
                         ...(selectedMonth !== undefined ? {month: selectedMonth} : {}),
@@ -31,13 +29,18 @@ const EarningsChart = () => {
                     cancelToken: source.token,
                 });
                 const earningData = response.data;
-                setChartData( prev => {
-                    let newData = [...prev];
+
+                let newData;
+                if(selectedMonth !== ''){
+                    newData = [ DATA_INITIAL_STATE[Number(selectedMonth)-1] ];
+                    newData[0].ganancia = earningData[ Number(selectedMonth)-1 ];
+                }else{
+                    newData = [...DATA_INITIAL_STATE];
                     newData = newData.map((item, index) => {
                         return { ...item, ganancia: earningData[index]}
                     })
-                    return newData;
-                });
+                }
+                setChartData(newData);
             } catch (err) {
                 if (axios.isCancel(err)) {
                     console.log("Request canceled", err.message);
