@@ -20,6 +20,13 @@
       "email": "test2@test.com",
       "password": "Test12345",
       "id": 3
+    },
+    {
+      "name": "Test2",
+      "lastname": "TEst2",
+      "email": "test3@test.com",
+      "password": "Test12345",
+      "id": 4
     }
   ],
   "orders": [
@@ -50,6 +57,20 @@
       "date": "2024-09-23",
       "status": "Pendiente",
       "total": 2500
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "date": "2024-09-27",
+      "status": "Pendiente",
+      "total": 2500
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "date": "2024-02-27",
+      "status": "Pendiente",
+      "total": 15000
     }
   ],
   "orderDetails": [
@@ -58,7 +79,7 @@
       "orderId": 1,
       "productId": 1,
       "quantity": 23,
-      "price": 6.90
+      "price": 6.9
     },
     {
       "id": 2,
@@ -93,7 +114,7 @@
       "orderId": 1,
       "productId": 6,
       "quantity": 1,
-      "price": 200.00
+      "price": 200
     },
     {
       "id": 7,
@@ -108,43 +129,50 @@
       "productId": 1,
       "quantity": 64,
       "price": 1853.16
-    }, {
+    },
+    {
       "id": 9,
       "orderId": 2,
       "productId": 2,
       "quantity": 82,
       "price": 9237.4
-    }, {
+    },
+    {
       "id": 10,
       "orderId": 2,
       "productId": 3,
       "quantity": 19,
       "price": 878.13
-    }, {
+    },
+    {
       "id": 11,
       "orderId": 2,
       "productId": 4,
       "quantity": 2,
       "price": 2630.73
-    }, {
+    },
+    {
       "id": 12,
       "orderId": 2,
       "productId": 5,
       "quantity": 20,
       "price": 1782.35
-    }, {
+    },
+    {
       "id": 13,
       "orderId": 2,
       "productId": 6,
       "quantity": 94,
       "price": 112.44
-    }, {
+    },
+    {
       "id": 14,
       "orderId": 2,
       "productId": 7,
       "quantity": 3,
       "price": 9548.23
-    }, {
+    },
+    {
       "id": 15,
       "orderId": 2,
       "productId": 8,
@@ -157,13 +185,15 @@
       "productId": 1,
       "quantity": 10,
       "price": 1265.66
-    }, {
+    },
+    {
       "id": 17,
       "orderId": 3,
       "productId": 2,
       "quantity": 74,
       "price": 8751.67
-    }, {
+    },
+    {
       "id": 18,
       "orderId": 3,
       "productId": 3,
@@ -176,25 +206,29 @@
       "productId": 1,
       "quantity": 3,
       "price": 6533.62
-    }, {
+    },
+    {
       "id": 20,
       "orderId": 4,
       "productId": 2,
       "quantity": 20,
       "price": 1212.14
-    }, {
+    },
+    {
       "id": 21,
       "orderId": 4,
       "productId": 3,
       "quantity": 3,
       "price": 3339.51
-    }, {
+    },
+    {
       "id": 22,
       "orderId": 4,
       "productId": 4,
       "quantity": 92,
       "price": 951.25
-    }, {
+    },
+    {
       "id": 23,
       "orderId": 4,
       "productId": 5,
@@ -328,97 +362,116 @@
       "price": 531.62,
       "name": "Motorola U9",
       "imageUrl": "http://dummyimage.com/200x200.png/5fa2dd/ffffff"
-    }, {
+    },
+    {
       "id": 22,
       "price": 738.02,
       "name": "Samsung Galaxy Watch Active2 Aluminum",
       "imageUrl": "http://dummyimage.com/200x200.png/dddddd/000000"
-    }, {
+    },
+    {
       "id": 23,
       "price": 141.41,
       "name": "Celkon A89",
       "imageUrl": "http://dummyimage.com/200x200.png/5fa2dd/ffffff"
-    }, {
+    },
+    {
       "id": 24,
       "price": 920.8,
       "name": "Samsung Metro E2202",
       "imageUrl": "http://dummyimage.com/200x200.png/5fa2dd/ffffff"
-    }, {
+    },
+    {
       "id": 25,
       "price": 802.09,
       "name": "Acer Liquid E3 Duo Plus",
       "imageUrl": "http://dummyimage.com/200x200.png/dddddd/000000"
-    }, {
+    },
+    {
       "id": 26,
       "price": 384.01,
       "name": "Mitac MIO 8870",
       "imageUrl": "http://dummyimage.com/200x200.png/5fa2dd/ffffff"
-    }, {
+    },
+    {
       "id": 27,
       "price": 127.28,
       "name": "Google Pixel C",
       "imageUrl": "http://dummyimage.com/200x200.png/ff4444/ffffff"
-    }, {
+    },
+    {
       "id": 28,
       "price": 210.9,
       "name": "NEC N160",
       "imageUrl": "http://dummyimage.com/200x200.png/ff4444/ffffff"
-    }, {
+    },
+    {
       "id": 29,
       "price": 153.14,
       "name": "ZTE PF112 HD",
       "imageUrl": "http://dummyimage.com/200x200.png/ff4444/ffffff"
-    }, {
+    },
+    {
       "id": 30,
       "price": 66.12,
       "name": "BLU Vida1",
       "imageUrl": "http://dummyimage.com/200x200.png/cc0000/ffffff"
-    }, {
+    },
+    {
       "id": 31,
       "price": 558.9,
       "name": "Acer Liquid Z530",
       "imageUrl": "http://dummyimage.com/200x200.png/dddddd/000000"
-    }, {
+    },
+    {
       "id": 32,
       "price": 29.95,
       "name": "Allview P10 Max",
       "imageUrl": "http://dummyimage.com/200x200.png/dddddd/000000"
-    }, {
+    },
+    {
       "id": 33,
       "price": 997.79,
       "name": "Samsung M130",
       "imageUrl": "http://dummyimage.com/200x200.png/5fa2dd/ffffff"
-    }, {
+    },
+    {
       "id": 34,
       "price": 257.92,
       "name": "HP TouchPad",
       "imageUrl": "http://dummyimage.com/200x200.png/cc0000/ffffff"
-    }, {
+    },
+    {
       "id": 35,
       "price": 857.6,
       "name": "Sharp Aquos Xx",
       "imageUrl": "http://dummyimage.com/200x200.png/5fa2dd/ffffff"
-    }, {
+    },
+    {
       "id": 36,
       "price": 612.1,
       "name": "BLU Grand M",
       "imageUrl": "http://dummyimage.com/200x200.png/5fa2dd/ffffff"
-    }, {
+    },
+    {
       "id": 37,
       "price": 385.16,
       "name": "LG Enact VS890",
       "imageUrl": "http://dummyimage.com/200x200.png/dddddd/000000"
-    }, {
+    },
+    {
       "id": 38,
       "price": 69.58,
       "name": "Sony Ericsson Z800",
       "imageUrl": "http://dummyimage.com/200x200.png/5fa2dd/ffffff"
-    }, {
+    },
+    {
       "id": 39,
       "price": 782.04,
       "name": "Allview A4 Duo",
       "imageUrl": "http://dummyimage.com/200x200.png/5fa2dd/ffffff"
-    }, {
+    },
+    {
       "id": 40,
       "price": 116.96,
       "name": "O2 XDA Orbit",

@@ -11,6 +11,9 @@ Ernesto Ramos Lopez
 ## Nombre de la trayectoria 
 Front End Developer CORE
 
+## Ejecucion de proyecto
+`npm i`  
+`npm run start-dev-all`  
 
 ## Entregables
 ### 1) **Backlog**
