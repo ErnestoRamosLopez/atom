@@ -2,8 +2,10 @@ import { FC, useEffect, useState } from "react";
 import { CustomModalEnum } from "../../enums/custom-modal.enum";
 import LoginForm from "../login-form/login-form.component";
 import RegisterForm from "../register-form/register-form.component";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../store/user/user.selector";
+import { useDispatch } from "react-redux";
+import { toast } from 'react-toastify';
+import { User } from "../../store/user/user.types";
+import { setCurrentUser } from "../../store/user/user.action";
 
 interface AuthenticationProps{
     modalFunction?: (event: number) => void,
@@ -16,7 +18,7 @@ const Authentication : FC<AuthenticationProps> = ({
 }) => {
     const tabs = ['Iniciar sesion', 'Registrarse'];
     const [activeTab, setActiveTab] = useState(0);
-    //const currentUser = useSelector(selectCurrentUser);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if(initialScreen){
@@ -24,12 +26,11 @@ const Authentication : FC<AuthenticationProps> = ({
         }
     }, [initialScreen]);
 
-    // TODO, pasar funcion a formularios para ejecutar funcion
-    // useEffect(() => {
-    //     if(currentUser){
-    //         modalFunction?.(CustomModalEnum.NO_ACTION);
-    //     }
-    // }, [currentUser, modalFunction]);
+    const handleUserLoginSuccess = (user: User, mensaje: string) => {
+        toast(mensaje);
+        modalFunction?.(CustomModalEnum.NO_ACTION);
+        dispatch(setCurrentUser(user));
+    }
     
     return (
         <div>
@@ -41,10 +42,10 @@ const Authentication : FC<AuthenticationProps> = ({
                 ))}
             </div>
             {activeTab === 0 && (
-                <LoginForm />
+                <LoginForm handleLoginSuccess={handleUserLoginSuccess}/>
             )}
             {activeTab === 1 && (
-                <RegisterForm />
+                <RegisterForm handleRegisterSuccess={handleUserLoginSuccess}/>
             )}
             </div>
     )

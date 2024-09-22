@@ -1,6 +1,6 @@
 import { RegisterOptions, SubmitHandler, useForm } from "react-hook-form";
 import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
-import { useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import SwapState from "../swap-state/swap-state.component";
 import axios, { AxiosError } from "axios";
 import { User } from "../../store/user/user.types";
@@ -44,7 +44,8 @@ const VALIDATIONS : {[key: string]: RegisterOptions<Inputs, any> | undefined} = 
         pattern: {
             value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
             message: 'Formato invalido'
-        }
+        },
+        deps: ['passwordConfirm']
     },
     passwordConfirm: {
         validate: (value, formValues) => {
@@ -53,7 +54,11 @@ const VALIDATIONS : {[key: string]: RegisterOptions<Inputs, any> | undefined} = 
     }
 }
 
-const RegisterForm = () => {
+type RegisterFormProps = {
+    handleRegisterSuccess: (user: User, message: string) => void
+}
+
+const RegisterForm: FC<RegisterFormProps> = (props) => {
     const [hasMinLength, setHasMinLength] = useState(false);
     const [hasOneLowercase, setHasOneLowercase] = useState(false);
     const [hasOneUppercase, setHasOneUppercase] = useState(false);
@@ -108,8 +113,7 @@ const RegisterForm = () => {
             const registroResponse = await axios.post(`${apiUrl}/auth/register`, newUser);
             if(registroResponse.status === 200){
                 const user = registroResponse.data;
-                dispatch(setCurrentUser(user));
-                reset();
+                props.handleRegisterSuccess(user, 'Registro exitoso');
             }
         }catch(ex: any){
             if( ex instanceof AxiosError){

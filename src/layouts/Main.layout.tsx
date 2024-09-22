@@ -11,8 +11,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectIsUserLoggedIn } from "../store/user/user.selector";
 import { setCurrentUser } from "../store/user/user.action";
 import { Fragment } from "react/jsx-runtime";
+import { Bounce, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { selectTheme } from "../store/preferences/preferences.selector";
 
 const MainLayout = () => {
+    const theme = useSelector(selectTheme);
     const isLoggedIn = useSelector(selectIsUserLoggedIn);
     const dispatch = useDispatch();
 
@@ -31,6 +35,16 @@ const MainLayout = () => {
 
     return (
         <div className="App">
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                draggable
+                theme={theme}
+                transition={Bounce} />
             <div className="drawer">
                 <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content">

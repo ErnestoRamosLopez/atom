@@ -2,7 +2,6 @@ import { ReactComponent as CorrectIcon} from '@material-design-icons/svg/outline
 import { ReactComponent as WrongIcon} from '@material-design-icons/svg/outlined/dangerous.svg';
 import { useEffect, useRef, useState } from 'react';
 import ConfettiExplosion from "react-canvas-confetti/dist/presets/realistic";
-import ReactConfetti from 'react-confetti';
 
 const SwapState = ({
     state = false,

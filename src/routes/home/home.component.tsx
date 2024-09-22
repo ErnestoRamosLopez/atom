@@ -5,7 +5,7 @@ import moment from 'moment';
 import {ReactComponent as CheckIcon} from '@material-design-icons/svg/outlined/check.svg';
 import {ReactComponent as LineIcon} from '@material-design-icons/svg/outlined/horizontal_rule.svg';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { actividadList, gastosList, inboxList } from '../../utils/constantes-test.utils';
+import { actividadList, inboxList, mesesList } from '../../utils/constantes-test.utils';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../store/user/user.selector';
 import axios from 'axios';
@@ -21,6 +21,13 @@ const Home: FC<HomeProps> = () => {
   const [ocultarMesAnterior, setOcultarMesAnterior] = useState(false);
   const [gastosList, setGastosList] = useState<{name: string, mesActual: number, mesAnterior:number}[]>([]);
   const currentUser = useSelector(selectCurrentUser);
+
+  const isTestEnv = process.env.NODE_ENV === 'test';
+  const [isAnimationActive] = useState(!isTestEnv);
+
+  const mesActual = mesesList.at(moment().month());
+  const mesAnterior = mesesList.at(moment().month() - 1);
+
 
   useEffect(() => {
     if( currentUser === null ){
@@ -139,16 +146,16 @@ const Home: FC<HomeProps> = () => {
         <div className='grid grid-cols-2 mb-3'>
           <div className='grid grid-cols-1 text-left'>
             <span className='font-bold text-xl'>Gastos del mes</span>
-            <span className='text-neutral text-sm'>Septiembre</span>
+            <span className='text-neutral text-sm'>{mesActual}</span>
           </div>
           <div className='grid grid-cols-1'>
-            <button className='flex align-center' onClick={() => ocultarLinea(1)}>
+            <button aria-label={`${mesActual} button`} className='flex align-center' onClick={() => ocultarLinea(1)}>
               <LineIcon className='text-primary' />
-              <span className={ocultarMesActual ? 'line-through' : ''}>Septiembre</span>
+              <span className={ocultarMesActual ? 'line-through' : ''}>{mesActual}</span>
             </button>
-            <button className='flex align-center w-min' onClick={() => ocultarLinea(2)}>
+            <button aria-label={`${mesAnterior} button`} className='flex align-center w-min' onClick={() => ocultarLinea(2)}>
               <LineIcon className='text-neutral-content'/>
-              <span className={(ocultarMesAnterior ? 'line-through' : '')}>Agosto</span>
+              <span className={(ocultarMesAnterior ? 'line-through' : '')}>{mesAnterior}</span>
             </button>
           </div>
         </div>
@@ -170,8 +177,8 @@ const Home: FC<HomeProps> = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" hide={ocultarMesActual} dataKey="mesActual" stroke="oklch(var(--p))" activeDot={{ r: 1 }} />
-              <Line type="monotone" hide={ocultarMesAnterior} dataKey="mesAnterior" stroke="oklch(var(--nc))" />
+              <Line id='lineaMesActual' isAnimationActive={isAnimationActive} type="monotone" hide={ocultarMesActual} dataKey="mesActual" stroke="oklch(var(--p))" activeDot={{ r: 1 }} />
+              <Line id='lineaMesAnterior' isAnimationActive={isAnimationActive} type="monotone" hide={ocultarMesAnterior} dataKey="mesAnterior" stroke="oklch(var(--nc))" />
             </LineChart>
           </ResponsiveContainer>
         </div>        

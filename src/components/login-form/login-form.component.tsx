@@ -3,9 +3,10 @@ import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
 import axios, { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../store/user/user.action";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { ReactComponent as WarningIcon } from '@material-design-icons/svg/outlined/warning.svg';
 import { ReactComponent as CloseIcon } from '@material-design-icons/svg/outlined/close.svg';
+import { User } from "../../store/user/user.types";
 
 type Inputs = {
     email: string,
@@ -26,7 +27,11 @@ const VALIDATIONS : {[key: string]: RegisterOptions<Inputs, any> | undefined} = 
     }
 }
 
-const LoginForm = () => {
+type LoginFormProps = {
+    handleLoginSuccess: (user: User, message: string) => void
+}
+
+const LoginForm: FC<LoginFormProps> = (props) => {
     const [errorMessage, setErrorMessage] = useState('');
     const dispatch = useDispatch();
     const {
@@ -48,8 +53,7 @@ const LoginForm = () => {
             const loginUser = await axios.post(`${apiUrl}/auth/login`, data);
             if(loginUser.status === 200){
                 const user = loginUser.data;
-                dispatch(setCurrentUser(user));
-                reset();
+                props.handleLoginSuccess(user, 'Inicio de sesion exitoso');
             }
         }catch(ex: any){
             if( ex instanceof AxiosError){

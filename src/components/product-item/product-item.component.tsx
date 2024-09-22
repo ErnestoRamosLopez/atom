@@ -6,6 +6,7 @@ import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../../store/cart/cart.action";
 import { selectCartItems } from "../../store/cart/cart.selector";
+import { toast } from "react-toastify";
 
 interface ProductItemProps{
     product: Product
@@ -22,7 +23,10 @@ const ProductItem : FC<ProductItemProps> = ({product}) => {
         setIsFavorite(!isFavorite);
     }
 
-    const addToCart = () => dispatch(addItemToCart(shoppingItems, product));
+    const addToCart = () => {
+        dispatch(addItemToCart(shoppingItems, product));
+        toast.success('Producto agregado');
+    }
 
     useEffect(() => {
 
