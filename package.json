@@ -43,8 +43,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start-api-express": "nodemon express/index.js",
-    "start-db": "json-server --watch json-server/db.json --port 3002",
-    "start-dev-all": "concurrently --kill-others \"npm start\" \"npm run start-db\" \"npm run start-api-express\"",
+    "start-dev-all": "concurrently --kill-others \"npm start\" \"npm run start-api-express\"",
     "cy:open": "cypress open"
   },
   "eslintConfig": {

@@ -4,18 +4,18 @@ const products = require('./routes/products');
 const profile = require('./routes/profile');
 const management = require('./routes/management');
 const express = require('express');
+var jsonServer = require('json-server');
 var cors = require('cors');
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000', exposedHeaders: ['x-total-count'] }));
+//app.use(cors({ origin: 'http://localhost:3000', exposedHeaders: ['x-total-count'] }));
+app.use(cors({ origin: 'https://neon-raindrop-61e490.netlify.app', exposedHeaders: ['x-total-count'] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = 3001
+const port = process.env.PORT || 3001;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.use('/api/db', jsonServer.router('./express/json-server/db.json'));
 
 app.use('/api/users', users);
 app.use('/api/auth', login);
