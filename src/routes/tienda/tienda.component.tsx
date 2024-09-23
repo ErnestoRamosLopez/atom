@@ -46,7 +46,7 @@ const Tienda : FC = () => {
                     Filtrar
                 </button>
             </div>
-            <div className="col-span-full grid grid-cols-8 gap-3">
+            <div className="col-span-full grid grid-cols-8 gap-3 product-grid">
                 {
                     products.map((product) => (
                         <div key={product.id} className="col-span-2">
@@ -58,7 +58,7 @@ const Tienda : FC = () => {
             
             {
                 totalPages >= 1 && 
-                <div className="join col-span-full justify-center my-4">
+                <div className="join col-span-full justify-center my-4 pagination">
                     {
                         Array.from({ length: totalPages }).map((item, index) => (
                             <button className={"join-item btn "+(index + 1 === _page ? 'btn-active' : '')} key={index} onClick={() => searchPage(index + 1)}>{index + 1 }</button>

@@ -49,7 +49,7 @@ const Header: FC<HeaderProps> = (props) => {
                     <button tabIndex={0} className="btn btn-ghost btn-circle" onClick={openCart}>
                         <div className="indicator">
                             <ShoppingCartIcon className="h-5 w-5"/>
-                            <span className="badge badge-sm indicator-item red-text">{cartCount}</span>
+                            <span className="cart-counter badge badge-sm indicator-item red-text">{cartCount}</span>
                         </div>
                     </button>
                     {

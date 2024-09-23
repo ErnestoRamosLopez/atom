@@ -114,7 +114,7 @@ const LoginForm: FC<LoginFormProps> = (props) => {
                         </div>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-outline">Iniciar sesión</button>
+                <button type="submit" className="btn-login btn btn-outline">Iniciar sesión</button>
                 <div className="w-80">
                     <a className="link w-min">Olvidaste tu contraseña?</a>
                 </div>

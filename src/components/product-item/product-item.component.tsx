@@ -51,7 +51,7 @@ const ProductItem : FC<ProductItemProps> = ({product}) => {
                 </div>
                 <div className="my-3 grid grid-cols-6">
                     <div className="col-span-4 grid grid-rows-2 text-left">
-                        <div className="truncate">
+                        <div className="truncate product-name-container">
                             <span>{product.name}</span>
                         </div>
                         <div className="">

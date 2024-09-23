@@ -60,7 +60,7 @@ const MainLayout = () => {
                     <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-5">
                     {/* Sidebar content here */}
                     <li>
-                        <button className='btn grid grid-cols-1 h-20 pb-5' onClick={() => {handleLoginButton();closeDrawer();}}>
+                        <button className='btn-login-popup btn grid grid-cols-1 h-20 pb-5' onClick={() => {handleLoginButton();closeDrawer();}}>
                         <label className="swap swap-rotate">
                             {/* this hidden checkbox controls the state */}
                             <input type="checkbox" checked={ isLoggedIn } disabled/>

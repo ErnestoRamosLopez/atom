@@ -244,7 +244,7 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
                         </ul>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-outline">Registrarte</button>
+                <button type="submit" className="btn-register btn btn-outline">Registrarte</button>
                 {/* <button onClick={finishAuthentication} className="btn btn-outline">Registrarse</button> */}
             </form>
             <div className="grid gap-y-4 border-2 rounded-md p-4 my-4">
