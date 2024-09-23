@@ -6,10 +6,13 @@ Atom
 Ernesto Ramos Lopez
 
 ## Fecha entrega
-17 de septiembre de 2024
+23 de septiembre de 2024
 
 ## Nombre de la trayectoria 
 Front End Developer CORE
+
+## Enlace de la pagina
+https://neon-raindrop-61e490.netlify.app/tienda
 
 ## Ejecucion de proyecto
 `npm i`  
@@ -24,13 +27,12 @@ Imagenes:
 
 **Lista requerimientos**
 
-![Lista requerimientos 1](/entregables/sprint2/backlog/ListaRequerimientos1.png "Lista requerimientos 1")
+![Lista requerimientos 1](/entregables/sprint3/backlog/ListaRequerimientos.png "Lista requerimientos 1")
 
-![Lista requerimientos 2](/entregables/sprint2/backlog/ListaRequerimientos2.png "Lista requerimientos 2")
 
 **Lista priorizada**
 
-![Lista priorizada](/entregables/sprint2/backlog/ListaPriorizada.png "Lista priorizada")
+![Lista priorizada](/entregables/sprint3/backlog/ListaPriorizada.png "Lista priorizada")
 
 ### 2) **Roadmap**
 
@@ -38,4 +40,4 @@ Enlace: [Miro](https://miro.com/app/board/uXjVKhrL8No=/?share_link_id=1371885856
 
 Imagenes: 
 
-![Roadmap](/entregables/sprint2/roadmap/RoadmapSprint2.png "Roadmap")
+![Roadmap](/entregables/sprint3/roadmap/Roadmap.png "Roadmap")
