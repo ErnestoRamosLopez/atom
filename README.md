@@ -41,3 +41,16 @@ Enlace: [Miro](https://miro.com/app/board/uXjVKhrL8No=/?share_link_id=1371885856
 Imagenes: 
 
 ![Roadmap](/entregables/sprint3/roadmap/Roadmap.png "Roadmap")
+
+
+### 3) **Pruebas**
+
+Pruebas unitarias:
+
+![Pruebas unitarias](/entregables/sprint3/pruebas/pruebasunitarias.png "Pruebas unitarias")
+
+Pruebas e2e:
+u
+![Pruebas e2e 1](/entregables/sprint3/pruebas/pruebase2e1.png.png "Pruebas e2e 1")
+
+![Pruebas e2e 2](/entregables/sprint3/pruebas/pruebase2e2.png.png "Pruebas e2e 2")
