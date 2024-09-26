@@ -13,6 +13,11 @@ export const selectIsCartOpen = createSelector(
   (cart) => cart.isCartOpen
 );
 
+export const selectIsCartLoaded = createSelector(
+  [selectCartReducer],
+  (cart) => cart.isCartLoaded
+);
+
 export const selectCartCount = createSelector(
   [selectCartItems],
   (cartItems): number =>

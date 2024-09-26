@@ -45,6 +45,46 @@ route.get('/totalSpent', async (req, res) => {
     });
 });
 
+route.get('/carts', async (req, res) => {
+    const { userId } = req.query;
+    try{
+        const response = await axios.get(`${JSON_SERVER_URL}/carts/${userId}`);
+        return res.json(response.data.items);
+    }catch(ex){
+        return res.json([]);
+    }
+});
+
+route.post('/carts', async (req, res) => {
+    const { userId, items } = req.body;
+    let dateCreated = moment();
+    let exists = false;
+    try{
+        const response = await axios.get(`${JSON_SERVER_URL}/carts/${userId}`);
+        dateCreated = response.data.dateCreated;
+        exists = true;
+    }catch(ex){
+        
+    }
+    const cart = {
+        id: userId,
+        items,
+        dateCreated,
+        dateUpdated: moment()
+    }
+    let saveCart;
+    if(exists){
+        saveCart = await axios.put(`${JSON_SERVER_URL}/carts/${userId}`, cart);
+    }else{
+        saveCart = await axios.post(`${JSON_SERVER_URL}/carts`, cart);
+    }
+    if(saveCart.data.length === 0){
+        return res.json([]);
+    }
+
+    return res.json(saveCart.data.items);
+});
+
 function getWeekOfMonth(date) {
     // Get the start of the month for the given date
     const startOfMonth = moment(date).startOf('month');

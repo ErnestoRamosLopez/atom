@@ -21,7 +21,8 @@ describe('Product item component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: [],
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });
@@ -46,7 +47,8 @@ describe('Product item component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: [],
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             },
             store: store

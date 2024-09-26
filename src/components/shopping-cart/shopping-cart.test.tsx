@@ -38,7 +38,8 @@ describe('Shopping cart component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: [],
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });
@@ -52,7 +53,8 @@ describe('Shopping cart component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: [],
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });
@@ -73,7 +75,8 @@ describe('Shopping cart component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: [],
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });
@@ -90,7 +93,8 @@ describe('Shopping cart component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: [],
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });
@@ -111,7 +115,8 @@ describe('Shopping cart component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: cart,
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });
@@ -141,7 +146,8 @@ describe('Shopping cart component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: cartItems,
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });
@@ -172,7 +178,8 @@ describe('Shopping cart component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: cartItems,
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });
@@ -203,7 +210,8 @@ describe('Shopping cart component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: cartItems,
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });
@@ -234,7 +242,8 @@ describe('Shopping cart component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: cartItems,
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });
@@ -263,7 +272,8 @@ describe('Shopping cart component tests', () => {
             preloadedState: {
                 cart: {
                     cartItems: cartItems,
-                    isCartOpen: false
+                    isCartOpen: false,
+                    isCartLoaded: true
                 }
             }
         });

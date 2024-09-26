@@ -8,14 +8,22 @@ import { sidebarOptions } from "../utils/constantes-test.utils";
 import CustomModal from "../components/custom-modal/custom-modal.component";
 import Authentication from "../components/authentication/authentication.component";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsUserLoggedIn } from "../store/user/user.selector";
+import { selectCurrentUser, selectIsUserLoggedIn } from "../store/user/user.selector";
 import { setCurrentUser } from "../store/user/user.action";
 import { Fragment } from "react/jsx-runtime";
 import { Bounce, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { selectTheme } from "../store/preferences/preferences.selector";
+import { useEffect } from "react";
+import axios from "axios";
+import { selectCartItems, selectIsCartLoaded } from "../store/cart/cart.selector";
+import { setCartItems, setIsCartLoaded } from "../store/cart/cart.action";
 
 const MainLayout = () => {
+    const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
+    const shoppingItems = useSelector(selectCartItems);
+    const currentUser = useSelector(selectCurrentUser);
+    const isCartLoaded = useSelector(selectIsCartLoaded);
     const theme = useSelector(selectTheme);
     const isLoggedIn = useSelector(selectIsUserLoggedIn);
     const dispatch = useDispatch();
@@ -25,6 +33,7 @@ const MainLayout = () => {
           openModal()
         }else{
             dispatch(setCurrentUser(null));
+            dispatch(setIsCartLoaded(false));
         }
     }
 
@@ -32,6 +41,58 @@ const MainLayout = () => {
     const openModal = () => openModalFn('my_modal_1');
 
     const closeDrawer = () => document.getElementById("my-drawer")?.click();
+
+    useEffect(() => {
+        const source = axios.CancelToken.source();
+        if (currentUser) {
+            const fetchCart = async () => {
+                try {
+                    const response = await axios.get(`${apiUrl}/profile/carts`, {
+                        params: {
+                            userId: currentUser.id
+                        },
+                        cancelToken: source.token
+                    });
+                    dispatch(setCartItems(response.data));
+                    dispatch(setIsCartLoaded(true));
+                    
+                } catch (error) {
+        
+                }
+                dispatch(setIsCartLoaded(true));
+            };
+            fetchCart();
+        }
+
+        // Cleanup function to cancel the request
+        return () => {
+            source.cancel("Operation canceled due to new request.");
+        };
+    }, [currentUser]);
+
+    useEffect(() => {
+        const source = axios.CancelToken.source();
+        if (currentUser && isCartLoaded) {
+            const saveCart = async () => {
+                try {
+                    await axios.post(`${apiUrl}/profile/carts`, {
+                        userId: currentUser.id,
+                        items: shoppingItems
+                    }, {
+                        cancelToken: source.token
+                    });
+                } catch (error) {
+                    
+                }
+            };
+            saveCart();
+        }
+
+        // Cleanup function to cancel the request
+        return () => {
+            source.cancel("Operation canceled due to new request.");
+        };
+    }, [currentUser, shoppingItems, isCartLoaded]);
 
     return (
         <div className="App">

@@ -477,5 +477,28 @@
       "name": "O2 XDA Orbit",
       "imageUrl": "http://dummyimage.com/200x200.png/cc0000/ffffff"
     }
+  ],
+  "carts": [
+    {
+      "id": 1,
+      "items": [
+        {
+          "id": 4,
+          "price": 21,
+          "name": "vivo Y20G",
+          "imageUrl": "https://fastly.picsum.photos/id/418/200/200.jpg?hmac=FPLIYEnmfmXtqHPsuZvUzJeXJJbbxMWNq6Evh7mMSN4",
+          "quantity": 5
+        },
+        {
+          "id": 30,
+          "price": 66.12,
+          "name": "BLU Vida1",
+          "imageUrl": "http://dummyimage.com/200x200.png/cc0000/ffffff",
+          "quantity": 1
+        }
+      ],
+      "dateCreated": "2024-09-25T19:01:10.835Z",
+      "dateUpdated": "2024-09-26T16:39:32.058Z"
+    }
   ]
 }

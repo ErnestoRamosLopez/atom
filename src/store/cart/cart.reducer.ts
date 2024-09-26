@@ -1,16 +1,18 @@
 import { UnknownAction } from 'redux';
 
 import { CartItem } from './cart.types';
-import { setIsCartOpen, setCartItems } from './cart.action';
+import { setIsCartOpen, setCartItems, setIsCartLoaded } from './cart.action';
 
 export type CartState = {
   isCartOpen: boolean;
   cartItems: CartItem[];
+  isCartLoaded: boolean;
 };
 
 export const CART_INITIAL_STATE: CartState = {
   isCartOpen: false,
   cartItems: [],
+  isCartLoaded: false
 };
 
 export const cartReducer = (
@@ -28,6 +30,13 @@ export const cartReducer = (
     return {
       ...state,
       cartItems: action.payload,
+    };
+  }
+
+  if (setIsCartLoaded.match(action)) {
+    return {
+      ...state,
+      isCartLoaded: action.payload,
     };
   }
 
