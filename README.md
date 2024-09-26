@@ -50,7 +50,7 @@ Pruebas unitarias:
 ![Pruebas unitarias](/entregables/sprint3/pruebas/pruebasunitarias.png "Pruebas unitarias")
 
 Pruebas e2e:
-u
-![Pruebas e2e 1](/entregables/sprint3/pruebas/pruebase2e1.png.png "Pruebas e2e 1")
 
-![Pruebas e2e 2](/entregables/sprint3/pruebas/pruebase2e2.png.png "Pruebas e2e 2")
+![Pruebas e2e 1](/entregables/sprint3/pruebas/pruebase2e1.png "Pruebas e2e 1")
+
+![Pruebas e2e 2](/entregables/sprint3/pruebas/pruebase2e2.png "Pruebas e2e 2")
