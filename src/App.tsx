@@ -1,13 +1,30 @@
 import './App.css';
 import React from 'react';
-import Home from './components/home/home.component';
-import Header from './components/header/header.component';
+import Home from './routes/home/home.component';
+import { Route, Routes } from 'react-router-dom';
+import MainLayout from './layouts/Main.layout';
+import Carrito from './routes/carrito/carrito.component';
+import Ordenes from './routes/ordenes/ordenes.component';
+import OrdenDetalle from './routes/orden-detalle/orden-detalle.component';
+import Tienda from './routes/tienda/tienda.component';
+import Administracion from './routes/administracion/administracion.component';
+
 
 const App: React.FC<any> = () => {
+  
   return (
     <div className="App">
-      <Header />
-      <Home />
+      <Routes>
+            <Route path='/' element={<MainLayout />}>
+                <Route index element={<Home />}></Route>
+                <Route path='home' element={<Home />}></Route>
+                <Route path='carrito' element={<Carrito />}></Route>
+                <Route path='ordenes' element={<Ordenes />}></Route>
+                <Route path='ordenes/:id' element={<OrdenDetalle />}></Route>
+                <Route path='tienda' element={<Tienda />}></Route>
+                <Route path='administracion' element={<Administracion />}></Route>
+            </Route>
+      </Routes>
     </div>
   );
 }

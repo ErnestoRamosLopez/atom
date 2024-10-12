@@ -2,6 +2,5 @@
     rotate: 300deg;
     transform: scale(5.5);
     color: white;
-    fill: rgba(191, 191, 191, 0.067);
     filter: opacity(20%);
 }
