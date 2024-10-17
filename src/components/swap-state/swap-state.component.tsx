@@ -6,19 +6,25 @@ import ConfettiExplosion from "react-canvas-confetti/dist/presets/realistic";
 const SwapState = ({
     state = false,
     message = '',
-    hasCompletedAnimation = true
+    hasCompletedAnimation = true,
+    skipFirstAnimation = false
 }) => {
     const componentRef = useRef<HTMLDivElement | null>(null);
     const [numberOfParticles, setNumberOfParticles] = useState(200);
+    const [skipAnimation, setSkipAnimation] = useState(skipFirstAnimation ? 1 : 0);
 
     useEffect(() => {
+        setNumberOfParticles(0);
+        if(skipAnimation > 0){
+            setSkipAnimation(value => value - 1);
+            return;
+        }
+        
         if(state){
             setNumberOfParticles(300);
             setTimeout(() => {
                 setNumberOfParticles(0);
             }, 3000);
-        }else{
-            setNumberOfParticles(0);
         }
     }, [state]);
 

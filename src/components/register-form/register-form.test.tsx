@@ -12,7 +12,7 @@ describe('register form component tests', () => {
     });
 
     it('should load a form with all the required inputs', () =>{
-        renderWithProviders(<RegisterForm handleRegisterSuccess={login}/>);
+        renderWithProviders(<RegisterForm handleRegisterSuccess={login} startGoogleLogin={() => {}} preloadedUser={null}/>);
 
         expect(screen.getByRole('textbox', {name: 'Nombre'})).toBeInTheDocument();
         expect(screen.getByRole('textbox', {name: 'Apellidos'})).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe('register form component tests', () => {
     });
 
     it('should display error on wrong input', async () =>{
-        renderWithProviders(<RegisterForm handleRegisterSuccess={login}/>);
+        renderWithProviders(<RegisterForm handleRegisterSuccess={login} preloadedUser={null} startGoogleLogin={() => {}}/>);
 
         const nombreInput = screen.getByRole('textbox', {name: 'Nombre'});
         const apellidosInput = screen.getByRole('textbox', {name: 'Apellidos'});
@@ -138,7 +138,7 @@ describe('register form component tests', () => {
         };
         const response = {data: user, status: 200};
         (axios.post as jest.Mock).mockResolvedValue(response);
-        renderWithProviders(<RegisterForm handleRegisterSuccess={login}/>);
+        renderWithProviders(<RegisterForm handleRegisterSuccess={login} startGoogleLogin={() => {}} preloadedUser={null}/>);
 
         const nombreInput = screen.getByRole('textbox', {name: 'Nombre'});
         const apellidosInput = screen.getByRole('textbox', {name: 'Apellidos'});

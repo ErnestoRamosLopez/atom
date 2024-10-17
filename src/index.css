@@ -19,3 +19,8 @@ code {
 .App svg:not([fill]) {
   fill: currentColor;
 }
+
+.custom-tooltip{
+  background-color: oklch(var(--n)) !important;
+  color: oklch(var(--nc)) !important;
+}

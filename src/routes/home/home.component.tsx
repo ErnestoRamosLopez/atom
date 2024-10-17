@@ -6,15 +6,19 @@ import {ReactComponent as CheckIcon} from '@material-design-icons/svg/outlined/c
 import {ReactComponent as LineIcon} from '@material-design-icons/svg/outlined/horizontal_rule.svg';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { actividadList, inboxList, mesesList } from '../../utils/constantes-test.utils';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../store/user/user.selector';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import axios, { CancelTokenSource } from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { validateLoginSuccess } from '../../utils/login.utils';
+import queryString from 'query-string';
 
 interface HomeProps {}
 
 const Home: FC<HomeProps> = () => {
   const navigate = useNavigate();
+  const { hash } = useLocation();
+  const dispatch = useDispatch();
   const [listaInbox] = useState(inboxList);
   const [listaActividad] = useState(actividadList);
   const [ocultarMesActual, setOcultarMesActual] = useState(false);
@@ -30,17 +34,38 @@ const Home: FC<HomeProps> = () => {
 
 
   useEffect(() => {
-    if( currentUser === null ){
-      navigate('/tienda');
-      return;
+    const source = axios.CancelToken.source();
+    const initializeInfo = async () => {
+      let redirect = '/tienda';
+      if( currentUser === null ){
+        let hashQueryParams = queryString.parse(hash);
+        let params = {
+          hashQueryParams,
+          dispatch,
+          redirect,
+          navigate
+        }
+        let hasValidLogin = await validateLoginSuccess(params);
+        if(!hasValidLogin){
+          navigate(redirect);
+        }
+        return;
+      }
+      getTotalSpent(source);
     }
-    getTotalSpent();
+    initializeInfo();
+
+    return () => {
+      source.cancel("Operation canceled due to new request.");
+    };
   }, [currentUser]);
 
-  const getTotalSpent = async () => {
+  const getTotalSpent = async (cancelToken: CancelTokenSource) => {
     const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
     try{
-      const totalSpent = await axios.get(`${apiUrl}/profile/totalSpent?userId=${currentUser?.id}`);
+      const totalSpent = await axios.get(`${apiUrl}/profile/totalSpent?userId=${currentUser?.id}`, {
+        cancelToken: cancelToken.token
+      });
       const newGastosList = [];
       if( totalSpent.data ){
         for(let i = 0; i < 4; i++){
@@ -53,7 +78,6 @@ const Home: FC<HomeProps> = () => {
         setGastosList(newGastosList);
       }
     }catch(ex){
-
     }
   }
 

@@ -53,7 +53,7 @@ export type SetCartIsOpen = ActionWithPayload<
 
 export type SetCartItems = ActionWithPayload<
   CART_ACTION_TYPES.SET_CART_ITEMS,
-  CartItem[]
+  {cartItems: CartItem[], shouldSaveCart: boolean}
 >;
 
 export type SetCartIsLoaded = ActionWithPayload<
@@ -65,8 +65,8 @@ export const setIsCartOpen = withMatcher((boolean: boolean): SetCartIsOpen =>
   createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, boolean)
 );
 
-export const setCartItems = withMatcher((cartItems: CartItem[]): SetCartItems =>
-  createAction(CART_ACTION_TYPES.SET_CART_ITEMS, cartItems)
+export const setCartItems = withMatcher((cartItems: CartItem[], shouldSaveCart: boolean): SetCartItems =>
+  createAction(CART_ACTION_TYPES.SET_CART_ITEMS, {cartItems, shouldSaveCart})
 );
 
 export const setIsCartLoaded = withMatcher((boolean: boolean): SetCartIsLoaded =>
@@ -75,28 +75,31 @@ export const setIsCartLoaded = withMatcher((boolean: boolean): SetCartIsLoaded =
 
 export const addItemToCart = (
   cartItems: CartItem[],
-  productToAdd: Product
+  productToAdd: Product,
+  shouldSaveCart: boolean
 ) => {
   const newCartItems = addCartItem(cartItems, productToAdd);
-  return setCartItems(newCartItems);
+  return setCartItems(newCartItems, shouldSaveCart);
 };
 
 export const removeItemFromCart = (
   cartItems: CartItem[],
-  cartItemToRemove: CartItem
+  cartItemToRemove: CartItem,
+  shouldSaveCart: boolean
 ) => {
   const newCartItems = removeCartItem(cartItems, cartItemToRemove);
-  return setCartItems(newCartItems);
+  return setCartItems(newCartItems, shouldSaveCart);
 };
 
 export const clearItemFromCart = (
   cartItems: CartItem[],
-  cartItemToClear: CartItem
+  cartItemToClear: CartItem,
+  shouldSaveCart: boolean
 ) => {
   const newCartItems = clearCartItem(cartItems, cartItemToClear);
-  return setCartItems(newCartItems);
+  return setCartItems(newCartItems, shouldSaveCart);
 };
 
-export const clearCart = () => {
-  return setCartItems([]);
+export const clearCart = (shouldSaveCart: boolean) => {
+  return setCartItems([], shouldSaveCart);
 };

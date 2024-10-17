@@ -5,7 +5,7 @@ import {ReactComponent as StarIconInactive} from '@material-design-icons/svg/out
 import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../../store/cart/cart.action";
-import { selectCartItems } from "../../store/cart/cart.selector";
+import { selectCanSaveCart, selectCartItems } from "../../store/cart/cart.selector";
 import { toast } from "react-toastify";
 
 interface ProductItemProps{
@@ -14,6 +14,7 @@ interface ProductItemProps{
 
 const ProductItem : FC<ProductItemProps> = ({product}) => {
     const shoppingItems = useSelector(selectCartItems);
+    const canSaveCart = useSelector(selectCanSaveCart);
     const dispatch = useDispatch();
     
     const [isFavorite, setIsFavorite] = useState(false);
@@ -24,13 +25,9 @@ const ProductItem : FC<ProductItemProps> = ({product}) => {
     }
 
     const addToCart = () => {
-        dispatch(addItemToCart(shoppingItems, product));
+        dispatch(addItemToCart(shoppingItems, product, canSaveCart));
         toast.success('Producto agregado');
     }
-
-    useEffect(() => {
-
-    }, [/** update state when store updates */]);
 
     return (
         <div className="card border border-2">

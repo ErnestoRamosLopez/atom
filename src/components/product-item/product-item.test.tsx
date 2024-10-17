@@ -3,6 +3,7 @@ import { Product } from "../../store/product/product.types";
 import { setupStore } from "../../store/store";
 import { fireEvent, renderWithProviders, screen, waitFor } from "../../utils/test-utils";
 import ProductItem from "./product-item.component";
+import { CartState } from "../../store/cart/cart.reducer";
 
 const productTest: Product = {
     id: 1,
@@ -10,6 +11,12 @@ const productTest: Product = {
     name: '',
     price: 98
 };
+const CART_INITIAL_STATE: CartState = {
+    cartItems: [],
+    isCartLoaded: true,
+    isCartOpen: false,
+    shouldSaveCart: false
+}
 describe('Product item component tests', () => {
 
     afterEach(() => {
@@ -20,9 +27,7 @@ describe('Product item component tests', () => {
         renderWithProviders(<ProductItem product={productTest}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: [],
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...CART_INITIAL_STATE
                 }
             }
         });
@@ -46,9 +51,7 @@ describe('Product item component tests', () => {
         renderWithProviders(<ProductItem product={productTest}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: [],
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...CART_INITIAL_STATE
                 }
             },
             store: store

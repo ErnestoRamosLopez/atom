@@ -74,7 +74,11 @@ route.post('/carts', async (req, res) => {
     }
     let saveCart;
     if(exists){
-        saveCart = await axios.put(`${JSON_SERVER_URL}/carts/${userId}`, cart);
+        if( items && items.length === 0){
+            saveCart = await axios.delete(`${JSON_SERVER_URL}/carts/${userId}`);
+        }else{
+            saveCart = await axios.put(`${JSON_SERVER_URL}/carts/${userId}`, cart);
+        }
     }else{
         saveCart = await axios.post(`${JSON_SERVER_URL}/carts`, cart);
     }

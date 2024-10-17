@@ -3,3 +3,11 @@
     transform: translateX(-20px); /* Optional: add some motion */
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
+.search-icon{
+    visibility: hidden;
+}
+
+.product-image-container:hover .search-icon{
+    visibility: visible;
+}
