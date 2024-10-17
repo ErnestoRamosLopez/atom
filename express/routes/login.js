@@ -58,7 +58,8 @@ route.post('/register', async (req, res) =>{
         });
     }else{
         const {password, ...user} = response.data;
-        return res.clearCookie('temp_access_token').cookie('access_token', id_token).json(user);
+        let isSecure = process.env.NODE_ENV === 'production';
+        return res.clearCookie('temp_access_token').cookie('access_token', id_token, {httpOnly: true, secure: isSecure, sameSite: 'lax'}).json(user);
     }
 });
 
@@ -96,7 +97,7 @@ route.post('/loginValidateToken', async (req, res) =>{
             userData = {...userData, id: user.id};
         }
         
-        return res.status(200).cookie(cookieName, id_token, {httpOnly: true, secure: isSecure}).json({
+        return res.status(200).cookie(cookieName, id_token, {httpOnly: true, secure: isSecure, sameSite: 'lax'}).json({
             userData,
             completedRegistration
         });
