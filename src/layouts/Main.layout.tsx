@@ -7,9 +7,8 @@ import SVG from 'react-inlinesvg';
 import { sidebarOptions } from "../utils/constantes-test.utils";
 import CustomModal from "../components/custom-modal/custom-modal.component";
 import Authentication from "../components/authentication/authentication.component";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectCurrentUser, selectIsUserLoggedIn } from "../store/user/user.selector";
-import { setCurrentUser } from "../store/user/user.action";
 import { Fragment } from "react/jsx-runtime";
 import { Bounce, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -20,16 +19,17 @@ import { selectCartItems, selectIsCartLoaded, selectShouldSaveCart } from "../st
 import { selectLoginFromIdentityProvider } from "../store/login/login.selector";
 import { setLoginUserData } from "../store/login/login.action";
 import { logout } from "../utils/login.utils";
-import { setCartItems, setIsCartLoaded } from "../store/cart/cart.action";
+import { fetchUserCart, saveUserCart } from "../store/cart/cart.thunks";
+import { useAppDispatch } from '../store/store'
 
 const MainLayout = () => {
-    const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
     const shoppingItems = useSelector(selectCartItems);
     const currentUser = useSelector(selectCurrentUser);
     const isCartLoaded = useSelector(selectIsCartLoaded);
     const theme = useSelector(selectTheme);
     const isLoggedIn = useSelector(selectIsUserLoggedIn);
-    const dispatch = useDispatch();
+    const shouldSaveCart = useSelector(selectShouldSaveCart);
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const loginIP = useSelector(selectLoginFromIdentityProvider);
     const [closeModalFunction, setModalFunction] = useState<() => void>(() => {});
@@ -48,56 +48,30 @@ const MainLayout = () => {
     const closeDrawer = () => document.getElementById("my-drawer")?.click();
 
     useEffect(() => {
-        const source = axios.CancelToken.source();
+        let promise = null;
         if (currentUser) {
-            const fetchCart = async () => {
-                try {
-                    const response = await axios.get(`${apiUrl}/profile/carts`, {
-                        params: {
-                            userId: currentUser.id
-                        },
-                        cancelToken: source.token
-                    });
-                    dispatch(setCartItems(response.data));
-                    dispatch(setIsCartLoaded(true));
-                    
-                } catch (error) {
-        
-                }
-                dispatch(setIsCartLoaded(true));
-            };
-            fetchCart();
+            promise = dispatch(fetchUserCart(currentUser.id as number));
         }
 
         // Cleanup function to cancel the request
         return () => {
-            source.cancel("Operation canceled due to new request.");
+            if( promise !== null)
+                promise.abort();
         };
     }, [currentUser]);
 
     useEffect(() => {
-        const source = axios.CancelToken.source();
-        if (currentUser && isCartLoaded) {
-            const saveCart = async () => {
-                try {
-                    await axios.post(`${apiUrl}/profile/carts`, {
-                        userId: currentUser.id,
-                        items: shoppingItems
-                    }, {
-                        cancelToken: source.token
-                    });
-                } catch (error) {
-                    
-                }
-            };
-            saveCart();
+        let promise = null;
+        if (currentUser && isCartLoaded && shouldSaveCart) {
+            promise = dispatch(saveUserCart({userId: currentUser.id as number, shoppingItems}));
         }
 
         // Cleanup function to cancel the request
         return () => {
-            source.cancel("Operation canceled due to new request.");
+            if( promise !== null)
+                promise.abort();
         };
-    }, [currentUser, shoppingItems, isCartLoaded]);
+    }, [currentUser, shoppingItems, isCartLoaded, shouldSaveCart]);
 
     useEffect(() => {
         if( loginIP.userData ){

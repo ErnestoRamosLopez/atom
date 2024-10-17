@@ -1,4 +1,4 @@
-import { FC, Fragment } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import ThemeSwitch from "../theme-switch/theme-switch";
 import './header.styles.css';
 import { ReactComponent as MenuIcon } from '@material-design-icons/svg/outlined/menu.svg';
@@ -19,10 +19,36 @@ const Header: FC<HeaderProps> = (props) => {
     const isLoggedIn = useSelector(selectIsUserLoggedIn);
     const cartCount = useSelector(selectCartCount);
     const isCartOpen = useSelector(selectIsCartOpen);
+    const [shouldCloseCart, setShouldCloseCart] = useState(false);
+    const [isManualOpen, setIsManualOpen] = useState(false);
 
     const dispatch = useDispatch();
 
-    const openCart = () => dispatch(setIsCartOpen(true));
+    const openCart = (stayOpen = false) => {
+        if(stayOpen)
+            setIsManualOpen(true);
+        dispatch(setIsCartOpen(true));
+    }
+
+    const closeCartOnDelay = () => {
+        setShouldCloseCart(!isManualOpen);
+        setIsManualOpen(false);
+    }
+
+    useEffect(() => {
+        let timeout = null;
+        if(shouldCloseCart && isCartOpen){
+            timeout = setTimeout(() => {
+                dispatch(setIsCartOpen(false));
+                setShouldCloseCart(false);
+            }, 400);
+        }
+
+        return () => {
+            if(timeout)
+                clearTimeout(timeout);
+        };
+    }, [shouldCloseCart, isCartOpen]);
 
     return (
         <div className="navbar bg-base-100 sticky top-0 left-0 right-0 z-50">
@@ -46,7 +72,7 @@ const Header: FC<HeaderProps> = (props) => {
                     </div>
                 </div>
                 <div className="dropdown dropdown-end dropdown-open">
-                    <button tabIndex={0} className="btn btn-ghost btn-circle" onClick={openCart}>
+                    <button tabIndex={0} className="btn btn-ghost btn-circle" onClick={() => openCart(true)} onMouseOver={() => openCart()} onMouseLeave={closeCartOnDelay}>
                         <div className="indicator">
                             <ShoppingCartIcon className="h-5 w-5"/>
                             <span className="cart-counter badge badge-sm indicator-item red-text">{cartCount}</span>
@@ -54,7 +80,7 @@ const Header: FC<HeaderProps> = (props) => {
                     </button>
                     {
                         isCartOpen && 
-                        <div tabIndex={0} className="dropdown-content z-[1] mt-3">
+                        <div tabIndex={0} className="dropdown-content z-[1] mt-3" onMouseEnter={() => setShouldCloseCart(false)}>
                             <ShoppingCart isDropdown />
                         </div>
                     }

@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { CartState } from './cart.reducer';
+import { selectIsUserLoggedIn } from '../user/user.selector';
 
 const selectCartReducer = (state: any): CartState => state.cart;
 
@@ -31,3 +32,15 @@ export const selectCartTotal = createSelector(
     return Math.round( total * 100) / 100;
   }
 );
+
+//used to trigger save
+export const selectShouldSaveCart = createSelector(
+  [selectCartReducer],
+  (cartItems) => cartItems.shouldSaveCart
+);
+
+//used to check if the cart can be saved
+export const selectCanSaveCart = createSelector(
+  [selectCartReducer, selectIsUserLoggedIn],
+  (cartItems, isLoggedIn) => isLoggedIn && cartItems.isCartLoaded
+)

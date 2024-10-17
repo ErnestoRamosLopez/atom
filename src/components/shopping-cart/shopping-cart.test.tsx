@@ -1,3 +1,4 @@
+import { CartState } from "../../store/cart/cart.reducer";
 import { CartItem } from "../../store/cart/cart.types";
 import { fireEvent, renderWithProviders, screen, waitFor } from "../../utils/test-utils";
 import ShoppingCart from "./shopping-cart.component";
@@ -25,6 +26,13 @@ const testCartItems: CartItem[][] = [
     ],
 ];
 
+const INITIAL_STATE: CartState = {
+    cartItems: [],
+    isCartLoaded: true,
+    isCartOpen: false,
+    shouldSaveCart: false
+}
+
 describe('Shopping cart component tests', () => {
     beforeEach(() => {
         jest.spyOn(router, 'useNavigate').mockImplementation(() => navigate)
@@ -37,9 +45,7 @@ describe('Shopping cart component tests', () => {
         renderWithProviders(<ShoppingCart isDropdown={true}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: [],
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...INITIAL_STATE
                 }
             }
         });
@@ -52,9 +58,7 @@ describe('Shopping cart component tests', () => {
         renderWithProviders(<ShoppingCart isDropdown={true}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: [],
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...INITIAL_STATE
                 }
             }
         });
@@ -74,9 +78,7 @@ describe('Shopping cart component tests', () => {
         renderWithProviders(<ShoppingCart isDropdown={false}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: [],
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...INITIAL_STATE
                 }
             }
         });
@@ -92,9 +94,7 @@ describe('Shopping cart component tests', () => {
         renderWithProviders(<ShoppingCart isDropdown={isDropdown}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: [],
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...INITIAL_STATE
                 }
             }
         });
@@ -114,9 +114,8 @@ describe('Shopping cart component tests', () => {
         const { container } = renderWithProviders(<ShoppingCart isDropdown={isDropdown}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: cart,
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...INITIAL_STATE,
+                    cartItems: cart
                 }
             }
         });
@@ -145,9 +144,8 @@ describe('Shopping cart component tests', () => {
         renderWithProviders(<ShoppingCart isDropdown={isDropdown}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: cartItems,
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...INITIAL_STATE,
+                    cartItems: cartItems
                 }
             }
         });
@@ -177,9 +175,8 @@ describe('Shopping cart component tests', () => {
         renderWithProviders(<ShoppingCart isDropdown={isDropdown}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: cartItems,
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...INITIAL_STATE,
+                    cartItems: cartItems
                 }
             }
         });
@@ -209,9 +206,8 @@ describe('Shopping cart component tests', () => {
         renderWithProviders(<ShoppingCart isDropdown={isDropdown}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: cartItems,
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...INITIAL_STATE,
+                    cartItems: cartItems
                 }
             }
         });
@@ -241,9 +237,8 @@ describe('Shopping cart component tests', () => {
         renderWithProviders(<ShoppingCart isDropdown={isDropdown}/>, {
             preloadedState: {
                 cart: {
-                    cartItems: cartItems,
-                    isCartOpen: false,
-                    isCartLoaded: true
+                    ...INITIAL_STATE,
+                    cartItems: cartItems
                 }
             }
         });
@@ -271,8 +266,8 @@ describe('Shopping cart component tests', () => {
         renderWithProviders(<ShoppingCart isDropdown={false}/>, {
             preloadedState: {
                 cart: {
+                    ...INITIAL_STATE,
                     cartItems: cartItems,
-                    isCartOpen: false,
                     isCartLoaded: true
                 }
             }
