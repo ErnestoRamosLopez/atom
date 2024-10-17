@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from "react";
+import React, { FC, ReactElement, useEffect } from "react";
 import { CustomModalEnum } from "../../enums/custom-modal.enum";
 
 interface CustomModalProps {
@@ -42,6 +42,17 @@ const CustomModal: FC<CustomModalProps> = ({
         }
         (document.getElementById(id) as HTMLFormElement)?.close();
     }
+
+    useEffect(() => {
+        window.addEventListener("keydown", function(event) {
+            const key = event.key; // Or const {key} = event; in ES6+
+            if (key === "Escape") {
+                event.preventDefault();
+                triggerClose?.(CustomModalEnum.CLOSE_ACTION);
+            }
+        });
+    });
+    
     return (
         <dialog id={id} className={`modal ${modalClass}`} onCancel={closeEvent}>
             <div className={`modal-box ${modalBoxClass}`}>

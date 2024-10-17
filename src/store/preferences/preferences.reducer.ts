@@ -15,6 +15,7 @@ export const preferencesReducer = (
   state = PREFERENCES_INITIAL_STATE,
   action = {} as UnknownAction
 ) => {
+  //do not reset preferences!
   if (setTheme.match(action)) {
     return {
       ...state,

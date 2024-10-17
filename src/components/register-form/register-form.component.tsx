@@ -40,7 +40,6 @@ const VALIDATIONS : {[key: string]: RegisterOptions<Inputs, any> | undefined} = 
         required: 'Campo email es requerido'
     },
     password: {
-        required: 'Campo contraseña es requerido',
         pattern: {
             value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
             message: 'Formato invalido'
@@ -49,13 +48,15 @@ const VALIDATIONS : {[key: string]: RegisterOptions<Inputs, any> | undefined} = 
     },
     passwordConfirm: {
         validate: (value, formValues) => {
-            return (!!value && !!formValues.password && value === formValues.password) || 'Las contraseñas no coinciden';
+            return (value === formValues.password) || 'Las contraseñas no coinciden';
         }
     }
 }
 
 type RegisterFormProps = {
-    handleRegisterSuccess: (user: User, message: string) => void
+    handleRegisterSuccess: (user: User, message: string) => void,
+    startGoogleLogin: () => void,
+    preloadedUser: Partial<User> | null
 }
 
 const RegisterForm: FC<RegisterFormProps> = (props) => {
@@ -63,7 +64,7 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
     const [hasOneLowercase, setHasOneLowercase] = useState(false);
     const [hasOneUppercase, setHasOneUppercase] = useState(false);
     const [hasOneNumber, setHasOneNumber] = useState(false);
-    const [isConfirmPasswordValid, setIsConfirmPassowrdValid] = useState(false);
+    const [isConfirmPasswordValid, setIsConfirmPassowrdValid] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [errorCount, setErrorCount] = useState(0);
     const alertRef = useRef<HTMLDivElement>(null);
@@ -75,10 +76,19 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
         handleSubmit,
         watch,
         formState: { errors },
-        reset
+        reset,
+        setValue
     } = useForm<Inputs>({
         defaultValues: DEFAULT_VALUES
     });
+
+    useEffect(() => {
+        if(props.preloadedUser !== null){
+            setValue('name', props.preloadedUser.name!);
+            setValue('lastname', props.preloadedUser.lastname!);
+            setValue('email', props.preloadedUser.email!);
+        }
+    }, [props.preloadedUser]);
 
     // Callback version of watch.  It's your responsibility to unsubscribe when done.
     useEffect(() => {
@@ -90,7 +100,7 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
                 setHasMinLength((value.password?.length ?? 0) >= 8);
             }
             if( name === 'password' || name === 'passwordConfirm'){
-                let isValid: boolean = !!value.password && !!value.passwordConfirm && value.password === value.passwordConfirm;
+                let isValid: boolean = value.password === value.passwordConfirm;
                 setIsConfirmPassowrdValid(isValid);
             }
         })
@@ -117,6 +127,10 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
             }
         }catch(ex: any){
             if( ex instanceof AxiosError){
+                if( ex.status === 403 && props.preloadedUser){
+                    //keep redirecting, probably left login page for 1 hour and token expired
+                    props.startGoogleLogin();
+                }
                 const data = ex.response?.data;
                 const message = data.message ?? '';
                 setErrorMessage(message);
@@ -126,6 +140,10 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
     }
 
     const dismissErrorMessage = () => setErrorMessage('');
+
+    const validatePassword = (value: string | undefined) => {
+        return !!value || !!props.preloadedUser || 'Campo contraseña es requerido';
+    }
 
     return (
         <div className="grid justify-center overflow-y-auto">
@@ -196,7 +214,7 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
                 </div>
                 <div className="w-80">
                     <label htmlFor="password" className="block text-sm font-medium leading-6">
-                        Contraseña
+                        Contraseña{props.preloadedUser !== null ? '(Opcional)' : ''}
                     </label>
                     <div className="mt-2">
                         <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -204,7 +222,10 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
                                 id="password"
                                 type="password"
                                 className="block flex-1 border-2-0 bg-transparent py-1.5 pl-1 focus:ring-0 sm:text-sm sm:leading-6"
-                                {...register('password', VALIDATIONS.password)}
+                                {...register('password', {
+                                    ...VALIDATIONS.password,
+                                    validate: (value) => validatePassword(value)
+                                })}
                             />
                         </div>
                         <div className="label">
@@ -214,7 +235,7 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
                 </div>
                 <div className="w-80">
                     <label htmlFor="passwordConfirm" className="block text-sm font-medium leading-6">
-                        Confirma la contraseña
+                        Confirma la contraseña{props.preloadedUser !== null ? '(Opcional)' : ''}
                     </label>
                     <div className="mt-2">
                         <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -240,33 +261,36 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
                             <li><SwapState state={hasOneUppercase} message="Tiene por lo menos 1 letra mayuscula"/></li>
                             <li><SwapState state={hasOneNumber} message="Tiene por lo menos 1 numero"/></li>
                             <li><SwapState state={hasMinLength} message="Tiene por lo menos 8 caracteres"/></li>
-                            <li><SwapState state={isConfirmPasswordValid} message="Las contraseñas coinciden"/></li>
+                            <li><SwapState state={isConfirmPasswordValid} message="Las contraseñas coinciden" skipFirstAnimation={true}/></li>
                         </ul>
                     </div>
                 </div>
                 <button type="submit" className="btn-register btn btn-outline">Registrarte</button>
                 {/* <button onClick={finishAuthentication} className="btn btn-outline">Registrarse</button> */}
             </form>
-            <div className="grid gap-y-4 border-2 rounded-md p-4 my-4">
-                <span>Registrate con tus redes sociales</span>
-                <div className="grid grid-cols-3 place-content-around justify-items-center">
-                    <button className="">
-                        <ScalableDiv>
-                            <img className="h-10 w-10" src={require("../../assets/images/google-logo.png")} alt=""/>
-                        </ScalableDiv>
-                    </button>
-                    <button className="">
-                        <ScalableDiv>
-                            <img className="h-10 w-10" src={require("../../assets/images/facebook-logo.png")} alt=""/>
-                        </ScalableDiv>
-                    </button>
-                    <button>
-                        <ScalableDiv>
-                            <img className="h-10 w-10" src={require("../../assets/images/twitter-logo.png")} alt=""/>
-                        </ScalableDiv>
-                    </button>
+            {
+                props.preloadedUser === null && 
+                <div className="grid gap-y-4 border-2 rounded-md p-4 my-4">
+                    <span>Registrate con tus redes sociales</span>
+                    <div className="grid grid-cols-3 place-content-around justify-items-center">
+                        <button className="" onClick={props.startGoogleLogin}>
+                            <ScalableDiv>
+                                <img className="h-10 w-10" src={require("../../assets/images/google-logo.png")} alt=""/>
+                            </ScalableDiv>
+                        </button>
+                        <button className="">
+                            <ScalableDiv>
+                                <img className="h-10 w-10" src={require("../../assets/images/facebook-logo.png")} alt=""/>
+                            </ScalableDiv>
+                        </button>
+                        <button>
+                            <ScalableDiv>
+                                <img className="h-10 w-10" src={require("../../assets/images/twitter-logo.png")} alt=""/>
+                            </ScalableDiv>
+                        </button>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }

@@ -8,7 +8,7 @@ jest.mock("axios");
 
 describe('Login form component tests', () => {
     it('should load a form with all the required inputs', () =>{
-        renderWithProviders(<LoginForm handleLoginSuccess={login}/>);
+        renderWithProviders(<LoginForm handleLoginSuccess={login} startGoogleLogin={() => {}}/>);
 
         expect(screen.getByRole('textbox', {name: 'Email'})).toBeInTheDocument();
         expect(screen.getByLabelText('Contraseña')).toBeInTheDocument();
@@ -16,7 +16,7 @@ describe('Login form component tests', () => {
     });
 
     it('should display error on wrong input', async () =>{
-        renderWithProviders(<LoginForm handleLoginSuccess={login}/>);
+        renderWithProviders(<LoginForm handleLoginSuccess={login} startGoogleLogin={() => {}}/>);
 
         const emailInput = screen.getByRole('textbox', {name: 'Email'});
         const passwordInput = screen.getByLabelText('Contraseña');
@@ -63,7 +63,7 @@ describe('Login form component tests', () => {
         };
         const response = {data: user, status: 200};
         (axios.post as jest.Mock).mockResolvedValue(response);
-        renderWithProviders(<LoginForm handleLoginSuccess={login}/>);
+        renderWithProviders(<LoginForm handleLoginSuccess={login} startGoogleLogin={() => {}}/>);
         const emailInput = screen.getByRole('textbox', {name: 'Email'});
         const passwordInput = screen.getByLabelText('Contraseña');
         const submitButton = screen.getByRole('button', {name: 'Iniciar sesión'});

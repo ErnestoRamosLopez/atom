@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Header from "../components/header/header.component";
 import { openModalFn } from "../utils/modal.utils";
 import { ReactComponent as LogoutIcon } from '@material-design-icons/svg/outlined/power_settings_new.svg';
@@ -14,9 +14,12 @@ import { Fragment } from "react/jsx-runtime";
 import { Bounce, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { selectTheme } from "../store/preferences/preferences.selector";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { selectCartItems, selectIsCartLoaded } from "../store/cart/cart.selector";
+import { selectCartItems, selectIsCartLoaded, selectShouldSaveCart } from "../store/cart/cart.selector";
+import { selectLoginFromIdentityProvider } from "../store/login/login.selector";
+import { setLoginUserData } from "../store/login/login.action";
+import { logout } from "../utils/login.utils";
 import { setCartItems, setIsCartLoaded } from "../store/cart/cart.action";
 
 const MainLayout = () => {
@@ -27,13 +30,15 @@ const MainLayout = () => {
     const theme = useSelector(selectTheme);
     const isLoggedIn = useSelector(selectIsUserLoggedIn);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const loginIP = useSelector(selectLoginFromIdentityProvider);
+    const [closeModalFunction, setModalFunction] = useState<() => void>(() => {});
 
     function handleLoginButton(){
         if(!isLoggedIn){
           openModal()
         }else{
-            dispatch(setCurrentUser(null));
-            dispatch(setIsCartLoaded(false));
+            logout(axios, navigate, dispatch);
         }
     }
 
@@ -94,6 +99,23 @@ const MainLayout = () => {
         };
     }, [currentUser, shoppingItems, isCartLoaded]);
 
+    useEffect(() => {
+        if( loginIP.userData ){
+            setModalFunction(() => handleRedirectLogin);
+            openModal();
+        }else{
+            setModalFunction(() => {});
+        }
+    }, [loginIP]);
+
+    const handleRedirectLogin = useCallback(() => {
+        if (loginIP.cancelRedirect) {
+            let cancelRedirect = loginIP.cancelRedirect;
+            dispatch(setLoginUserData({ cancelRedirect: null, userData: null}));
+            navigate(cancelRedirect);
+        }
+    }, [loginIP.cancelRedirect, navigate]);
+
     return (
         <div className="App">
             <ToastContainer
@@ -153,7 +175,7 @@ const MainLayout = () => {
             </div>
             {
                 !isLoggedIn && 
-                <CustomModal modalActionClass="justify-center" hasCloseButton={true} id="my_modal_1">
+                <CustomModal modalActionClass="justify-center" hasCloseButton={true} id="my_modal_1" closeEvent={closeModalFunction}>
                     <Authentication />
                 </CustomModal>
             }

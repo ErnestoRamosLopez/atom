@@ -6,22 +6,28 @@ const management = require('./routes/management');
 const express = require('express');
 var jsonServer = require('json-server');
 var cors = require('cors');
+const cookieParser = require("cookie-parser");
+const validateAccessToken = require('./middleware/validateToken');
 
 const app = express();
-//app.use(cors({ origin: 'http://localhost:3000', exposedHeaders: ['x-total-count'] }));
-app.use(cors({ origin: 'https://neon-raindrop-61e490.netlify.app', exposedHeaders: ['x-total-count'] }));
+//app.use(cors({ origin: 'http://localhost:3000', exposedHeaders: ['x-total-count'], credentials: true }));
+app.use(cors({ origin: 'https://neon-raindrop-61e490.netlify.app', exposedHeaders: ['x-total-count'], credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 const port = process.env.PORT || 3001;
 
 app.use('/api/db', jsonServer.router('./express/json-server/db.json'));
 
-app.use('/api/users', users);
+//public use
 app.use('/api/auth', login);
 app.use('/api/products', products);
-app.use('/api/profile', profile);
-app.use('/api/management', management);
+
+//protected
+app.use('/api/users', validateAccessToken, users);
+app.use('/api/profile', validateAccessToken, profile);
+app.use('/api/management', validateAccessToken, management);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

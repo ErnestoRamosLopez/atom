@@ -28,7 +28,8 @@ const VALIDATIONS : {[key: string]: RegisterOptions<Inputs, any> | undefined} = 
 }
 
 type LoginFormProps = {
-    handleLoginSuccess: (user: User, message: string) => void
+    handleLoginSuccess: (user: User, message: string) => void,
+    startGoogleLogin: () => void
 }
 
 const LoginForm: FC<LoginFormProps> = (props) => {
@@ -122,7 +123,7 @@ const LoginForm: FC<LoginFormProps> = (props) => {
             <div className="grid gap-y-4 border-2 rounded-md p-4 my-4">
                 <span>Inicia sesion con tus redes sociales</span>
                 <div className="grid grid-cols-3 place-content-around justify-items-center">
-                    <button className="">
+                    <button className="" onClick={props.startGoogleLogin}>
                         <ScalableDiv>
                             <img className="h-10 w-10" src={require("../../assets/images/google-logo.png")} alt=""/>
                         </ScalableDiv>
