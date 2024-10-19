@@ -40,7 +40,7 @@ const Authentication : FC<AuthenticationProps> = ({
     const startGoogleLogin = () => {
         const nonce = generateNonce();
         sessionStorage.setItem('nonce', nonce);
-        const googleOAuthURL = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}?client_id=${process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}&scope=${encodeURIComponent(process.env.REACT_APP_GOOGLE_OAUTH_SCOPES || "")}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&response_type=${process.env.REACT_APP_GOOGLE_RESPONSE_TYPE}&nonce=${nonce}`;
+        const googleOAuthURL = `${process.env.REACT_APP_GOOGLE_OAUTH_URL}?client_id=${process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}&scope=${encodeURIComponent(process.env.REACT_APP_GOOGLE_OAUTH_SCOPES || "")}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&response_type=${process.env.REACT_APP_GOOGLE_RESPONSE_TYPE}&nonce=${nonce}&state=google`;
         window.location.href = googleOAuthURL;
     }
     

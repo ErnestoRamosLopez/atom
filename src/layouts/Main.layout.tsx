@@ -85,8 +85,7 @@ const MainLayout = () => {
     const handleRedirectLogin = useCallback(() => {
         if (loginIP.cancelRedirect) {
             let cancelRedirect = loginIP.cancelRedirect;
-            dispatch(setLoginUserData({ cancelRedirect: null, userData: null}));
-            navigate(cancelRedirect);
+            logout(axios, navigate, dispatch, cancelRedirect);
         }
     }, [loginIP.cancelRedirect, navigate]);
 
