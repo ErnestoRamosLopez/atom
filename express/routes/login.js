@@ -57,9 +57,12 @@ route.post('/register', async (req, res) =>{
             await verifyToken(id_token);
         }
     }catch{
-        return res.status(403).clearCookie('login_type').clearCookie('temp_access_token').json({
-            message: 'Error acceso no autorizado'
-        });
+        return res.status(403)
+            .clearCookie('login_type', { httpOnly: true, secure: isSecure, sameSite })
+            .clearCookie('temp_access_token', { httpOnly: true, secure: isSecure, sameSite })
+            .json({
+                message: 'Error acceso no autorizado'
+            });
     }
 
     const response = await axios.post(`${JSON_SERVER_URL}/users`, user);
@@ -73,7 +76,7 @@ route.post('/register', async (req, res) =>{
         const params = { host: req.hostname, email: user.email};
         const jwtValidated = id_token ?? await generateJWT(params);
         const loginTypeValidated = login_type ?? 'local';
-        return res.clearCookie('temp_access_token')
+        return res.clearCookie('temp_access_token', { httpOnly: true, secure: isSecure, sameSite })
         .cookie('access_token', jwtValidated, {httpOnly: true, secure: isSecure, sameSite})
         .cookie('login_type', loginTypeValidated, {httpOnly: true, secure: isSecure, sameSite}).json(user);
     }
@@ -133,7 +136,11 @@ route.post('/logout', async (req, res) =>{
             message: 'Formato invalido'
         });
     }
-    return res.status(200).clearCookie('access_token').clearCookie('temp_access_token').clearCookie('login_type').json({});
+    return res.status(200)
+        .clearCookie('access_token', { httpOnly: true, secure: isSecure, sameSite })
+        .clearCookie('temp_access_token', { httpOnly: true, secure: isSecure, sameSite })
+        .clearCookie('login_type', { httpOnly: true, secure: isSecure, sameSite })
+        .json({});
 });
 
 function validateNewUser(user, id_token){
