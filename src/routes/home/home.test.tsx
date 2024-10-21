@@ -4,7 +4,7 @@ import Home from './home.component';
 import { fireEvent, renderWithProviders, screen, testUser, waitFor } from '../../utils/test-utils';
 import * as router from 'react-router'
 import axios from 'axios';
-import { mesesList } from '../../utils/constantes-test.utils';
+import { mesesList } from '../../utils/constantes.utils';
 import moment from 'moment';
 
 const navigate = jest.fn()
