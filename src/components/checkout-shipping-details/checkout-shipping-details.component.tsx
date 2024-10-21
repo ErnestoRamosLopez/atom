@@ -25,28 +25,60 @@ const DEFAULT_VALUES = {
 
 const VALIDATIONS : {[key: string]: RegisterOptions<CheckoutShipmentDetails, any> | undefined} = {
     name: {
-        required: 'Campo nombre es requerido'
+        required: 'Campo nombre es requerido',
+        minLength: {
+            value: 3,
+            message: 'Campo nombre requiere de 3 caracteres'
+        }
     },
     lastname: {
-        required: 'Campo apellido es requerido'
+        required: 'Campo apellido es requerido',
+        minLength: {
+            value: 3,
+            message: 'Campo apellido requiere de 3 caracteres'
+        }
     },
     street: {
-        required: 'Campo calle es requerido'
+        required: 'Campo calle es requerido',
+        minLength: {
+            value: 3,
+            message: 'Campo apellido requiere de 3 caracteres'
+        }
     },
     streetNumber: {
-        required: 'Campo numero exterior es requerido'
+        required: 'Campo numero exterior es requerido',
+        minLength: {
+            value: 3,
+            message: 'Campo numero exterior requiere de 3 caracteres'
+        }
     },
     postalCode: {
-        required: 'Campo codigo postal es requerido'
+        required: 'Campo codigo postal es requerido',
+        validate: (value) => {
+            let regexPostalCodeMX = /^\d{5}$/;
+            return regexPostalCodeMX.test(value) || 'Formato invalido';
+        }
     },
     neighborhood: {
-        required: 'Campo colonia es requerido'
+        required: 'Campo colonia es requerido',
+        minLength: {
+            value: 3,
+            message: 'Campo colonia requiere de 3 caracteres'
+        }
     },
     city: {
-        required: 'Campo ciudad es requerido'
+        required: 'Campo ciudad es requerido',
+        minLength: {
+            value: 3,
+            message: 'Campo ciudad requiere de 3 caracteres'
+        }
     },
     state: {
-        required: 'Campo estado es requerido'
+        required: 'Campo estado es requerido',
+        minLength: {
+            value: 3,
+            message: 'Campo estado requiere de 3 caracteres'
+        }
     },
     shipmentId: {
         required: 'Campo metodo de envio es requerido'
@@ -55,7 +87,9 @@ const VALIDATIONS : {[key: string]: RegisterOptions<CheckoutShipmentDetails, any
 
 const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
     const dispatch = useAppDispatch();
+
     const [shipmentOptions, setShipmentOptions] = useState<{id: number, name: string, price: number}[]>([]);
+
     const {
         register,
         handleSubmit,
@@ -234,7 +268,7 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
                             <select className="select select-bordered w-full max-w-xs" {...register("shipmentId", VALIDATIONS.shipmentId)}>
                                 <option value={""}>Seleccionar</option>
                                 {
-                                    shipmentOptions.map(item => <option key={item.id} value={item.id}>{item.name}</option>)
+                                    shipmentOptions.map(item => <option key={item.id} value={item.id}>{item.name} (${item.price})</option>)
                                 }
                             </select>
                             <div className="label">

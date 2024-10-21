@@ -5,13 +5,14 @@ import moment from 'moment';
 import {ReactComponent as CheckIcon} from '@material-design-icons/svg/outlined/check.svg';
 import {ReactComponent as LineIcon} from '@material-design-icons/svg/outlined/horizontal_rule.svg';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { actividadList, inboxList, mesesList } from '../../utils/constantes-test.utils';
+import { actividadList, inboxList } from '../../utils/constantes-test.utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../store/user/user.selector';
 import axios, { CancelTokenSource } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { validateLoginSuccess } from '../../utils/login.utils';
 import queryString from 'query-string';
+import { mesesList } from '../../utils/constantes.utils';
 
 interface HomeProps {}
 

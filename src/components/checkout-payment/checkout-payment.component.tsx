@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { CheckoutPaymentDetails } from "../../store/checkout/checkout.types";
 import { RegisterOptions, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "../../store/store";
 import { setHasAcceptedOrderSummary, setIsOrderReady, setIsShipmentInformationValid } from "../../store/checkout/checkout.actions";
+import { mesesList } from "../../utils/constantes.utils";
 
 interface CheckoutPaymentProps{
     setValuesFunction: (data: CheckoutPaymentDetails) => void
@@ -10,6 +11,8 @@ interface CheckoutPaymentProps{
 
 const DEFAULT_VALUES = {
     cardNumber: '',
+    expiryMonth: '',
+    expiryYear: '',
     expirationDate: '',
     cvv: ''
 }
@@ -18,16 +21,39 @@ const VALIDATIONS : {[key: string]: RegisterOptions<CheckoutPaymentDetails, any>
     cardNumber: {
         required: 'Campo numero de tarjeta es requerido'
     },
-    expirationDate: {
-        required: 'Campo fecha de expiracion es requerido'
+    expiryMonth: {
+        required: 'Campo mes de expiracion es requerido'
+    },
+    expiryYear: {
+        required: 'Campo año de expiracion es requerido'
     },
     cvv: {
-        required: 'Campo cvv es requerido'
+        required: 'Campo cvv es requerido',
+        minLength: {
+            message: 'Campo cvv requiere de 3 numeros',
+            value: 3
+        },
+        maxLength: {
+            message: 'Campo cvv requiere de 3 numeros',
+            value: 3
+        },
+        validate: (value) => {
+            let cvvRegex = /^[0-9]{3}$/;
+            let isValid = cvvRegex.test(value);
+            return isValid || 'Formato de cvv invalido';
+        }
     },
 }
 
 const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
     const dispatch = useAppDispatch();
+
+    const [likeVisa, setLikeVisa] = useState(false);
+    const [likeMastercard, setLikeMastercard] = useState(false);
+
+    const monthNumbers = mesesList.map((_, index) => (index + 1) < 10 ? `0${index + 1}` : index + 1);
+    const years = Array.from({ length: 11 }, (_, i) => new Date().getFullYear() + i);
+
     const {
         register,
         handleSubmit,
@@ -35,18 +61,54 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
         formState: { errors },
         reset,
         setValue
-    } = useForm<CheckoutPaymentDetails>({
+    } = useForm<CheckoutPaymentDetails & {expiryMonth: string, expiryYear: string}>({
         defaultValues: DEFAULT_VALUES
     });
 
-    const onSubmit: SubmitHandler<CheckoutPaymentDetails> = async (data) => {
-        props.setValuesFunction(data);
+    const onSubmit: SubmitHandler<CheckoutPaymentDetails & {expiryMonth: string, expiryYear: string}> = async (data) => {
+        const { expiryMonth, expiryYear, ...usefulData} = data;
+
+        props.setValuesFunction(usefulData);
         dispatch(setIsOrderReady(true));
     }
 
     const goBack = () => {
         dispatch(setHasAcceptedOrderSummary(false));
     }
+
+    const validateCardNumber = (cardNumber: string | undefined) => {
+        if(!cardNumber){
+            return 'Proporciona una tarjeta visa o mastercard valida';
+        }
+        let mastercardRegex = /^5[1-5][0-9]{14}$/;
+        let visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
+
+        let isMastercard = mastercardRegex.test(cardNumber);
+        let isVisa = visaRegex.test(cardNumber);
+
+        return isVisa || isMastercard || 'Proporciona una tarjeta visa o mastercard valida';
+    }
+
+    useEffect(() => {
+        const subscription = watch((value, { name, type }) => {
+            if(name === 'cardNumber'){
+                let likeMastercardRegex = /^5[1-5][0-9]{0,14}$/;
+                let likeVisaRegex = /^4[0-9]{0,15}$/;
+
+                let isLikeMastercard = likeMastercardRegex.test(value.cardNumber!);
+                let isLikeVisa = likeVisaRegex.test(value.cardNumber!);
+
+                setLikeMastercard(isLikeMastercard);
+                setLikeVisa(isLikeVisa);
+            }
+            if(name === 'expiryMonth' || name === 'expiryYear'){
+                let expiryMonth = value.expiryMonth;
+                let expiryYear = value.expiryYear;
+                setValue('expirationDate', `${expiryMonth}/${expiryYear}`);
+            }
+        })
+        return () => subscription.unsubscribe()
+    }, [watch]);
 
     return (
         <div className={"checkout-payment mt-5 "+ props.className} hidden={props.hidden}>
@@ -58,13 +120,29 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
                             <div className="label">
                                 <span className="label-text">Numero de tarjeta</span>
                             </div>
-                            <input  
-                                id="cardNumber"
-                                type="text"
-                                placeholder="Numero de tarjeta" 
-                                className="input input-bordered w-full max-w-xs" 
-                                {...register("cardNumber", VALIDATIONS.cardNumber)}
-                            />
+                            <label className="input input-bordered flex items-center gap-2">
+                                <input  
+                                    id="cardNumber"
+                                    type="text"
+                                    placeholder="Numero de tarjeta" 
+                                    className="grow"
+                                    {
+                                        ...register("cardNumber", {
+                                            ...VALIDATIONS.cardNumber,
+                                            validate: (value) => validateCardNumber(value)
+                                        })
+                                    }
+                                />
+                                {
+                                    !likeMastercard && !likeVisa && <img className="h-10" src={require("../../assets/images/visa-mastercard.png")} alt=""/>
+                                }
+                                {
+                                    likeMastercard && <img className="h-10" src={require("../../assets/images/mastercard.png")} alt=""/>
+                                }
+                                {
+                                    likeVisa && <img className="h-10 max-w-20" src={require("../../assets/images/visa.png")} alt=""/>
+                                }
+                            </label>
                             <div className="label">
                                 {errors.cardNumber && <span role="alert" className="label-text-alt text-error">{errors.cardNumber.message}</span>}
                             </div>
@@ -73,15 +151,31 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
                             <div className="label">
                                 <span className="label-text">Fecha de expiracion</span>
                             </div>
-                            <input  
-                                id="expirationDate"
-                                type="text"
-                                placeholder="Fecha de expiracion" 
-                                className="input input-bordered w-full max-w-xs" 
-                                {...register("expirationDate", VALIDATIONS.expirationDate)}
-                            />
+                            <div className="grid grid-cols-2 text-left">
+                                <span className="label-text">Mes</span>
+                                <span className="label-text">Año</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <select className="select select-bordered w-fit" {...register("expiryMonth", VALIDATIONS.expiryMonth)}>
+                                    <option value={""}>Seleccionar</option>
+                                    {
+                                        monthNumbers.map((item, index) => <option key={index} value={item}>{item}</option>)
+                                    }
+                                </select>
+                                <span>/</span>
+                                <select className="select select-bordered w-fit" {...register("expiryYear", VALIDATIONS.expiryYear)}>
+                                    <option value={""}>Seleccionar</option>
+                                    {
+                                        years.map((item, index) => <option key={index} value={item}>{item}</option>)
+                                    }
+                                </select>
+                            </div>
+                            
                             <div className="label">
-                                {errors.expirationDate && <span role="alert" className="label-text-alt text-error">{errors.expirationDate.message}</span>}
+                                {errors.expiryMonth && <span role="alert" className="label-text-alt text-error">{errors.expiryMonth.message}</span>}
+                            </div>
+                            <div className="label">
+                                {errors.expiryYear && <span role="alert" className="label-text-alt text-error">{errors.expiryYear.message}</span>}
                             </div>
                         </label>
                         <label className="form-control w-full max-w-xs">

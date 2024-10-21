@@ -1,15 +1,9 @@
-import moment from "moment";
-import 'moment/locale/es';
 import { Product } from "../store/product/product.types";
 
 export const ordenesAnosList = [
     2019,
     2020,
     2021
-];
-
-export const mesesList = [
-    ...moment.localeData('es').months().map((month) => month[0].toUpperCase() + month.slice(1))
 ];
 
 export const destacadosList = [

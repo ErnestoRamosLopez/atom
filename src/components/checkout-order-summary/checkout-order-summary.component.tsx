@@ -57,10 +57,10 @@ const CheckoutOrderSummary: FC<CheckoutOrderSummaryProps & React.HTMLAttributes<
                         }
                     </div>
                     <div className="col-span-full grid grid-cols-10 justify-items-end my-5">
-                        <span className="col-span-full w-fit">Subtotal: {cartTotalWithoutTax}</span>
-                        <span className="col-span-full w-fit">IVA: {cartTax}</span>
-                        <span className="col-span-full w-fit">Envio: {props.shipmentPrice}</span>
-                        <span className="col-span-full w-fit text-lg font-bold">Total: {total}</span>
+                        <span className="col-span-full w-fit">Subtotal: ${cartTotalWithoutTax}</span>
+                        <span className="col-span-full w-fit">IVA: ${cartTax}</span>
+                        <span className="col-span-full w-fit">Envio: ${props.shipmentPrice}</span>
+                        <span className="col-span-full w-fit text-lg font-bold">Total: ${total}</span>
                     </div>
                     <div className="col-span-full flex justify-between my-5">
                         <button className="btn btn-info btn-outline" onClick={() => onSubmit(false)}>Atras</button>
