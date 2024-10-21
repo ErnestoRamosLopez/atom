@@ -6,6 +6,7 @@ const { createSecretKey } = require('crypto');
 const axios = require('axios');
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client();
+const { fetchUserByEmail, isUserRegistered, fetchUserByEmailValidate } = require('../utils/user.utils');
 
 const JSON_SERVER_URL = process.env.REACT_APP_DB_BASE_URL;
 
@@ -14,16 +15,16 @@ const sameSite = process.env.NODE_ENV === 'production' ? 'none' : 'lax';
 
 route.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    const response = await axios.get(`${JSON_SERVER_URL}/users?email=${email}`);
-    if( response.data.length === 0){
+    const savedUser = await fetchUserByEmailValidate(email);
+    if( savedUser === null){
         return res.status(403).json({
             message: 'Usuario o contraseña incorrecto'
         });
     }
 
-    const {password: userPassword, ...user} = response.data[0];
+    const {password: userPassword, ...user} = savedUser;
     if(userPassword !== '' && userPassword === password){
-        let params = { host: req.hostname};
+        let params = { host: req.hostname, email};
         let jwt = await generateJWT(params);
         
         return res.cookie('access_token', jwt, {httpOnly: true, secure: isSecure, sameSite}).cookie('login_type', 'local', {httpOnly: true, secure: isSecure, sameSite}).json(user);
@@ -69,7 +70,7 @@ route.post('/register', async (req, res) =>{
     }else{
         const {password, ...user} = response.data;
 
-        const params = { host: req.hostname};
+        const params = { host: req.hostname, email: user.email};
         const jwtValidated = id_token ?? await generateJWT(params);
         const loginTypeValidated = login_type ?? 'local';
         return res.clearCookie('temp_access_token')
@@ -106,7 +107,7 @@ route.post('/loginValidateToken', async (req, res) =>{
             userData = {...userData, id: newUser.id};
         }
         if( hasAccount ){
-            const user = await getUserByEmail(email);
+            const user = await fetchUserByEmail(email, axios);
             
             userData = {...userData, id: user.id};
         }
@@ -153,20 +154,6 @@ async function verifyToken(token) {
     return payload;
 }
 
-async function isUserRegistered(email) {
-    const emailExists = await axios.get(`${JSON_SERVER_URL}/users?email=${email}`);
-    return emailExists.data.length;
-}
-
-async function getUserByEmail(email) {
-    try{
-        const user = await axios.get(`${JSON_SERVER_URL}/users?email=${email}`);
-        return user.data[0];
-    }catch{
-        return null;
-    }
-}
-
 async function registerUserWithoutPassword(data) {
     const response = await axios.post(`${JSON_SERVER_URL}/users`, data);
     if( response.data.length === 0){
@@ -178,7 +165,7 @@ async function registerUserWithoutPassword(data) {
 async function generateJWT(params) {
     const secretKey = createSecretKey(process.env.JWT_SECRET, 'utf-8');
     const token = await new jose.SignJWT({
-        
+        email: params.email
        }) // details to  encode in the token
        .setProtectedHeader({
         alg: 'HS256'

@@ -4,6 +4,7 @@ import { CartItem } from './cart.types';
 import { setIsCartOpen, setCartItems, setIsCartLoaded } from './cart.action';
 import { resetState } from '../root-reducer';
 import { fetchUserCart, saveUserCart } from './cart.thunks';
+import { createOrder } from '../checkout/checkout.thunks';
 
 export type CartState = {
   isCartOpen: boolean;
@@ -61,6 +62,13 @@ export const cartReducer = (
     return {
       ...state,
       shouldSaveCart: false
+    }
+  }
+
+  if(createOrder.fulfilled.match(action)){
+    return {
+      ...CART_INITIAL_STATE,
+      isCartLoaded: true,
     }
   }
 

@@ -2,8 +2,8 @@ import { toast } from "react-toastify";
 import { Product } from "../../store/product/product.types";
 import { setupStore } from "../../store/store";
 import { fireEvent, renderWithProviders, screen, waitFor } from "../../utils/test-utils";
-import ProductItem from "./product-item.component";
 import { CartState } from "../../store/cart/cart.reducer";
+import ShopProductItem from "./shop-product-item.component";
 
 const productTest: Product = {
     id: 1,
@@ -24,7 +24,7 @@ describe('Product item component tests', () => {
     });
 
     it('should toggle favorite icons', async () =>{
-        renderWithProviders(<ProductItem product={productTest}/>, {
+        renderWithProviders(<ShopProductItem product={productTest}/>, {
             preloadedState: {
                 cart: {
                     ...CART_INITIAL_STATE
@@ -48,7 +48,7 @@ describe('Product item component tests', () => {
 
     it('should add items to cart', async () =>{
         const store = setupStore();
-        renderWithProviders(<ProductItem product={productTest}/>, {
+        renderWithProviders(<ShopProductItem product={productTest}/>, {
             preloadedState: {
                 cart: {
                     ...CART_INITIAL_STATE

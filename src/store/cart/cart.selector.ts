@@ -43,4 +43,20 @@ export const selectShouldSaveCart = createSelector(
 export const selectCanSaveCart = createSelector(
   [selectCartReducer, selectIsUserLoggedIn],
   (cartItems, isLoggedIn) => isLoggedIn && cartItems.isCartLoaded
-)
+);
+
+export const selectCartTotalWithoutTax = createSelector(
+  [selectCartItems],
+  (cartItems): number =>{
+    const withoutTax = cartItems.reduce( (total, cartItem) => total + cartItem.quantity * cartItem.price, 0) * (1 - 0.16);
+    return Math.round( withoutTax * 100) / 100;
+  }
+);
+
+export const selectCartTax = createSelector(
+  [selectCartItems],
+  (cartItems): number =>{
+    const tax = cartItems.reduce( (total, cartItem) => total + cartItem.quantity * cartItem.price, 0) * (0.16);
+    return Math.round( tax * 100) / 100;
+  }
+);

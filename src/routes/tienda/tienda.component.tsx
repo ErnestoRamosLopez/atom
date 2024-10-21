@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import ProductItem from "../../components/product-item/product-item.component";
+import ShopProductItem from "../../components/shop-product-item/shop-product-item.component";
 import axios from "axios";
 import { Product } from "../../store/product/product.types";
 import TiendaSearch from "../../components/tienda-search/tienda-search.component";
@@ -66,7 +66,7 @@ const Tienda : FC = () => {
                 {
                     products.map((product) => (
                         <div key={product.id} className="col-span-2">
-                            <ProductItem product={product}/>
+                            <ShopProductItem product={product}/>
                         </div>
                     ))
                 }

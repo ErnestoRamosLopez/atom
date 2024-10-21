@@ -12,11 +12,11 @@ route.get('/', async (req, res) => {
 
 route.get('/:id', async (req, res) =>{
     const {id} = req.params;
-    const response = await axios.get(`${JSON_SERVER_URL}/users/${id}`);
-    if( response.data.length === 0){
+    try{
+        const response = await axios.get(`${JSON_SERVER_URL}/users/${id}`);
+        res.json(response.data);
+    }catch{
         res.status(404).json({});
-    }else{
-        res.json(response.data[0]);
     }
 });
 

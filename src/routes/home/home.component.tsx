@@ -63,7 +63,7 @@ const Home: FC<HomeProps> = () => {
   const getTotalSpent = async (cancelToken: CancelTokenSource) => {
     const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
     try{
-      const totalSpent = await axios.get(`${apiUrl}/profile/totalSpent?userId=${currentUser?.id}`, {
+      const totalSpent = await axios.get(`${apiUrl}/profile/stats/totalSpent?userId=${currentUser?.id}`, {
         cancelToken: cancelToken.token
       });
       const newGastosList = [];

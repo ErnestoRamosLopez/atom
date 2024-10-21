@@ -14,9 +14,10 @@ async function validateAccessToken(req, res, next) {
 
     const payload = await verifyToken(token, loginType);
 
+    req.token = payload;
+
     next();
   } catch (err) {
-    console.error('Token validation failed:', err);
     return res.status(403).json({ error: 'Access token is invalid or expired' });
   }
 }

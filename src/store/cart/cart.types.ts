@@ -8,6 +8,7 @@ export enum CART_ACTION_TYPES {
   SET_IS_CART_LOADED = 'cart/SET_IS_CART_LOADED',
   FETCH_USER_CART = 'cart/FETCH_USER_CART',
   SAVE_USER_CART = 'cart/SAVE_USER_CART',
+  UPDATE_USER_CART = 'cart/UPDATE_USER_CART',
 }
 
 export type CartItem = {

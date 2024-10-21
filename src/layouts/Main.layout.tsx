@@ -4,7 +4,7 @@ import { openModalFn } from "../utils/modal.utils";
 import { ReactComponent as LogoutIcon } from '@material-design-icons/svg/outlined/power_settings_new.svg';
 import { ReactComponent as LoginIcon } from '@material-design-icons/svg/outlined/login.svg';
 import SVG from 'react-inlinesvg';
-import { sidebarOptions } from "../utils/constantes-test.utils";
+import { sidebarOptions } from "../utils/constantes.utils";
 import CustomModal from "../components/custom-modal/custom-modal.component";
 import Authentication from "../components/authentication/authentication.component";
 import { useSelector } from "react-redux";
@@ -17,10 +17,10 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { selectCartItems, selectIsCartLoaded, selectShouldSaveCart } from "../store/cart/cart.selector";
 import { selectLoginFromIdentityProvider } from "../store/login/login.selector";
-import { setLoginUserData } from "../store/login/login.action";
 import { logout } from "../utils/login.utils";
 import { fetchUserCart, saveUserCart } from "../store/cart/cart.thunks";
-import { useAppDispatch } from '../store/store'
+import { useAppDispatch } from '../store/store';
+import './Main.styles.css';
 
 const MainLayout = () => {
     const shoppingItems = useSelector(selectCartItems);
@@ -90,7 +90,7 @@ const MainLayout = () => {
     }, [loginIP.cancelRedirect, navigate]);
 
     return (
-        <div className="App">
+        <div className="main-layout">
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
@@ -106,7 +106,7 @@ const MainLayout = () => {
                 <div className="drawer-content">
                     {/* Page content here */}
                     <Header handleLogin={handleLoginButton}/>
-                    <div className="h-min-full mx-16">
+                    <div className="h-min-full mx-16 fill-page-without-header">
                         <Outlet />
                     </div>
                 </div>

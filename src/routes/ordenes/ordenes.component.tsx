@@ -1,15 +1,50 @@
 import moment from "moment";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import 'moment/locale/es';
 import {ReactComponent as SortIcon} from '@material-design-icons/svg/outlined/sort.svg';
 import CarouselWithButtons from "../../components/carousel-with-buttons/carousel-with-buttons.component";
-import { mesesList, ordenesAnosList, ordenesList } from "../../utils/constantes-test.utils";
+import { mesesList, ordenesAnosList } from "../../utils/constantes-test.utils";
+import { useSelector } from "react-redux";
+import { selectIsUserLoggedIn } from "../../store/user/user.selector";
+import { useNavigate } from "react-router-dom";
+import axios, { CancelTokenSource } from "axios";
+import { apiUrl } from "../../utils/constantes.utils";
+import { OrderWithDetails } from "../../interfaces/OrderWithDetails";
 
 const Ordenes = () => {
-    
+    const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+
     const [ordenesAnos] = useState(ordenesAnosList);
-    const [ordenes] = useState(ordenesList);
+    const [ordenes, setOrdenes] = useState<OrderWithDetails[]>([]);
     const [sortBy, setSortBy] = useState('old');
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const source = axios.CancelToken.source();
+        if(!isUserLoggedIn){
+            navigate('/');
+            return;
+        }
+
+        fetchOrders(source);
+
+        return () => {
+            source.cancel("Operation canceled due to new request.");
+        }
+    }, [isUserLoggedIn]);
+
+    const fetchOrders = async (cancelToken: CancelTokenSource) => {
+        try{
+            let ordenes = await axios.get(`${apiUrl}/orders/myOrders`, {
+                cancelToken: cancelToken.token
+            });
+            
+            setOrdenes(ordenes.data);
+        }catch{
+            setOrdenes([]);
+        }
+    }
 
     const handleClick = (sort: string) => {
         const elem = document.activeElement;
@@ -65,11 +100,11 @@ const Ordenes = () => {
             </div>
             <div className="grid col-span-full">
                 {
-                    ordenes.map((item) => (
-                        <div key={item.id} className="card grid grid-cols-8 my-3 min-h-48 border">
+                    ordenes.map((orden) => (
+                        <div key={orden.id} className="card grid grid-cols-8 my-3 min-h-48 border">
                             <div className="card-body grid grid-cols-6 col-span-7 text-left">
-                               <span>Folio: {item.id}</span>
-                               <span>Fecha: {moment(item.fecha).format('DD/MMMM/YYYY')}</span>
+                               <span>Folio: {orden.id}</span>
+                               <span>Fecha: {moment(orden.createdAt).format('DD/MMMM/YYYY')}</span>
                                 <CarouselWithButtons 
                                     mainContainerClass="grid grid-cols-6 col-span-full" 
                                     previousButtonContainerClass="col-span-1"
@@ -77,10 +112,10 @@ const Ordenes = () => {
                                     nextButtonContainerClass="col-span-1"
                                 >
                                     <Fragment>
-                                        {item.productos.map((item, index) => 
+                                        {orden.items.map((item, index) => 
                                             <div key={index} className="carousel-item ms-0 mx-5">
                                                 <div className="card bg-base-100 shadow-xlrd">
-                                                    <img className="h-20" src={item} alt=""/>
+                                                    <img className="h-20" src={item.imageUrl} alt=""/>
                                                 </div>
                                             </div>
                                         )}
@@ -88,7 +123,7 @@ const Ordenes = () => {
                                 </CarouselWithButtons>
                             </div>
                             <div className="rounded-lg ">
-                                <button className="btn h-full w-full">Detalles</button>
+                                <button className="btn h-full w-full" onClick={() => navigate(`/ordenes/${orden.id}`)}>Detalles</button>
                             </div>
                         </div>
                     ))
