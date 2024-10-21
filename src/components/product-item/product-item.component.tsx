@@ -1,68 +1,61 @@
-import { FC, useEffect, useState } from "react";
-import { Product } from "../../store/product/product.types";
-import {ReactComponent as StarIconActive} from '@material-design-icons/svg/outlined/star.svg';
-import {ReactComponent as StarIconInactive} from '@material-design-icons/svg/outlined/star_border.svg';
-import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
-import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart } from "../../store/cart/cart.action";
-import { selectCanSaveCart, selectCartItems } from "../../store/cart/cart.selector";
-import { toast } from "react-toastify";
+import { FC, useEffect, useState } from "react"
+import { CartItem } from "../../store/cart/cart.types"
+import ScalableDiv from "../../utils/styled-components/scalable-div.styled"
 
 interface ProductItemProps{
-    product: Product
+    product: Partial<CartItem>,
+    scale?: number,
+    enableHoverEffect?: boolean
 }
 
-const ProductItem : FC<ProductItemProps> = ({product}) => {
-    const shoppingItems = useSelector(selectCartItems);
-    const canSaveCart = useSelector(selectCanSaveCart);
-    const dispatch = useDispatch();
-    
-    const [isFavorite, setIsFavorite] = useState(false);
+const ProductItem: FC<ProductItemProps & React.HTMLAttributes<HTMLDivElement>> = ({
+    product, 
+    scale = 1, 
+    enableHoverEffect = true,
+    ...props
+}) => {
+    const [total, setTotal] = useState<number | null>(null);
 
-    //temp func
-    const toggleIsFavorite = () =>{
-        setIsFavorite(!isFavorite);
-    }
-
-    const addToCart = () => {
-        dispatch(addItemToCart(shoppingItems, product, canSaveCart));
-        toast.success('Producto agregado');
-    }
+    useEffect(() => {
+        if(product.price && product.quantity){
+            setTotal(Math.round(product.price * product.quantity * 100)/100 );
+        }else{
+            setTotal(null);
+        }
+    }, [product])
 
     return (
-        <div className="card border border-2">
-            <div className="card-body">
-                <div className="relative">
-                    <ScalableDiv scale={1.3} className="absolute top-0 right-0">
-                        <button className="btn btn-circle btn-ghost btn-xs hover:bg-base-300 hover:opacity-80 bg-base-200" onClick={toggleIsFavorite}>
-                            {
-                                isFavorite && <StarIconActive className="h-5 w-5"/>
-                            }
-                            {
-                                !isFavorite && <StarIconInactive className="h-5 w-5"/>
-                            }
-                        </button>
-                    </ScalableDiv>
-                    
-                    <img src={product.imageUrl} alt="" className="w-full" />
+        <ScalableDiv 
+            className={"col-span-full card border border-2 " + (enableHoverEffect ? 'hover:bg-base-300 ' : '') + props.className} 
+            scale={scale}
+        >
+            <div className="card-body grid grid-cols-9">
+                <div className="col-span-2 flex ">
+                    <img src={product.imageUrl} alt="" className="h-20" />
                 </div>
-                <div className="my-3 grid grid-cols-6">
-                    <div className="col-span-4 grid grid-rows-2 text-left">
-                        <div className="truncate product-name-container">
-                            <span>{product.name}</span>
-                        </div>
-                        <div className="">
-                            <span>${product.price}</span>
-                        </div>
-                    </div>
-                    <div className="col-span-2">
-                        <button className="btn btn-primary btn-outline" onClick={addToCart}>
-                            Agregar
-                        </button>
-                    </div>
+                <div className="col-span-2 flex ">
+                    <span className="my-auto">{product.name}</span>
                 </div>
+                {
+                    product.quantity && 
+                    <div className="col-span-2 flex ">
+                        <span className="my-auto">{product.quantity}</span>
+                    </div>
+                }
+                {
+                    product.price && 
+                    <div className="col-span-2 flex ">
+                        <span className="my-auto">{product.price}</span>
+                    </div>
+                }
+                {
+                    total && 
+                    <div className="col-span-1 flex ">
+                        <span className="my-auto">{total}</span>
+                    </div>
+                }
             </div>
-        </div>
+        </ScalableDiv>
     )
 }
 

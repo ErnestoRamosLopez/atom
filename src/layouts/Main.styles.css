@@ -1,0 +1,3 @@
+.fill-page-without-header{
+    height: calc(100vh - 5rem);
+}

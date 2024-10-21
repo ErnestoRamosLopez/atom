@@ -34,7 +34,8 @@ export async function validateLoginSuccess(params: LoginValidateParams): Promise
     }
     try{
         let response = await axios.post(`${apiUrl}/auth/loginValidateToken`, {
-            id_token: hashQueryParams.id_token
+            id_token: hashQueryParams.id_token,
+            login_type: hashQueryParams.state
         });
         let loginResponse: LoginValidateResponse =  response.data;
         if(loginResponse.error){
@@ -64,14 +65,14 @@ export function generateNonce() {
     return Array.from(array, dec => dec.toString(36)).join('');
 }
 
-export async function logout(axios: Axios, navigate: NavigateFunction, dispatch: Dispatch) {
+export async function logout(axios: Axios, navigate: NavigateFunction, dispatch: Dispatch, redirect = '/') {
     try{
         await axios.post(`${apiUrl}/auth/logout`);
     }catch{
         
     }finally{
         dispatch(resetState());
-        navigate('/');
+        navigate(redirect);
     }
 }
 

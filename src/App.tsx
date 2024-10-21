@@ -12,6 +12,8 @@ import axios from 'axios';
 import { logout } from './utils/login.utils';
 import { useDispatch } from 'react-redux';
 import { whitelistForbidden } from './utils/constantes.utils';
+import Checkout from './routes/checkout/checkout.component';
+import OrderSuccess from './routes/order-success/order-success.component';
 
 
 const App: React.FC<any> = () => {
@@ -58,6 +60,8 @@ const App: React.FC<any> = () => {
                     <Route path='ordenes/:id' element={<OrdenDetalle />}></Route>
                     <Route path='tienda' element={<Tienda />}></Route>
                     <Route path='administracion' element={<Administracion />}></Route>
+                    <Route path='checkout' element={<Checkout />}></Route>
+                    <Route path='orderSuccess' element={<OrderSuccess />}></Route>
                 </Route>
           </Routes>
         </div>

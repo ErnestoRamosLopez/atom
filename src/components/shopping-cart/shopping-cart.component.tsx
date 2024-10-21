@@ -9,7 +9,7 @@ import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCanSaveCart, selectCartCount, selectCartItems, selectCartTotal } from "../../store/cart/cart.selector";
 import { addItemToCart, clearCart, clearItemFromCart, removeItemFromCart, setIsCartOpen } from "../../store/cart/cart.action";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { openModalFn } from "../../utils/modal.utils";
 import { selectIsUserLoggedIn } from "../../store/user/user.selector";
 import './shopping-cart.styles.css';
@@ -26,6 +26,7 @@ const ShoppingCart: FC<ShoppingCartProps> = ({isDropdown}) => {
     const cartCount = useSelector(selectCartCount);
     const isLoggedIn = useSelector(selectIsUserLoggedIn);
     const canSaveCart = useSelector(selectCanSaveCart);
+    const navigate = useNavigate();
 
     const [removingRows, setRemovingRows] = useState<number[]>([]);
     const [selectedImage, setSelectedImage] = useState('');
@@ -75,7 +76,7 @@ const ShoppingCart: FC<ShoppingCartProps> = ({isDropdown}) => {
 
     const handleContinueClick = () => {
         if( isLoggedIn ){
-            //magia
+            navigate('/checkout');
         }else{
             openModal();
         }

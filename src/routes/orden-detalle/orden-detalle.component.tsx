@@ -1,39 +1,64 @@
 import { FC, useEffect, useState } from "react"
-import { CartItem } from "../../store/cart/cart.types"
 import moment from "moment"
 import 'moment/locale/es'
 import {ReactComponent as EyeIcon} from '@material-design-icons/svg/outlined/visibility.svg';
-import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
-import { useParams } from "react-router-dom";
-import {  orderDetail } from "../../utils/constantes-test.utils";
+import { useNavigate, useParams } from "react-router-dom";
+import ProductItem from "../../components/product-item/product-item.component";
+import { OrderWithDetails } from "../../interfaces/OrderWithDetails";
+import { useSelector } from "react-redux";
+import { selectIsUserLoggedIn } from "../../store/user/user.selector";
+import axios, { CancelTokenSource } from "axios";
+import { apiUrl } from "../../utils/constantes.utils";
 
-export interface OrderDetailsProps{
-    id: number,
-    total: number,
-    date: string,
-    status: string,
-    products: CartItem[]
-}
 
 const OrdenDetalle : FC = () => {
+    const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+
+    const [order, setOrder] = useState<OrderWithDetails | null>(null);
+
     const { id } = useParams();
-    const [order, setOrder] = useState<OrderDetailsProps | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        setOrder( orderDetail );
-    }, []);
+        const source = axios.CancelToken.source();
+        if(!isUserLoggedIn){
+            navigate('/');
+            return;
+        }
+
+        fetchOrder(source);
+
+        return () => {
+            source.cancel("Operation canceled due to new request.");
+        }
+    }, [isUserLoggedIn]);
+
+    const fetchOrder = async (cancelToken: CancelTokenSource) => {
+        try{
+            let ordenes = await axios.get(`${apiUrl}/orders/myOrders`, {
+                cancelToken: cancelToken.token,
+                params: {
+                    orderId: id
+                }
+            });
+            
+            setOrder(ordenes.data[0]);
+        }catch{
+            setOrder(null);
+        }
+    }
 
     return (
         <div className="grid grid-cols-8 gap-y-4 gap-x-3">
             <span className="col-span-6 font-bold text-xl text-left">Detalles de la orden</span>
             <div className="col-span-2 justify-end">
-                <button className="btn btn-primary">
+                <button className="btn btn-primary" onClick={() => navigate('/ordenes')}>
                     Volver
                 </button>
             </div>
             <div className="grid col-span-full text-left">
                 <span><strong>Orden</strong> #{order?.id}</span>
-                <span><strong>Fecha</strong>: {moment(order?.date).locale('es').format('DD-MMMM.YYYY').replace('-', ' de ').replace('.', ' del ')}</span>
+                <span><strong>Fecha</strong>: {moment(order?.createdAt).locale('es').format('DD-MMMM.YYYY').replace('-', ' de ').replace('.', ' del ')}</span>
                 <span><strong>Total</strong>: {order?.total}</span>
                 <div className="flex space-x-3">
                     <span><strong>Estatus</strong>: {order?.status}</span>
@@ -51,31 +76,9 @@ const OrdenDetalle : FC = () => {
                 <span className="col-span-1">Total</span>
             </div>
             {
-                order?.products.map((product) => {
-                    const total = Math.round(product.price * product.quantity * 100)/100;
-                    return (
-                        <ScalableDiv key={product.id} className="col-span-full card border border-2 hover:bg-base-300" scale={1.02}>
-                            <div className="card-body grid grid-cols-9">
-                                <div className="col-span-2 flex ">
-                                    <img src={product.imageUrl} alt="" className="h-20" />
-                                </div>
-                                <div className="col-span-2 flex ">
-                                    <span className="my-auto">{product.name}</span>
-                                </div>
-                                <div className="col-span-2 flex ">
-                                    <span className="my-auto">{product.quantity}</span>
-                                </div>
-                                <div className="col-span-2 flex ">
-                                    <span className="my-auto">{product.price}</span>
-                                </div>
-                                <div className="col-span-1 flex ">
-                                    <span className="my-auto">{total}</span>
-                                </div>
-                            </div>
-                        </ScalableDiv>
-                        
-                    )
-                })
+                order?.items.map((product) => 
+                    <ProductItem key={product.id} scale={1.02} product={product} />
+                )
             }
             <div className="col-span-3 flex justify-start my-3">
                 <button className="btn btn-primary">

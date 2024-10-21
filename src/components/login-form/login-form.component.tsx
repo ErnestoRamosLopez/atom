@@ -2,11 +2,11 @@ import { RegisterOptions, SubmitHandler, useForm } from "react-hook-form";
 import ScalableDiv from "../../utils/styled-components/scalable-div.styled";
 import axios, { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
-import { setCurrentUser } from "../../store/user/user.action";
 import { FC, useState } from "react";
 import { ReactComponent as WarningIcon } from '@material-design-icons/svg/outlined/warning.svg';
 import { ReactComponent as CloseIcon } from '@material-design-icons/svg/outlined/close.svg';
 import { User } from "../../store/user/user.types";
+import { apiUrl } from "../../utils/constantes.utils";
 
 type Inputs = {
     email: string,
@@ -48,8 +48,6 @@ const LoginForm: FC<LoginFormProps> = (props) => {
     const dismissErrorMessage = () => setErrorMessage('');
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
-
         try{
             const loginUser = await axios.post(`${apiUrl}/auth/login`, data);
             if(loginUser.status === 200){

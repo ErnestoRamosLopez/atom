@@ -3,6 +3,9 @@ const login = require('./routes/login');
 const products = require('./routes/products');
 const profile = require('./routes/profile');
 const management = require('./routes/management');
+const shipping = require('./routes/shipping-carriers');
+const orders = require('./routes/orders');
+
 const express = require('express');
 var jsonServer = require('json-server');
 var cors = require('cors');
@@ -28,6 +31,8 @@ app.use('/api/products', products);
 app.use('/api/users', validateAccessToken, users);
 app.use('/api/profile', validateAccessToken, profile);
 app.use('/api/management', validateAccessToken, management);
+app.use('/api/shipping-carriers', validateAccessToken, shipping);
+app.use('/api/orders', validateAccessToken, orders);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
