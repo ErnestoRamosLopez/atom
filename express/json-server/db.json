@@ -73,58 +73,93 @@
       "total": 15000
     },
     {
-      "userId": 6,
-      "createdAt": "2024-10-20T20:55:53.925Z",
+      "userId": 5,
+      "createdAt": "2024-10-21T19:52:31.285Z",
+      "status": "Creado",
+      "name": "saddsa",
+      "lastname": "asddas",
+      "street": "adsdsa",
+      "streetNumber": "dasdas",
+      "postalCode": "80000",
+      "neighborhood": "adsdsa",
+      "city": "adsdsa",
+      "state": "adsdsa",
+      "shipmentId": "1",
+      "shipmentCost": 150,
+      "total": 243,
+      "cardNumber": "4521862355182085",
+      "id": 10
+    },
+    {
+      "userId": 5,
+      "createdAt": "2024-10-21T19:53:38.335Z",
       "status": "Creado",
       "name": "asdasd",
-      "lastname": "asddsa",
-      "street": "asddsa",
-      "streetNumber": "dasads",
-      "postalCode": "asddas",
-      "neighborhood": "asddsa",
-      "city": "asddas",
-      "state": "dasdsa",
+      "lastname": "adsdsa",
+      "street": "dasdas",
+      "streetNumber": "adsads",
+      "postalCode": "12333",
+      "neighborhood": "dsadsa",
+      "city": "dsadsa",
+      "state": "sdadsa",
       "shipmentId": "1",
       "shipmentCost": 150,
-      "total": 781,
-      "cardNumber": "23123",
-      "id": 7
+      "total": 416,
+      "cardNumber": "4134358477475613",
+      "id": 11
     },
     {
-      "userId": 6,
-      "createdAt": "2024-10-20T21:56:20.774Z",
+      "userId": 5,
+      "createdAt": "2024-10-22T23:02:25.047Z",
       "status": "Creado",
-      "name": "asdasdsad",
-      "lastname": "dsasda",
+      "name": "dsaddsa",
+      "lastname": "dsadsads",
       "street": "dsadsa",
       "streetNumber": "dsadsa",
-      "postalCode": "saddas",
-      "neighborhood": "dasdas",
-      "city": "sdasda",
-      "state": "dsaads",
-      "shipmentId": "1",
-      "shipmentCost": 150,
-      "total": 502,
-      "cardNumber": "123231",
-      "id": 8
+      "postalCode": "12312",
+      "neighborhood": "dsadsadsa",
+      "city": "sdadsadsa",
+      "state": "saddasdsa",
+      "total": 255,
+      "cardNumber": "4134346788378543",
+      "id": 12
     },
     {
-      "userId": 6,
-      "createdAt": "2024-10-20T23:59:00.719Z",
+      "userId": 5,
+      "createdAt": "2024-10-23T17:31:55.362Z",
       "status": "Creado",
-      "name": "saasddsa",
-      "lastname": "saddsadsa",
-      "street": "sdadsa",
-      "streetNumber": "dsaasddsa",
-      "postalCode": "sdadsasad",
-      "neighborhood": "sdadsa",
-      "city": "dasasdsda",
-      "state": "dsaasddsa",
-      "shipmentId": "1",
-      "shipmentCost": 150,
+      "name": "asdasd",
+      "lastname": "asdasd",
+      "street": "asdasd",
+      "streetNumber": "adsads",
+      "postalCode": "12345",
+      "neighborhood": "asdasd",
+      "city": "asdasd",
+      "state": "asddas",
       "total": 185,
-      "cardNumber": "214124421",
-      "id": 9
+      "cardNumber": "5151515151515151",
+      "id": 13
+    },
+    {
+      "userId": 5,
+      "createdAt": "2024-10-23T23:31:21.728Z",
+      "status": "Creado",
+      "name": "asdasd",
+      "lastname": "asdasd",
+      "street": "asdasd",
+      "streetNumber": "adsads",
+      "postalCode": "12345",
+      "neighborhood": "asdasd",
+      "city": "asdasd",
+      "state": "asddas",
+      "total": 155.85,
+      "cardNumber": "4070327065783080",
+      "discounts": [
+        2,
+        3,
+        1
+      ],
+      "id": 14
     }
   ],
   "orderDetails": [
@@ -290,116 +325,116 @@
       "price": 6119.66
     },
     {
-      "orderId": 7,
-      "productId": 1,
+      "orderId": 10,
+      "productId": 4,
       "quantity": 1,
-      "price": 7,
-      "id": 24
+      "price": 21,
+      "id": 40
     },
     {
-      "orderId": 7,
-      "productId": 5,
-      "quantity": 1,
-      "price": 93,
-      "id": 25
+      "orderId": 10,
+      "productId": 8,
+      "quantity": 4,
+      "price": 18,
+      "id": 41
     },
     {
-      "orderId": 7,
-      "productId": 6,
-      "quantity": 2,
-      "price": 42,
-      "id": 26
-    },
-    {
-      "orderId": 7,
-      "productId": 2,
-      "quantity": 1,
-      "price": 35,
-      "id": 27
-    },
-    {
-      "orderId": 7,
+      "orderId": 11,
       "productId": 3,
       "quantity": 1,
       "price": 77,
-      "id": 28
+      "id": 42
     },
     {
-      "orderId": 7,
+      "orderId": 11,
       "productId": 7,
       "quantity": 1,
       "price": 94,
-      "id": 29
+      "id": 43
     },
     {
-      "orderId": 7,
+      "orderId": 11,
       "productId": 8,
       "quantity": 1,
       "price": 18,
-      "id": 30
+      "id": 44
     },
     {
-      "orderId": 7,
-      "productId": 9,
-      "quantity": 1,
-      "price": 60,
-      "id": 31
-    },
-    {
-      "orderId": 7,
-      "productId": 10,
-      "quantity": 1,
-      "price": 28,
-      "id": 32
-    },
-    {
-      "orderId": 8,
+      "orderId": 11,
       "productId": 2,
       "quantity": 1,
       "price": 35,
-      "id": 33
+      "id": 45
     },
     {
-      "orderId": 8,
+      "orderId": 11,
       "productId": 6,
-      "quantity": 2,
+      "quantity": 1,
       "price": 42,
-      "id": 34
+      "id": 46
     },
     {
-      "orderId": 8,
-      "productId": 7,
+      "orderId": 12,
+      "productId": 3,
       "quantity": 1,
-      "price": 94,
-      "id": 35
+      "price": 77,
+      "id": 47
     },
     {
-      "orderId": 8,
-      "productId": 8,
+      "orderId": 12,
+      "productId": 4,
       "quantity": 1,
-      "price": 18,
-      "id": 36
+      "price": 21,
+      "id": 48
     },
     {
-      "orderId": 8,
-      "productId": 5,
+      "orderId": 12,
+      "productId": 1,
       "quantity": 1,
-      "price": 93,
-      "id": 37
+      "price": 7,
+      "id": 49
     },
     {
-      "orderId": 8,
-      "productId": 10,
-      "quantity": 1,
-      "price": 28,
-      "id": 38
-    },
-    {
-      "orderId": 9,
+      "orderId": 13,
       "productId": 2,
       "quantity": 1,
       "price": 35,
-      "id": 39
+      "id": 50
+    },
+    {
+      "orderId": 14,
+      "productId": 2,
+      "quantity": 2,
+      "price": 35,
+      "id": 51
+    },
+    {
+      "orderId": 14,
+      "productId": 3,
+      "quantity": 6,
+      "price": 77,
+      "id": 52
+    },
+    {
+      "orderId": 14,
+      "productId": 7,
+      "quantity": 1,
+      "price": 94,
+      "id": 53
+    },
+    {
+      "orderId": 14,
+      "productId": 8,
+      "quantity": 3,
+      "price": 18,
+      "id": 54
+    },
+    {
+      "orderId": 14,
+      "productId": 4,
+      "quantity": 3,
+      "price": 21,
+      "id": 55
     }
   ],
   "products": [
@@ -756,27 +791,6 @@
       "dateCreated": "2024-10-13T22:26:19.166Z",
       "dateUpdated": "2024-10-13T22:26:19.200Z",
       "id": 23
-    },
-    {
-      "id": 5,
-      "items": [
-        {
-          "id": 4,
-          "price": 21,
-          "name": "vivo Y20G",
-          "imageUrl": "https://fastly.picsum.photos/id/418/200/200.jpg?hmac=FPLIYEnmfmXtqHPsuZvUzJeXJJbbxMWNq6Evh7mMSN4",
-          "quantity": 1
-        },
-        {
-          "id": 8,
-          "price": 18,
-          "name": "Siemens SX66",
-          "imageUrl": "https://fastly.picsum.photos/id/1029/200/200.jpg?hmac=CQyxD4azaGb2UDjepBq254UP9v1mF-_rBhYVx8Jw8rs",
-          "quantity": 4
-        }
-      ],
-      "dateCreated": "2024-10-16T20:04:47.343Z",
-      "dateUpdated": "2024-10-16T20:04:49.970Z"
     }
   ],
   "shippingCarriers": [
@@ -794,6 +808,48 @@
       "id": 3,
       "name": "Fedex",
       "price": 130
+    }
+  ],
+  "discounts": [
+    {
+      "id": 1,
+      "name": "PROMO_200",
+      "type": "$",
+      "value": 200,
+      "expiry": "2024-10-25",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "name": "NUEVO_5",
+      "type": "%",
+      "value": 0.05,
+      "expiry": "2024-10-25",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "name": "CELULAR_500",
+      "type": "$",
+      "value": 500,
+      "expiry": "2024-10-25",
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "name": "REFERIDO_50",
+      "type": "%",
+      "value": 0.5,
+      "expiry": "2024-10-25",
+      "isActive": true
+    },
+    {
+      "id": 5,
+      "name": "MIERCOLES_25",
+      "type": "%",
+      "value": 0.25,
+      "expiry": "2024-10-25",
+      "isActive": true
     }
   ]
 }

@@ -1,10 +1,13 @@
+import { ShipmentCarrier } from "../../interfaces/ShipmentCarrier"
+
 export enum CHECKOUT_ACTION_TYPES {
     RESET_CHECKOUT = 'checkout/RESET_CHECKOUT',
-    SET_IS_SHIPMENT_INFORMATION_VALID = 'checkout/SET_IS_SHIPMENT_INFORMATION_VALID',
+    SET_SHIPMENT_INFORMATION = 'checkout/SET_SHIPMENT_INFORMATION',
     SET_HAS_ACCEPTED_ORDER_SUMMARY = 'checkout/SET_HAS_ACCEPTED_ORDER_SUMMARY',
     UPDATE_USER_CART = 'checkout/UPDATE_USER_CART',
     SET_IS_ORDER_READY = 'checkout/SET_IS_ORDER_READY',
-    CREATE_ORDER = 'checkout/CREATE_ORDER'
+    CREATE_ORDER = 'checkout/CREATE_ORDER',
+    SET_DISCOUNT = 'checkout/SET_DISCOUNT'
 }
 
 export type CheckoutShipmentDetails = {
@@ -16,8 +19,7 @@ export type CheckoutShipmentDetails = {
     neighborhood: string,
     city: string,
     state: string,
-    shipmentId: number,
-    shipmentPrice: number
+    shipmentCarrier: ShipmentCarrier | null,
 }
 
 export type CheckoutPaymentDetails = {

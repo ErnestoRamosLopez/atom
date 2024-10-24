@@ -8,10 +8,9 @@ import { selectCartTotal } from "../../store/cart/cart.selector";
 import { useAppDispatch } from "../../store/store";
 import { initializeCheckout } from "../../store/checkout/checkout.actions";
 import { createOrder, updateUserCartCheckout } from "../../store/checkout/checkout.thunks";
-import { selectHasAcceptedOrderSummary, selectIsCartUpdated, selectIsOrderCompleted, selectIsOrderReady, selectIsShipmentInformationValid } from "../../store/checkout/checkout.selector";
+import { selectCheckoutDiscounts, selectCheckoutTotal, selectHasAcceptedOrderSummary, selectIsCartUpdated, selectIsOrderCompleted, selectIsOrderReady, selectIsShipmentInformationValid, selectPaymentInformation, selectShippingInformation } from "../../store/checkout/checkout.selector";
 import ShippingDetails from "../../components/checkout-shipping-details/checkout-shipping-details.component";
 import CheckoutOrderSummary from "../../components/checkout-order-summary/checkout-order-summary.component";
-import { CheckoutPaymentDetails, CheckoutShipmentDetails } from "../../store/checkout/checkout.types";
 import CheckoutPayment from "../../components/checkout-payment/checkout-payment.component";
 
 const Checkout: FC<any> = () => {
@@ -22,16 +21,16 @@ const Checkout: FC<any> = () => {
     const hasAcceptedOrder = useSelector(selectHasAcceptedOrderSummary);
     const isOrderReady = useSelector(selectIsOrderReady);
     const isOrderCompleted = useSelector(selectIsOrderCompleted);
-
-    const [shippingInformation, setShippingInformation] = useState<CheckoutShipmentDetails | null>(null);
-    const [total, setTotal] = useState<number | null>(0);
-    const [paymentInformation, setPaymentInformation] = useState<CheckoutPaymentDetails | null>(null);
+    const shippingInformation = useSelector(selectShippingInformation);
+    const checkoutTotal = useSelector(selectCheckoutTotal);
+    const paymentInformation = useSelector(selectPaymentInformation);
+    const discounts = useSelector(selectCheckoutDiscounts);
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(initializeCheckout);
+        dispatch(initializeCheckout());
     }, [dispatch]);
 
     useEffect(() => {
@@ -64,12 +63,13 @@ const Checkout: FC<any> = () => {
 
     useEffect(() => {
         let promise = null;
-        const isValidInformation = shippingInformation && total !== null && total > 0 && paymentInformation;
+        const isValidInformation = shippingInformation && checkoutTotal > 0 && paymentInformation;
         if(isOrderReady && isValidInformation){
             let params = {
                 shippingInformation,
-                total,
-                paymentInformation
+                total: checkoutTotal,
+                paymentInformation,
+                discounts
             }
             promise = dispatch(createOrder(params));
         }
@@ -79,25 +79,13 @@ const Checkout: FC<any> = () => {
                 promise.abort();
             }
         }
-    }, [isOrderReady, shippingInformation, total, paymentInformation]);
+    }, [isOrderReady, shippingInformation, checkoutTotal, paymentInformation]);
     
     useEffect(() => {
         if(isOrderCompleted){
             navigate('/orderSuccess');
         }
     }, [isOrderCompleted]);
-
-    const setShipping = (data: CheckoutShipmentDetails) => {
-        setShippingInformation(data);
-    }
-
-    const setTotalOrder = (data: number | null) => {
-        setTotal(data);
-    }
-
-    const setPayment = (data: CheckoutPaymentDetails) => {
-        setPaymentInformation(data);
-    }
 
     return (
         <div className="checkout flex flex-col justify-center">
@@ -116,9 +104,9 @@ const Checkout: FC<any> = () => {
                         <li className={"step " + (isShipmentValid ? 'step-primary' : '')}>Resumen</li>
                         <li className={"step " + (hasAcceptedOrder ? 'step-primary' : '')}>Pago</li>
                     </ul>
-                    <ShippingDetails hidden={isShipmentValid} setValuesFunction={setShipping}/>
-                    <CheckoutOrderSummary hidden={!isShipmentValid || hasAcceptedOrder} setValuesFunction={setTotalOrder} shipmentPrice={shippingInformation?.shipmentPrice}/>
-                    <CheckoutPayment hidden={!isShipmentValid || !hasAcceptedOrder} setValuesFunction={setPayment} />
+                    <ShippingDetails hidden={isShipmentValid}/>
+                    <CheckoutOrderSummary hidden={!isShipmentValid || hasAcceptedOrder}/>
+                    <CheckoutPayment hidden={!isShipmentValid || !hasAcceptedOrder} />
                 </div>
             }
             

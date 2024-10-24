@@ -4,6 +4,7 @@ import axios from 'axios'
 import { apiUrl } from "../../utils/constantes.utils";
 import { setCartItems } from "../cart/cart.action";
 import { toast } from "react-toastify";
+import { Discount } from "../../interfaces/Discount";
 
 export const updateUserCartCheckout = createAsyncThunk(
     CHECKOUT_ACTION_TYPES.UPDATE_USER_CART,
@@ -27,7 +28,8 @@ export const createOrder = createAsyncThunk(
     async (args: {
         shippingInformation: CheckoutShipmentDetails,
         total: number,
-        paymentInformation: CheckoutPaymentDetails
+        paymentInformation: CheckoutPaymentDetails,
+        discounts: Discount[]
     }, thunkAPI) => {
         const source = axios.CancelToken.source();
         thunkAPI.signal.addEventListener('abort', () => {
@@ -35,7 +37,7 @@ export const createOrder = createAsyncThunk(
         })
         await axios.post(`${apiUrl}/orders`,
             {
-            ...args
+                ...args
             }, 
             {
                 cancelToken: source.token

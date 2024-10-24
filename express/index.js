@@ -5,6 +5,7 @@ const profile = require('./routes/profile');
 const management = require('./routes/management');
 const shipping = require('./routes/shipping-carriers');
 const orders = require('./routes/orders');
+const discounts = require('./routes/discounts');
 
 const express = require('express');
 var jsonServer = require('json-server');
@@ -33,6 +34,7 @@ app.use('/api/profile', validateAccessToken, profile);
 app.use('/api/management', validateAccessToken, management);
 app.use('/api/shipping-carriers', validateAccessToken, shipping);
 app.use('/api/orders', validateAccessToken, orders);
+app.use('/api/discounts', validateAccessToken, discounts);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

@@ -2,14 +2,22 @@ import { UnknownAction } from 'redux';
 
 import { resetState } from '../root-reducer';
 import { createOrder, updateUserCartCheckout } from './checkout.thunks';
-import { initializeCheckout, setHasAcceptedOrderSummary, setIsOrderReady, setIsShipmentInformationValid } from './checkout.actions';
+import { initializeCheckout, setCheckoutDiscounts, setHasAcceptedOrderSummary, setIsOrderReady, setShipmentInformation } from './checkout.actions';
+import { CheckoutPaymentDetails, CheckoutShipmentDetails } from './checkout.types';
+import { Discount } from '../../interfaces/Discount';
 
 export type CheckoutState = {
+  //flags
   isCartUpdated: boolean,
   isShipmentInformationValid: boolean,
   hasAcceptedOrderSummary: boolean,
   isOrderReady: boolean,
-  isOrderCompleted: boolean
+  isOrderCompleted: boolean,
+
+  //objects
+  shippingInformation: CheckoutShipmentDetails | null,
+  paymentInformation: CheckoutPaymentDetails | null,
+  discounts: Discount[]
 };
 
 export const CHECKOUT_INITIAL_STATE: CheckoutState = {
@@ -17,7 +25,10 @@ export const CHECKOUT_INITIAL_STATE: CheckoutState = {
   isShipmentInformationValid: false,
   hasAcceptedOrderSummary: false,
   isOrderReady: false,
-  isOrderCompleted: false
+  isOrderCompleted: false,
+  shippingInformation: null,
+  paymentInformation: null,
+  discounts: []
 };
 
 export const checkoutReducer = (
@@ -27,10 +38,11 @@ export const checkoutReducer = (
   if(resetState.match(action) || initializeCheckout.match(action)){
     return CHECKOUT_INITIAL_STATE;
   }
-  if(setIsShipmentInformationValid.match(action)){
+  if(setShipmentInformation.match(action)){
     return {
       ...state,
-      isShipmentInformationValid: action.payload
+      isShipmentInformationValid: action.payload.isValid,
+      shippingInformation: action.payload.shipmentDetails
     }
   }
   if(setHasAcceptedOrderSummary.match(action)){
@@ -48,7 +60,8 @@ export const checkoutReducer = (
   if(setIsOrderReady.match(action)){
     return {
       ...state,
-      isOrderReady: action.payload
+      isOrderReady: action.payload.isReady,
+      paymentInformation: action.payload.paymentInformation
     }
   }
 
@@ -58,5 +71,13 @@ export const checkoutReducer = (
       isOrderCompleted: true
     }
   }
+
+  if(setCheckoutDiscounts.match(action)){
+    return {
+      ...state,
+      discounts: action.payload
+    }
+  }
+  
   return state;
 };
