@@ -26,7 +26,16 @@ const ShopProductItem : FC<ShopProductItemProps> = ({product}) => {
 
     const addToCart = () => {
         dispatch(addItemToCart(shoppingItems, product, canSaveCart));
-        toast.success('Producto agregado');
+        let text = `Has agregado ${product.name} a tu carrito`;
+        if( toast.isActive('product-added')){
+            toast.update('product-added', {
+                render: text
+            });
+        }else{
+            toast.success(text, {
+                toastId: 'product-added',
+            });
+        }
     }
 
     return (

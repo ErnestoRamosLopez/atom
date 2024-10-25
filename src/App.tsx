@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { whitelistForbidden } from './utils/constantes.utils';
 import Checkout from './routes/checkout/checkout.component';
 import OrderSuccess from './routes/order-success/order-success.component';
+import Contact from './routes/contact/contact.component';
 
 
 const App: React.FC<any> = () => {
@@ -62,6 +63,7 @@ const App: React.FC<any> = () => {
                     <Route path='administracion' element={<Administracion />}></Route>
                     <Route path='checkout' element={<Checkout />}></Route>
                     <Route path='orderSuccess' element={<OrderSuccess />}></Route>
+                    <Route path='contacto' element={<Contact />}/>
                 </Route>
           </Routes>
         </div>

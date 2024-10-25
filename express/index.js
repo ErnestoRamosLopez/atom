@@ -6,6 +6,7 @@ const management = require('./routes/management');
 const shipping = require('./routes/shipping-carriers');
 const orders = require('./routes/orders');
 const discounts = require('./routes/discounts');
+const tickets = require('./routes/tickets');
 
 const express = require('express');
 var jsonServer = require('json-server');
@@ -27,6 +28,7 @@ app.use('/api/db', jsonServer.router('./express/json-server/db.json'));
 //public use
 app.use('/api/auth', login);
 app.use('/api/products', products);
+app.use('/api/tickets', tickets);
 
 //protected
 app.use('/api/users', validateAccessToken, users);
