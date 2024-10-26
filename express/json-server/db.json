@@ -696,10 +696,17 @@
           "name": "BLU Vida1",
           "imageUrl": "http://dummyimage.com/200x200.png/cc0000/ffffff",
           "quantity": 1
+        },
+        {
+          "id": 1,
+          "price": 7,
+          "name": "Huawei P Smart Z",
+          "imageUrl": "https://fastly.picsum.photos/id/923/200/200.jpg?hmac=3VHvOqFmO1AmGdpW-XcIVVb5CSOm5AwgyYRt9jYWAvo",
+          "quantity": 9
         }
       ],
       "dateCreated": "2024-09-25T19:01:10.835Z",
-      "dateUpdated": "2024-10-13T04:07:00.532Z"
+      "dateUpdated": "2024-10-26T00:19:13.887Z"
     },
     {
       "items": [
@@ -791,6 +798,20 @@
       "dateCreated": "2024-10-13T22:26:19.166Z",
       "dateUpdated": "2024-10-13T22:26:19.200Z",
       "id": 23
+    },
+    {
+      "id": 5,
+      "items": [
+        {
+          "id": 4,
+          "price": 21,
+          "name": "vivo Y20G",
+          "imageUrl": "https://fastly.picsum.photos/id/418/200/200.jpg?hmac=FPLIYEnmfmXtqHPsuZvUzJeXJJbbxMWNq6Evh7mMSN4",
+          "quantity": 1
+        }
+      ],
+      "dateCreated": "2024-10-25T19:25:26.448Z",
+      "dateUpdated": "2024-10-25T19:25:26.479Z"
     }
   ],
   "shippingCarriers": [
@@ -1104,6 +1125,20 @@
       "title": "fasfssadsdsasdasadsadsdaasdsda",
       "description": "fasfssadsdsasdasadsadsdaasdsdafasfssadsdsasdasadsadsdaasdsdafasfssadsdsasdasadsadsdaasdsda",
       "id": 18
+    }
+  ],
+  "wishlist": [
+    {
+      "id": 1,
+      "items": [
+        30,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dateCreated": "2024-10-25T23:26:02.554Z",
+      "dateUpdated": "2024-10-26T00:22:56.373Z"
     }
   ]
 }

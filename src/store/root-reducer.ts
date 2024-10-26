@@ -5,6 +5,7 @@ import { preferencesReducer } from "./preferences/preferences.reducer";
 import { loginReducer } from "./login/login.reducer";
 import { Action, createAction, withMatcher } from "../utils/reducer/reducer.utils";
 import { checkoutReducer } from "./checkout/checkout.reducer";
+import { wishlistReducer } from "./wishlist/wishlist.reducer";
 
 export enum ROOT_ACTION_TYPES {
     RESET_STATE = 'root/RESET_STATE',
@@ -23,5 +24,6 @@ export const rootReducer = combineReducers({
     user: userReducer,
     preferences: preferencesReducer,
     login: loginReducer,
-    checkout: checkoutReducer
+    checkout: checkoutReducer,
+    wishlist: wishlistReducer
 });

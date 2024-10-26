@@ -120,7 +120,7 @@ const ShoppingCart: FC<ShoppingCartProps> = ({isDropdown}) => {
                         <div className="items-container max-h-44 overflow-y-auto overflow-x-clip">
                             {
                                 shoppingItems.map((item) => (
-                                    <div key={item.id} className={"card card-side gap-x-3 flex items-center border my-2 max-h-16 w-full "+ (removingRows.includes(item.id) ? 'fade-out' : '')}>
+                                    <div key={item.id} className={"card card-side gap-x-3 flex items-center border my-2 max-h-16 w-full "+ (removingRows.includes(item.id) ? 'fade-out-effect' : '')}>
                                         <figure>
                                             <img
                                             src={item.imageUrl}
@@ -204,7 +204,7 @@ const ShoppingCart: FC<ShoppingCartProps> = ({isDropdown}) => {
                                     <tbody className="items-container">
                                         {
                                             shoppingItems.map((item) => (
-                                                <tr key={item.id} className={"hover " + (removingRows.includes(item.id) ? 'fade-out' : '')}>
+                                                <tr key={item.id} className={"hover " + (removingRows.includes(item.id) ? 'fade-out-effect' : '')}>
                                                     <td>
                                                         <div className="relative product-image-container w-fit">
                                                             <img

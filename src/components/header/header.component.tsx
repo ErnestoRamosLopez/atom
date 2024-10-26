@@ -10,6 +10,10 @@ import { selectIsUserLoggedIn } from "../../store/user/user.selector";
 import { selectCartCount, selectIsCartOpen } from "../../store/cart/cart.selector";
 import { setIsCartOpen } from "../../store/cart/cart.action";
 import { Link } from "react-router-dom";
+import {ReactComponent as StarIconActive} from '@material-design-icons/svg/outlined/star.svg';
+import Wishlist from "../wishlist/wishlist.component";
+import { setIsWishlistOpen } from "../../store/wishlist/wishlist.action";
+import { selectIsWishlistOpen } from "../../store/wishlist/wishlist.selector";
 
 interface HeaderProps{
     handleLogin: () => void
@@ -19,10 +23,16 @@ const Header: FC<HeaderProps> = (props) => {
     const isLoggedIn = useSelector(selectIsUserLoggedIn);
     const cartCount = useSelector(selectCartCount);
     const isCartOpen = useSelector(selectIsCartOpen);
+    const isWishlistOpen = useSelector(selectIsWishlistOpen);
+
     const [shouldCloseCart, setShouldCloseCart] = useState(false);
     const [isManualOpen, setIsManualOpen] = useState(false);
 
     const dispatch = useDispatch();
+
+    const openWishlist = () => {
+        dispatch(setIsWishlistOpen(true));
+    }
 
     const openCart = (stayOpen = false) => {
         if(stayOpen)
@@ -60,17 +70,22 @@ const Header: FC<HeaderProps> = (props) => {
             </div>
             <div className="flex-none">
                 <ThemeSwitch />
-                <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-                        <div className="indicator">
-                            <NotificationIcon className="h-5 w-5"/>
-                            <span className="badge badge-sm indicator-item badge-error"></span>
-                        </div>
+                {
+                    isLoggedIn &&
+                    <div className="dropdown dropdown-end dropdown-open">
+                        <button tabIndex={0} className="btn btn-ghost btn-circle" onClick={() => openWishlist()}>
+                            <div className="indicator">
+                                <StarIconActive className="h-5 w-5"/>
+                            </div>
+                        </button>
+                        {
+                            isWishlistOpen &&
+                            <div tabIndex={0} className="dropdown-content z-[1] mt-3">
+                                <Wishlist />
+                            </div>
+                        }
                     </div>
-                    <div tabIndex={0} className="dropdown-content z-[1] mt-3 w-52">
-                        {/* <ShoppingCart isDropdown /> */}
-                    </div>
-                </div>
+                }
                 <div className="dropdown dropdown-end dropdown-open">
                     <button tabIndex={0} className="btn btn-ghost btn-circle" onClick={() => openCart(true)} onMouseOver={() => openCart()} onMouseLeave={closeCartOnDelay}>
                         <div className="indicator">

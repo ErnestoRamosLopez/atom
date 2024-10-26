@@ -41,8 +41,8 @@ export const store = configureStore({
 
 export function setupStore(preloadedState?: Partial<RootState>) {
     return configureStore({
-      reducer: rootReducer,
-      preloadedState
+        reducer: rootReducer,
+        preloadedState
     })
 }
 

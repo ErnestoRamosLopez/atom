@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Product } from "../../store/product/product.types";
 import {ReactComponent as StarIconActive} from '@material-design-icons/svg/outlined/star.svg';
 import {ReactComponent as StarIconInactive} from '@material-design-icons/svg/outlined/star_border.svg';
@@ -7,6 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../../store/cart/cart.action";
 import { selectCanSaveCart, selectCartItems } from "../../store/cart/cart.selector";
 import { toast } from "react-toastify";
+import { selectCanSaveWishlist, selectWishlistItems } from "../../store/wishlist/wishlist.selector";
+import { addItemToWishlist, removeItemFromWishlist } from "../../store/wishlist/wishlist.action";
+import { selectIsUserLoggedIn } from "../../store/user/user.selector";
 
 interface ShopProductItemProps{
     product: Product
@@ -15,14 +18,17 @@ interface ShopProductItemProps{
 const ShopProductItem : FC<ShopProductItemProps> = ({product}) => {
     const shoppingItems = useSelector(selectCartItems);
     const canSaveCart = useSelector(selectCanSaveCart);
+    const wishlistItems = useSelector(selectWishlistItems);
+    const canSaveWishlist = useSelector(selectCanSaveWishlist);
+    const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+
     const dispatch = useDispatch();
     
     const [isFavorite, setIsFavorite] = useState(false);
 
-    //temp func
-    const toggleIsFavorite = () =>{
-        setIsFavorite(!isFavorite);
-    }
+    useEffect(() => {
+        setIsFavorite(wishlistItems.some(it => it.id === product.id));
+    }, [wishlistItems, product])
 
     const addToCart = () => {
         dispatch(addItemToCart(shoppingItems, product, canSaveCart));
@@ -38,20 +44,61 @@ const ShopProductItem : FC<ShopProductItemProps> = ({product}) => {
         }
     }
 
+    const addToWishlist = () => {
+        dispatch(addItemToWishlist(wishlistItems, product, canSaveWishlist));
+        let text = `Has agregado ${product.name} a tu lista de deseados`;
+        if( toast.isActive('wishlist-added')){
+            toast.update('wishlist-added', {
+                render: text,
+                type: 'success'
+            });
+        }else{
+            toast.success(text, {
+                toastId: 'wishlist-added',
+            });
+        }
+    }
+
+    const removeFromWishlist = () => {
+        dispatch(removeItemFromWishlist(wishlistItems, product, canSaveWishlist));
+        let text = `Has eliminado ${product.name} de tu lista de deseados`;
+        if( toast.isActive('wishlist-added')){
+            toast.update('wishlist-added', {
+                render: text,
+                type: "warning"
+            });
+        }else{
+            toast.warn(text, {
+                toastId: 'wishlist-added',
+            });
+        }
+    }
+
+    const handleStarClick = () => {
+        if( isFavorite ){
+            removeFromWishlist();
+        }else{
+            addToWishlist();
+        }
+    };
+
     return (
         <div className="card border border-2">
             <div className="card-body">
                 <div className="relative">
-                    <ScalableDiv scale={1.3} className="absolute top-0 right-0">
-                        <button className="btn btn-circle btn-ghost btn-xs hover:bg-base-300 hover:opacity-80 bg-base-200" onClick={toggleIsFavorite}>
-                            {
-                                isFavorite && <StarIconActive className="h-5 w-5"/>
-                            }
-                            {
-                                !isFavorite && <StarIconInactive className="h-5 w-5"/>
-                            }
-                        </button>
-                    </ScalableDiv>
+                    {
+                        isUserLoggedIn && 
+                        <ScalableDiv scale={1.3} className="absolute top-0 right-0">
+                            <button className="btn btn-circle btn-ghost btn-xs hover:bg-base-300 hover:opacity-80 bg-base-200" onClick={handleStarClick}>
+                                {
+                                    isFavorite && <StarIconActive className="h-5 w-5"/>
+                                }
+                                {
+                                    !isFavorite && <StarIconInactive className="h-5 w-5"/>
+                                }
+                            </button>
+                        </ScalableDiv>
+                    }
                     
                     <img src={product.imageUrl} alt="" className="w-full" />
                 </div>

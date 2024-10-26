@@ -28,3 +28,9 @@ code {
   background-color: oklch(var(--n)) !important;
   color: oklch(var(--nc)) !important;
 }
+
+.fade-out-effect {
+  opacity: 0;
+  transform: translateX(-20px); /* Optional: add some motion */
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
