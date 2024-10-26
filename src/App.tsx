@@ -15,6 +15,9 @@ import { whitelistForbidden } from './utils/constantes.utils';
 import Checkout from './routes/checkout/checkout.component';
 import OrderSuccess from './routes/order-success/order-success.component';
 import Contact from './routes/contact/contact.component';
+import Perfil from './routes/perfil/perfil.component';
+import PersonalData from './components/personal-data/personal-data.component';
+import Direcciones from './components/direcciones/direcciones.component';
 
 
 const App: React.FC<any> = () => {
@@ -64,6 +67,10 @@ const App: React.FC<any> = () => {
                     <Route path='checkout' element={<Checkout />}></Route>
                     <Route path='orderSuccess' element={<OrderSuccess />}></Route>
                     <Route path='contacto' element={<Contact />}/>
+                    <Route path='perfil' element={<Perfil />}>
+                      <Route index element={<PersonalData />} />
+                      <Route path='direcciones' element={<Direcciones />}/>
+                    </Route>
                 </Route>
           </Routes>
         </div>

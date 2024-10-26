@@ -6,6 +6,7 @@ import { CheckoutShipmentDetails } from "../../store/checkout/checkout.types";
 import axios, { CancelTokenSource } from "axios";
 import { apiUrl } from "../../utils/constantes.utils";
 import { ShipmentCarrier } from "../../interfaces/ShipmentCarrier";
+import { Address } from "../../interfaces/Address";
 
 interface CheckoutShippingDetailsProps {
 
@@ -89,7 +90,9 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
     const dispatch = useAppDispatch();
 
     const [shipmentOptions, setShipmentOptions] = useState<ShipmentCarrier[]>([]);
+    const [addressOptions, setAddressOptions] = useState<Address[]>([]);
     const [isComponentReady, setIsComponentReady] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
 
     const {
         register,
@@ -115,9 +118,23 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
         }
     }
 
+    const fetchAddresses = async (source: CancelTokenSource) => {
+        try{
+            const response = await axios.get(`${apiUrl}/profile/address`, {
+                cancelToken: source.token
+            });
+            setAddressOptions(response.data);
+        }catch{
+            setAddressOptions([]);
+        }
+    }
+
     const initializeComponent = async (source: CancelTokenSource) => {
         try{
-            await fetchShipmentCarriers(source);
+            const promiseArray = [];
+            promiseArray.push( fetchShipmentCarriers(source) );
+            promiseArray.push( fetchAddresses(source) );
+            await Promise.all(promiseArray);
         }catch{
 
         }finally{
@@ -139,6 +156,25 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
         dispatch(setShipmentInformation(true, data));
     }
 
+    const handleAddressChange = (event: React.FormEvent<HTMLSelectElement>) => {
+        if(event.currentTarget.value){
+            let selectedAddress = addressOptions.find(it => it.id === parseInt(event.currentTarget.value))!;
+            setSelectedAddress( selectedAddress );
+            setValue('label', selectedAddress.label);
+            setValue('name', selectedAddress.name);
+            setValue('lastname', selectedAddress.lastname);
+            setValue('street', selectedAddress.street);
+            setValue('streetNumber', selectedAddress.streetNumber);
+            setValue('neighborhood', selectedAddress.neighborhood);
+            setValue('city', selectedAddress.city);
+            setValue('state', selectedAddress.state);
+            setValue('postalCode', selectedAddress.postalCode);
+        }else{
+            setSelectedAddress( null );
+            reset();
+        }
+    }
+
     return (
         <div className="shipping-details mt-5" hidden={props.hidden}>
             {
@@ -149,9 +185,23 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <h3 className="text-left italic font-bold">Proporciona tus datos</h3>
+                        <h3 className="text-left italic font-bold my-3">Proporciona tus datos</h3>
                         <div className="grid grid-cols-12">
                             <div className="col-span-7 grid grid-cols-2 gap-x-5">
+                                {
+                                    addressOptions.length > 0 &&
+                                    <label className="col-span-full form-control w-full max-w-xs my-3">
+                                        <div className="label">
+                                            <span className="label-text">Direcciones guardadas</span>
+                                        </div>
+                                        <select className="select select-bordered w-full max-w-xs" onChange={(evt) => handleAddressChange(evt)}>
+                                            <option value={""}>Seleccionar</option>
+                                            {
+                                                addressOptions.map(item => <option key={item.id} value={item.id}>{item.label}</option>)
+                                            }
+                                        </select>
+                                    </label>
+                                }
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Nombre</span>
@@ -161,6 +211,7 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
                                         type="text"
                                         placeholder="Nombre" 
                                         className="input input-bordered w-full max-w-xs" 
+                                        disabled={selectedAddress !== null}
                                         {...register("name", VALIDATIONS.name)}
                                     />
                                     <div className="label">
@@ -176,6 +227,7 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
                                         type="text"
                                         placeholder="Apellido" 
                                         className="input input-bordered w-full max-w-xs" 
+                                        disabled={selectedAddress !== null}
                                         {...register("lastname", VALIDATIONS.lastname)}
                                     />
                                     <div className="label">
@@ -191,6 +243,7 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
                                         type="text"
                                         placeholder="Calle" 
                                         className="input input-bordered w-full max-w-xs" 
+                                        disabled={selectedAddress !== null}
                                         {...register("street", VALIDATIONS.street)}
                                     />
                                     <div className="label">
@@ -206,6 +259,7 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
                                         type="text"
                                         placeholder="Numero exterior" 
                                         className="input input-bordered w-full max-w-xs" 
+                                        disabled={selectedAddress !== null}
                                         {...register("streetNumber", VALIDATIONS.streetNumber)}
                                     />
                                     <div className="label">
@@ -221,6 +275,7 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
                                         type="text"
                                         placeholder="Codigo postal" 
                                         className="input input-bordered w-full max-w-xs" 
+                                        disabled={selectedAddress !== null}
                                         {...register("postalCode", VALIDATIONS.postalCode)}
                                     />
                                     <div className="label">
@@ -236,6 +291,7 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
                                         type="text"
                                         placeholder="Colonia" 
                                         className="input input-bordered w-full max-w-xs" 
+                                        disabled={selectedAddress !== null}
                                         {...register("neighborhood", VALIDATIONS.neighborhood)}
                                     />
                                     <div className="label">
@@ -251,6 +307,7 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
                                         type="text"
                                         placeholder="Ciudad" 
                                         className="input input-bordered w-full max-w-xs" 
+                                        disabled={selectedAddress !== null}
                                         {...register("city", VALIDATIONS.city)}
                                     />
                                     <div className="label">
@@ -266,6 +323,7 @@ const CheckoutShippingDetails: FC<CheckoutShippingDetailsProps & React.HTMLAttri
                                         type="text"
                                         placeholder="Estado" 
                                         className="input input-bordered w-full max-w-xs" 
+                                        disabled={selectedAddress !== null}
                                         {...register("state", VALIDATIONS.state)}
                                     />
                                     <div className="label">

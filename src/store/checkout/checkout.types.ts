@@ -1,3 +1,4 @@
+import { Address } from "../../interfaces/Address"
 import { ShipmentCarrier } from "../../interfaces/ShipmentCarrier"
 
 export enum CHECKOUT_ACTION_TYPES {
@@ -10,15 +11,7 @@ export enum CHECKOUT_ACTION_TYPES {
     SET_DISCOUNT = 'checkout/SET_DISCOUNT'
 }
 
-export type CheckoutShipmentDetails = {
-    name: string,
-    lastname: string,
-    street: string,
-    streetNumber: number,
-    postalCode: string,
-    neighborhood: string,
-    city: string,
-    state: string,
+export type CheckoutShipmentDetails = Address & {
     shipmentCarrier: ShipmentCarrier | null,
 }
 

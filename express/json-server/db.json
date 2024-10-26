@@ -1140,5 +1140,23 @@
       "dateCreated": "2024-10-25T23:26:02.554Z",
       "dateUpdated": "2024-10-26T00:22:56.373Z"
     }
+  ],
+  "address": [
+    {
+      "userId": 1,
+      "name": "Test",
+      "lastname": "test",
+      "street": "dasadsdasdsa",
+      "streetNumber": "saddsasda",
+      "postalCode": "12346",
+      "neighborhood": "adsdsaads",
+      "city": "adsdasads",
+      "state": "dasdsaads",
+      "shipmentCarrier": null,
+      "createdAt": "2024-10-26T04:08:26.243Z",
+      "modifiedAt": "2024-10-26T04:08:26.244Z",
+      "id": 1,
+      "label": "CASA CLN"
+    }
   ]
 }

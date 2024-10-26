@@ -2,7 +2,6 @@ import { FC, Fragment, useEffect, useState } from "react";
 import ThemeSwitch from "../theme-switch/theme-switch";
 import './header.styles.css';
 import { ReactComponent as MenuIcon } from '@material-design-icons/svg/outlined/menu.svg';
-import { ReactComponent as NotificationIcon } from '@material-design-icons/svg/outlined/notifications_none.svg';
 import { ReactComponent as ShoppingCartIcon } from '@material-design-icons/svg/outlined/shopping_cart.svg';
 import ShoppingCart from "../shopping-cart/shopping-cart.component";
 import { useDispatch, useSelector } from "react-redux";
@@ -122,10 +121,12 @@ const Header: FC<HeaderProps> = (props) => {
                             {
                                 isLoggedIn && 
                                 <Fragment>
-                                    <li><a className="justify-between">
-                                        Profile
-                                        <span className="badge">New</span>
-                                    </a></li>
+                                    <li>
+                                        <Link to={"perfil"}>
+                                            Perfil
+                                            <span className="badge">New</span>
+                                        </Link>
+                                    </li>
                                     <li><a>Settings</a></li>
                                     <li><button onClick={()=> props.handleLogin()}>Logout</button></li>
                                 </Fragment>
