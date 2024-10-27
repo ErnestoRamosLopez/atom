@@ -4,6 +4,7 @@ import 'moment/locale/es';
 export const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
 export const whitelistForbidden = [
     'api/auth/',
+    'api/tickets/contact',
 ];
 export const sidebarOptions = [
     {

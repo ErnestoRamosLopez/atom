@@ -7,6 +7,7 @@ import { setLoginUserData } from '../store/login/login.action';
 import { ParsedQuery } from 'query-string';
 import * as jose from 'jose';
 import { resetState } from '../store/root-reducer';
+import { toast } from 'react-toastify';
 const apiUrl = process.env.REACT_APP_API_BASE_URL ?? '';
 
 interface LoginValidateResponse{
@@ -71,6 +72,10 @@ export async function logout(axios: Axios, navigate: NavigateFunction, dispatch:
     }catch{
         
     }finally{
+        toast('La sesion ha finalizado', {
+            type: 'warning',
+            toastId: 'logout-alert'
+        });
         dispatch(resetState());
         navigate(redirect);
     }

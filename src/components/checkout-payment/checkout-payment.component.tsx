@@ -1,12 +1,13 @@
-import { FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { CheckoutPaymentDetails } from "../../store/checkout/checkout.types";
 import { RegisterOptions, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "../../store/store";
-import { setHasAcceptedOrderSummary, setIsOrderReady, setIsShipmentInformationValid } from "../../store/checkout/checkout.actions";
+import { setHasAcceptedOrderSummary, setIsOrderReady } from "../../store/checkout/checkout.actions";
 import { mesesList } from "../../utils/constantes.utils";
+import './checkout-payment.styles.css';
+import { InputMask, useMask } from "@react-input/mask";
 
 interface CheckoutPaymentProps{
-    setValuesFunction: (data: CheckoutPaymentDetails) => void
 }
 
 const DEFAULT_VALUES = {
@@ -37,10 +38,9 @@ const VALIDATIONS : {[key: string]: RegisterOptions<CheckoutPaymentDetails, any>
             message: 'Campo cvv requiere de 3 numeros',
             value: 3
         },
-        validate: (value) => {
-            let cvvRegex = /^[0-9]{3}$/;
-            let isValid = cvvRegex.test(value);
-            return isValid || 'Formato de cvv invalido';
+        pattern: {
+            message: 'Formato de cvv invalido',
+            value: /^[0-9]{3}$/
         }
     },
 }
@@ -50,6 +50,7 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
 
     const [likeVisa, setLikeVisa] = useState(false);
     const [likeMastercard, setLikeMastercard] = useState(false);
+    // const [originalCardNumber, setOriginalCardNumber] = useState('');
 
     const monthNumbers = mesesList.map((_, index) => (index + 1) < 10 ? `0${index + 1}` : index + 1);
     const years = Array.from({ length: 11 }, (_, i) => new Date().getFullYear() + i);
@@ -67,9 +68,12 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
 
     const onSubmit: SubmitHandler<CheckoutPaymentDetails & {expiryMonth: string, expiryYear: string}> = async (data) => {
         const { expiryMonth, expiryYear, ...usefulData} = data;
+        const correctData = {
+            ...usefulData,
+            cardNumber: usefulData.cardNumber.replaceAll(' ', '')
+        }
 
-        props.setValuesFunction(usefulData);
-        dispatch(setIsOrderReady(true));
+        dispatch(setIsOrderReady(true, correctData));
     }
 
     const goBack = () => {
@@ -80,11 +84,13 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
         if(!cardNumber){
             return 'Proporciona una tarjeta visa o mastercard valida';
         }
+        let cardNumberWithoutSpace = cardNumber.replaceAll(' ', '');
+        
         let mastercardRegex = /^5[1-5][0-9]{14}$/;
         let visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
 
-        let isMastercard = mastercardRegex.test(cardNumber);
-        let isVisa = visaRegex.test(cardNumber);
+        let isMastercard = mastercardRegex.test(cardNumberWithoutSpace);
+        let isVisa = visaRegex.test(cardNumberWithoutSpace);
 
         return isVisa || isMastercard || 'Proporciona una tarjeta visa o mastercard valida';
     }
@@ -92,11 +98,13 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
     useEffect(() => {
         const subscription = watch((value, { name, type }) => {
             if(name === 'cardNumber'){
+                let cardNumberWithoutSpace = value.cardNumber?.replaceAll(' ', '') ?? '';
+                
                 let likeMastercardRegex = /^5[1-5][0-9]{0,14}$/;
                 let likeVisaRegex = /^4[0-9]{0,15}$/;
 
-                let isLikeMastercard = likeMastercardRegex.test(value.cardNumber!);
-                let isLikeVisa = likeVisaRegex.test(value.cardNumber!);
+                let isLikeMastercard = likeMastercardRegex.test(cardNumberWithoutSpace);
+                let isLikeVisa = likeVisaRegex.test(cardNumberWithoutSpace);
 
                 setLikeMastercard(isLikeMastercard);
                 setLikeVisa(isLikeVisa);
@@ -110,6 +118,52 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
         return () => subscription.unsubscribe()
     }, [watch]);
 
+    // useEffect(() => {
+    //     const inputField: HTMLInputElement = document.getElementById("cardNumber") as HTMLInputElement;
+    //     let stateValue = "";
+
+    //     const keepOriginalValue = (event: any) => {
+    //         if( !inputField || inputField.selectionStart === null){
+    //             return;
+    //         }
+    //         const selectionStart = inputField.selectionStart;
+            
+    //         // Get the current value of the input field
+    //         let currentValue = event.target.value;
+    
+    //         // Determine if something was added or deleted
+    //         const inputLengthDifference = currentValue.length - stateValue.length;
+
+    //         if (inputLengthDifference > 0) {
+    //             // Text was added
+    //             const insertedText = currentValue.slice(selectionStart - inputLengthDifference, selectionStart);
+    //             const beforeText = stateValue.slice(0, selectionStart - inputLengthDifference);
+    //             const afterText = stateValue.slice(selectionStart - inputLengthDifference);
+    //             stateValue = beforeText + insertedText + afterText;
+    //             // console.log(beforeText + insertedText + afterText);
+    //         } else if (inputLengthDifference < 0) {
+    //             // Text was deleted
+    //             const beforeText = stateValue.slice(0, selectionStart);
+    //             const afterText = stateValue.slice(selectionStart - inputLengthDifference);
+    //             stateValue = beforeText + afterText;
+    //             // console.log(beforeText + afterText);
+    //         }
+    //         setOriginalCardNumber(stateValue);
+    //     }
+
+    //     inputField?.addEventListener("input", keepOriginalValue);
+
+    //     return () => {
+    //         inputField.removeEventListener("input", keepOriginalValue);
+    //     }
+    // }, []);
+
+    // const maskedValue = (value: string) => {
+    //     const maskedSection = value.slice(0, -4).replace(/\d/g, 'X');
+    //     const visibleSection = value.slice(-4);
+    //     return maskedSection + visibleSection;
+    // }
+
     return (
         <div className={"checkout-payment mt-5 "+ props.className} hidden={props.hidden}>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -121,11 +175,13 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
                                 <span className="label-text">Numero de tarjeta</span>
                             </div>
                             <label className="input input-bordered flex items-center gap-2">
-                                <input  
+                                <InputMask 
                                     id="cardNumber"
                                     type="text"
                                     placeholder="Numero de tarjeta" 
                                     className="grow"
+                                    mask="____  ____  ____  ____"
+                                    replacement={{ _: /\d/ }}
                                     {
                                         ...register("cardNumber", {
                                             ...VALIDATIONS.cardNumber,
@@ -133,6 +189,20 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
                                         })
                                     }
                                 />
+                                {/* <input 
+                                    id="cardNumber"
+                                    type="text"
+                                    placeholder="Numero de tarjeta" 
+                                    className="grow"
+                                    maxLength={16}
+                                    value={maskedValue(originalCardNumber)}
+                                    {
+                                        ...register("cardNumber", {
+                                            ...VALIDATIONS.cardNumber,
+                                            validate: (value) => validateCardNumber(value)
+                                        })
+                                    }
+                                /> */}
                                 {
                                     !likeMastercard && !likeVisa && <img className="h-10" src={require("../../assets/images/visa-mastercard.png")} alt=""/>
                                 }
@@ -185,8 +255,9 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
                             <input  
                                 id="cvv"
                                 type="text"
+                                maxLength={3}
                                 placeholder="CVV" 
-                                className="input input-bordered w-full max-w-xs" 
+                                className="input input-bordered w-full max-w-xs cvv" 
                                 {...register("cvv", VALIDATIONS.cvv)}
                             />
                             <div className="label">

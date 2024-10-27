@@ -10,7 +10,7 @@ import { selectLoginFromIdentityProvider } from "../../store/login/login.selecto
 import { generateNonce } from "../../utils/login.utils";
 
 interface AuthenticationProps{
-    modalFunction?: (event: number) => void,
+    modalFunction?: (event: CustomModalEnum) => void,
     initialScreen?: number
 }
 

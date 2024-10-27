@@ -21,14 +21,23 @@ import { logout } from "../utils/login.utils";
 import { fetchUserCart, saveUserCart } from "../store/cart/cart.thunks";
 import { useAppDispatch } from '../store/store';
 import './Main.styles.css';
+import { fetchUserWishlist, saveUserWishlist } from "../store/wishlist/wishlist.thunks";
+import { selectIsWishlistLoaded, selectShouldSaveWishlist, selectWishlistItems } from "../store/wishlist/wishlist.selector";
 
 const MainLayout = () => {
+    //cart
     const shoppingItems = useSelector(selectCartItems);
     const currentUser = useSelector(selectCurrentUser);
     const isCartLoaded = useSelector(selectIsCartLoaded);
+    const shouldSaveCart = useSelector(selectShouldSaveCart);
+
+    //wishlist
+    const wishlistItems = useSelector(selectWishlistItems);
+    const isWishlistLoaded = useSelector(selectIsWishlistLoaded);
+    const shouldSaveWishlist = useSelector(selectShouldSaveWishlist);
+
     const theme = useSelector(selectTheme);
     const isLoggedIn = useSelector(selectIsUserLoggedIn);
-    const shouldSaveCart = useSelector(selectShouldSaveCart);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const loginIP = useSelector(selectLoginFromIdentityProvider);
@@ -48,15 +57,16 @@ const MainLayout = () => {
     const closeDrawer = () => document.getElementById("my-drawer")?.click();
 
     useEffect(() => {
-        let promise = null;
+        let promise = [];
         if (currentUser) {
-            promise = dispatch(fetchUserCart(currentUser.id as number));
+            promise.push( dispatch(fetchUserCart(currentUser.id as number)) );
+            promise.push( dispatch(fetchUserWishlist()) );
         }
 
         // Cleanup function to cancel the request
         return () => {
-            if( promise !== null)
-                promise.abort();
+            if( promise.length > 0)
+                promise.forEach(it => it.abort());
         };
     }, [currentUser]);
 
@@ -72,6 +82,19 @@ const MainLayout = () => {
                 promise.abort();
         };
     }, [currentUser, shoppingItems, isCartLoaded, shouldSaveCart]);
+
+    useEffect(() => {
+        let promise = null;
+        if (currentUser && isWishlistLoaded && shouldSaveWishlist) {
+            promise = dispatch(saveUserWishlist(wishlistItems));
+        }
+
+        // Cleanup function to cancel the request
+        return () => {
+            if( promise !== null)
+                promise.abort();
+        };
+    }, [currentUser, wishlistItems, isWishlistLoaded, shouldSaveWishlist]);
 
     useEffect(() => {
         if( loginIP.userData ){

@@ -10,12 +10,14 @@ interface CustomModalProps {
     isDismissable?: boolean,
     closeEvent?: () => void,
     acceptEvent?: () => void,
+    submitEvent?: (args: any) => void,
     modalClass?: string,
     modalBoxClass?: string,
     modalActionClass?: string,
     closeButtonClass?: string,
     acceptButtonClass?: string,
-    cancelButtonClass?: string
+    cancelButtonClass?: string,
+    data?: any
 }
 
 const CustomModal: FC<CustomModalProps> = ({
@@ -27,31 +29,46 @@ const CustomModal: FC<CustomModalProps> = ({
     isDismissable = true,
     closeEvent = undefined,
     acceptEvent = undefined,
+    submitEvent = undefined,
     modalClass = '',
     modalBoxClass = '',
     modalActionClass = '',
     closeButtonClass = '',
     acceptButtonClass = '',
-    cancelButtonClass = ''
+    cancelButtonClass = '',
+    data = null
 }) => {
-    function triggerClose(eventType?: number){
-        if( eventType === CustomModalEnum.ACCEPT_ACTION){
-            acceptEvent?.();
-        }else if(eventType === CustomModalEnum.CLOSE_ACTION){
-            closeEvent?.();
+    function triggerClose(eventType?: CustomModalEnum, data?: any){
+        switch( eventType ){
+            case CustomModalEnum.ACCEPT_ACTION:
+                acceptEvent?.();
+                break;
+            case CustomModalEnum.CLOSE_ACTION:
+                closeEvent?.();
+                break;
+            case CustomModalEnum.SUBMIT_ACTION:
+                submitEvent?.(data);
+                break;
+            default:
+                break;
         }
         (document.getElementById(id) as HTMLFormElement)?.close();
     }
 
     useEffect(() => {
-        window.addEventListener("keydown", function(event) {
+        const handleEscButton = (event: any) => {
             const key = event.key; // Or const {key} = event; in ES6+
             if (key === "Escape") {
                 event.preventDefault();
                 triggerClose?.(CustomModalEnum.CLOSE_ACTION);
             }
-        });
-    });
+        }
+        window.addEventListener("keydown", handleEscButton);
+
+        return () => {
+            window.removeEventListener("keydown", handleEscButton);
+        }
+    }, []);
     
     return (
         <dialog id={id} className={`modal ${modalClass}`} onCancel={closeEvent}>
@@ -65,7 +82,8 @@ const CustomModal: FC<CustomModalProps> = ({
                 }
                 {
                     React.cloneElement(children, {
-                        modalFunction: triggerClose
+                        modalFunction: triggerClose,
+                        data: data
                     })
                 }
                 <div className={`modal-action ${modalActionClass}`}>

@@ -6,7 +6,7 @@ Atom
 Ernesto Ramos Lopez
 
 ## Fecha entrega
-21 de octubre de 2024
+28 de octubre de 2024
 
 ## Nombre de la trayectoria 
 Front End Developer CORE
@@ -27,21 +27,23 @@ Enlace: [Miro](https://miro.com/app/board/uXjVKixWjLc=/?share_link_id=3796065086
 Imagenes: 
 
 **Historias de usuario**
-![Historias de usuario 1](/entregables/reto2/sprint2/backlog/historias-usuario.png "Historias de usuario 1")
+![Historias de usuario 1](/entregables/reto2/sprint3/backlog/historias-usuario.png "Historias de usuario 1")
 
 
 **Lista requerimientos**
 
-![Lista requerimientos 1](/entregables/reto2/sprint2/backlog/lista-requerimientos-1.png "Lista requerimientos 1")
+![Lista requerimientos 1](/entregables/reto2/sprint3/backlog/lista-requerimientos-1.png "Lista requerimientos 1")
 
-![Lista requerimientos 2](/entregables/reto2/sprint2/backlog/lista-requerimientos-2.png "Lista requerimientos 2")
+![Lista requerimientos 2](/entregables/reto2/sprint3/backlog/lista-requerimientos-2.png "Lista requerimientos 2")
+
+![Lista requerimientos 3](/entregables/reto2/sprint3/backlog/lista-requerimientos-3.png "Lista requerimientos 3")
 
 
 **Lista priorizada**
 
-![Lista priorizada 1](/entregables/reto2/sprint2/backlog/lista-priorizada-1.png "Lista priorizada 1")
+![Lista priorizada 1](/entregables/reto2/sprint3/backlog/lista-priorizada-1.png "Lista priorizada 1")
 
-![Lista priorizada 2](/entregables/reto2/sprint2/backlog/lista-priorizada-2.png "Lista priorizada 2")
+![Lista priorizada 2](/entregables/reto2/sprint3/backlog/lista-priorizada-2.png "Lista priorizada 2")
 
 ### 2) **Roadmap**
 
@@ -49,5 +51,5 @@ Enlace: [Miro](https://miro.com/app/board/uXjVKhrL8No=/?share_link_id=1371885856
 
 Imagenes: 
 
-![Roadmap](/entregables/reto2/sprint2/roadmap/roadmap.png "Roadmap")
+![Roadmap](/entregables/reto2/sprint3/roadmap/roadmap.png "Roadmap")
 

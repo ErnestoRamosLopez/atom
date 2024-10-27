@@ -89,7 +89,8 @@ route.post('/', async (req, res) =>{
         paymentInformation: {
             cardNumber,
             ...paymentInformation
-        }
+        },
+        discounts
     } = req.body;
     const user = await fetchUserByEmailValidate(email);
     if(user === null){
@@ -112,6 +113,8 @@ route.post('/', async (req, res) =>{
         });
     }
 
+    let usefulDiscount = discounts.map(it => it.id);
+
     const newOrder = {
         userId: user.id,
         createdAt: moment(),
@@ -127,7 +130,8 @@ route.post('/', async (req, res) =>{
         shipmentId,
         shipmentCost: shipmentPrice,
         total,
-        cardNumber
+        cardNumber,
+        discounts: usefulDiscount
     }
 
     //guarda la orden
