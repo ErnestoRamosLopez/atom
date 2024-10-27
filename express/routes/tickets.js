@@ -26,8 +26,6 @@ route.post('/contact', async (req, res) => {
             throw new Error('Bot detectado');
         }
     }catch(ex){
-        console.log(ex);
-        
         return res.status(403).json();
     }
 
