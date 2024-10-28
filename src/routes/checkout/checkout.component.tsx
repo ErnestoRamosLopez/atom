@@ -89,7 +89,7 @@ const Checkout: FC<any> = () => {
 
     return (
         <div className="checkout flex flex-col justify-center">
-            <h2 className=" text-left font-bold">Pantalla de pago</h2>
+            <h2 className=" text-left font-bold text-xl">Pantalla de pago</h2>
             {
                 !isCartUpdated &&
                 <Fragment>
@@ -104,9 +104,11 @@ const Checkout: FC<any> = () => {
                         <li className={"step " + (isShipmentValid ? 'step-primary' : '')}>Resumen</li>
                         <li className={"step " + (hasAcceptedOrder ? 'step-primary' : '')}>Pago</li>
                     </ul>
-                    <ShippingDetails hidden={isShipmentValid}/>
-                    <CheckoutOrderSummary hidden={!isShipmentValid || hasAcceptedOrder}/>
-                    <CheckoutPayment hidden={!isShipmentValid || !hasAcceptedOrder} />
+                    <div className="w-9/12 justify-self-center">
+                        <ShippingDetails hidden={isShipmentValid}/>
+                        <CheckoutOrderSummary hidden={!isShipmentValid || hasAcceptedOrder}/>
+                        <CheckoutPayment hidden={!isShipmentValid || !hasAcceptedOrder} />
+                    </div>
                 </div>
             }
             

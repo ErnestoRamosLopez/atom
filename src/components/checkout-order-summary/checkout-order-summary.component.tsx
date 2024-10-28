@@ -93,24 +93,24 @@ const CheckoutOrderSummary: FC<CheckoutOrderSummaryProps & React.HTMLAttributes<
     return (
         <div className="checkout-order-summary mt-5" hidden={props.hidden}>
             <h3 className="text-left italic font-bold">Revisa tus datos antes de continuar</h3>
-            <div className="grid grid-cols-12 justify-center">
-                <div className="col-span-full mb-10 grid justify-center">
+            <div className="grid grid-cols-12">
+                <div className="col-span-full mb-10 grid">
                     <div className="grid grid-cols-10 col-span-full text-left card-body">
                         <h3 className="col-span-full font-bold text-left mb-10">Productos</h3>
                         <span className="col-span-2">Imagen</span>
                         <span className="col-span-2 ms-3">Nombre</span>
                         <span className="col-span-2 ms-3">Cantidad</span>
-                        <span className="col-span-2 ms-5">Precio</span>
-                        <span className="col-span-2 ms-10">Total</span>
+                        <span className="col-span-2 ms-10">Precio</span>
+                        <span className="col-span-2 text-center">Total</span>
                     </div>
-                    <div className="h-96 grid gap-y-5 overflow-x-auto">
+                    <div className="max-h-96 grid gap-y-5 overflow-x-auto">
                         {
                             shoppingCartItems.map(it => 
                                 <ProductItem key={it.id} product={it} enableHoverEffect={false} className="h-fit"/>
                             )
                         }
                     </div>
-                    <div className="card max-h-96 overflow-x-auto border border-1 my-5">
+                    <div className="card max-h-96 overflow-x-auto border border-1 my-5 justify-self-end">
                         <form className="card-body flex flex-row items-end" onSubmit={handleSubmit(onSubmitCode)}>
                             <label className="form-control w-full max-w-xs">
                                 <div className="label">
