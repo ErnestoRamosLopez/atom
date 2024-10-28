@@ -165,7 +165,7 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
     // }
 
     return (
-        <div className={"checkout-payment mt-5 "+ props.className} hidden={props.hidden}>
+        <div className="checkout-payment mt-5 " hidden={props.hidden}>
             <form onSubmit={handleSubmit(onSubmit)}>
             <h3 className="text-left italic font-bold">Proporciona un metodo de pago</h3>
                 <div className="grid grid-cols-12">
@@ -204,10 +204,10 @@ const CheckoutPayment: FC<CheckoutPaymentProps & React.HTMLAttributes<HTMLDivEle
                                     }
                                 /> */}
                                 {
-                                    !likeMastercard && !likeVisa && <img className="h-10" src={require("../../assets/images/visa-mastercard.png")} alt=""/>
+                                    !likeMastercard && !likeVisa && <img className="h-10 max-w-20" src={require("../../assets/images/visa-mastercard.png")} alt=""/>
                                 }
                                 {
-                                    likeMastercard && <img className="h-10" src={require("../../assets/images/mastercard.png")} alt=""/>
+                                    likeMastercard && <img className="h-10 max-w-20" src={require("../../assets/images/mastercard.png")} alt=""/>
                                 }
                                 {
                                     likeVisa && <img className="h-10 max-w-20" src={require("../../assets/images/visa.png")} alt=""/>
